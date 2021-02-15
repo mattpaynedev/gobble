@@ -9,6 +9,7 @@ import (
 var ErrNoRecords = errors.New("models: no matching record found")
 
 type Wines struct {
+	ID          primitive.ObjectID `bson:"_id" json:"id,omitempty"`
 	Producer    string             `json:"producer,omitempty"`
 	Vintage     int                `json:"vintage,omitempty"`
 	Grape       string             `json:"grape,omitempty"`

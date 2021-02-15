@@ -1,0 +1,21 @@
+{{template "base" .}}
+
+{{define "title"}}Wine Info: {{end}}
+
+{{define "main"}}
+{{with .Wine}}
+
+<div class='wine'>
+    <div class='metadata'>
+        <strong>Producer: </strong>{{.Producer}}
+        <span>#{{.ID}}</span>
+        <strong>Vintage: </strong>{{.Vintage}}
+        <strong>Grape/Style: </strong>{{.Grape}}
+        <strong>Region: </strong>{{.Region}}
+        <strong>Bottle Price: </strong>${{.BottlePrice}}
+        <strong>Location: </strong>{{.Location}}
+        <strong>Producer: </strong>{{.Producer}}
+    </div>
+</div>
+{{end}}
+{{end}}

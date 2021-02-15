@@ -1,0 +1,46 @@
+{{template "base" .}}
+
+{{define "title"}}Add a New Wine{{end}}
+
+{{define "main"}}
+<h2>Add a New Wine</h2>
+<form action='/insertwine' method='POST'>
+    <div>
+        <lable>Producer:</lable>
+        <input type='text' name='producer'>
+    </div>
+    <div>
+        <lable>Vintage:</lable>
+        <input type="text" name="vintage">
+        <!-- <select name='vintage' id='vintage'></select> -->
+        <!-- <script>
+            var end = 1900;
+            var start = new Date().getFullYear();
+            var options = "<option>N/V</option>";
+            for (var year = start; year <= end; year++) {
+                options += "<option>" + year + "</option>";
+            }
+            document.getElementById("vintage").innerHTML = options;
+        </script> -->
+    </div>
+    <div>
+        <lable>Grape/Style:</lable>
+        <input type='text' name='grape'>
+    </div>
+    <div>
+        <lable>Region:</lable>
+        <input type='text' name='region'>
+    </div>
+    <div>
+        <lable>Bottle Price (USD):</lable>
+        <input type='text' name='bottleprice'>
+    </div>
+    <div>
+        <lable>Location:</lable>
+        <input type='text' name='location'>
+    </div>
+    <div>
+        <input type='submit' value='Add Wine'>
+    </div>
+</form>
+{{end}}
