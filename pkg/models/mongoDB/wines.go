@@ -45,7 +45,7 @@ func (m *WineModel) Insert(producer, grape, region, location string, vintage int
 
 	fmt.Println("Inserted a wine with information:", insertResult.InsertedID)
 
-	return insertResult.InsertedID, nil
+	return insertResult.InsertedID.(primitive.ObjectID).Hex(), nil
 }
 
 func (m *WineModel) GetCollection() ([]*models.Wines, error) {
@@ -74,7 +74,7 @@ func (m *WineModel) GetCollection() ([]*models.Wines, error) {
 	return results, nil
 }
 
-func (m *WineModel) GetWineByID(id string) (*models.Wines, error) {
+func (m *WineModel) GetWineByID(id primitive.ObjectID) (*models.Wines, error) {
 
 	// var wineResult models.Wines
 	var wine models.Wines
@@ -84,6 +84,16 @@ func (m *WineModel) GetWineByID(id string) (*models.Wines, error) {
 	}
 
 	return &wine, nil
+}
+
+func (m *WineModel) DeleteWineByID(id primitive.ObjectID) (*mongo.DeleteResult, error) {
+
+	deleteResult, err := m.WineCollection.DeleteOne(context.TODO(), bson.M{"_id": id})
+	if err != nil {
+		return nil, err
+	}
+
+	return deleteResult, nil
 }
 
 /*

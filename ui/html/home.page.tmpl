@@ -10,14 +10,15 @@
         <th>Vintage</th>
         <th>Grape</th>
         <th>Location</th>
-
+        <th>Actions</th>
     </tr>
     {{range .Wines}}
     <tr>
-        <td><a href='/collection/{{.ID}}'>{{.Producer}}</a></td>
+        <td><a href='/collection/{{.ID.Hex}}'>{{.Producer}}</a></td>
         <td>{{.Vintage}}</td>
-        <td>#{{.Grape}}</td>
-        <td>#{{.Location}}</td>
+        <td>{{.Grape}}</td>
+        <td>{{.Location}}</td>
+        <td><a href='/deletewine/{{.ID.Hex}}'>Delete</a></td>
     </tr>
     {{end}}
 </table>

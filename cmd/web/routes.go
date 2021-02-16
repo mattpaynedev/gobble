@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"path/filepath"
 
@@ -11,9 +10,11 @@ import (
 func (app *application) routes() http.Handler {
 	r := mux.NewRouter()
 	r.HandleFunc("/", app.homeHandler).Methods("GET")
-	r.HandleFunc("/collection/:id", app.collectionsHandler).Methods("GET")
+	r.HandleFunc("/collection/{id}", app.collectionsHandler).Methods("GET")
 	r.HandleFunc("/addwine", app.addWineHandler).Methods("GET")
 	r.HandleFunc("/insertwine", app.insertWineHandler).Methods("POST")
+	r.HandleFunc("/deletewine/{id}", app.deleteWineHandler).Methods("GET")
+	r.HandleFunc("/confirmdelete/{id}", app.confirmDeleteHandler).Methods("GET")
 
 	fileServer := http.FileServer(http.Dir("./ui/static"))
 
@@ -32,7 +33,6 @@ func serveStatic(r *mux.Router, staticDirectory string) {
 	for pathName, pathValue := range staticPaths {
 		pathPrefix := "/" + pathName + "/"
 		r.PathPrefix(staticDirectory + pathPrefix).Handler(http.StripPrefix(pathPrefix, http.FileServer(http.Dir(pathValue))))
-		fmt.Println(staticDirectory + pathName)
 	}
 
 }

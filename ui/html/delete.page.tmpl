@@ -1,9 +1,11 @@
 {{template "base" .}}
 
-{{define "title"}}Wine Info: {{end}}
+{{define "title"}}Confirm Delete{{end}}
 
 {{define "main"}}
 {{with .Wine}}
+
+<h3>Are you sure want to remove this wine?</h3>
 
 <div class='wine'>
     <div class='metadata'>
@@ -17,6 +19,10 @@
         <br><strong>Producer: </strong>{{.Producer}}
     </div>
 </div>
-<br><a href='/'>Return to Collection</a>
+<br>
+<h3><a href='/confirmdelete/{{.ID.Hex}}'>Confirm Delete</a></h3>
+<br>
+<br>
+<a href='/'>Return to Collection</a>
 {{end}}
 {{end}}
