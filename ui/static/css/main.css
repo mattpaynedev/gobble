@@ -210,15 +210,16 @@ textarea {
 }
 
 button {
-    background: none;
-    padding: 0;
-    border: none;
-    color: #62CB31;
+    background: #c54343;
+    padding: 4px;
+    border: 2px solid #c54343;
+    border-radius: 8px;
+    color: #ffffff;
     text-decoration: none;
 }
 
 button:hover {
-    color: #4EB722;
+    color: #ffffff;
     text-decoration: underline;
     cursor: pointer;
 }

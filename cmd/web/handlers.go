@@ -131,7 +131,6 @@ func (app *application) confirmDeleteHandler(w http.ResponseWriter, r *http.Requ
 	}
 
 	deleteResult, err := app.wines.DeleteWineByID(id)
-	app.infoLog.Println("Delete Result:", deleteResult.DeletedCount, "documents deleted.")
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecords) {
 			app.notFound(w)
@@ -141,6 +140,8 @@ func (app *application) confirmDeleteHandler(w http.ResponseWriter, r *http.Requ
 		}
 		return
 	}
+
+	app.infoLog.Println("Delete Result:", deleteResult.DeletedCount, "documents deleted.")
 
 	http.Redirect(w, r, fmt.Sprint("/"), http.StatusSeeOther)
 
