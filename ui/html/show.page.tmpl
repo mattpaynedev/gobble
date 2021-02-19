@@ -9,7 +9,11 @@
     <div class='metadata'>
         <strong>Producer: </strong>{{.Producer}}
         <span><strong>ID: </strong>#{{.ID.Hex}}</span>
+        {{if (eq .Vintage 0)}}
+        <br><strong>Vintage: </strong>N/V
+        {{else}}
         <br><strong>Vintage: </strong>{{.Vintage}}
+        {{end}}
         <br><strong>Grape/Style: </strong>{{.Grape}}
         <br><strong>Region: </strong>{{.Region}}
         <br><strong>Bottle Price: </strong>${{.BottlePrice}}

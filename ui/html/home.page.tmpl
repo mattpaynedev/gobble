@@ -15,7 +15,11 @@
     {{range .Wines}}
     <tr>
         <td><a href='/collection/{{.ID.Hex}}'>{{.Producer}}</a></td>
+        {{if (eq .Vintage 0)}}
+        <td>N/V</td>
+        {{else}}
         <td>{{.Vintage}}</td>
+        {{end}}
         <td>{{.Grape}}</td>
         <td>{{.Location}}</td>
         <td><a href='/deletewine/{{.ID.Hex}}'>Delete</a></td>
