@@ -11,8 +11,15 @@
     </div>
     <div>
         <lable>Vintage:</lable>
+        {{if .Years}}
+        <select name='vintage' id='vintage'>
+            {{range .Years}}
+            <option value={{.}}>{{.}}</option>
+            {{end}}
+        </select>
+        {{else}}
         <input type="text" name="vintage">
-        <!-- <select name='vintage' id='vintage'></select> -->
+        {{end}}
         <!-- <script>
             var end = 1900;
             var start = new Date().getFullYear();

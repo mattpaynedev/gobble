@@ -8,6 +8,10 @@ import (
 	"time"
 )
 
+type DateHolder struct {
+	Years []int
+}
+
 func (app *application) serverError(w http.ResponseWriter, err error) {
 	trace := fmt.Sprintf("%s\n%s", err.Error(), debug.Stack())
 	app.errorLog.Output(2, trace)
@@ -47,4 +51,14 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, name stri
 	}
 
 	buf.WriteTo(w)
+}
+
+func (app *application) generateDateValues() []int {
+	years := []int{}
+
+	for i := time.Now().Year(); i >= 1900; i-- {
+		years = append(years, i)
+	}
+
+	return years
 }

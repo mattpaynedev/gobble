@@ -13,6 +13,7 @@ type templateData struct {
 	// Snippet     *models.Snippet
 	Wine  *models.Wines
 	Wines []*models.Wines
+	Years []int
 }
 
 func humanDate(t time.Time) string {

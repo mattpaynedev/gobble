@@ -26,7 +26,9 @@ func (app *application) homeHandler(w http.ResponseWriter, r *http.Request) {
 func (app *application) addWineHandler(w http.ResponseWriter, r *http.Request) {
 	//TO DO: add the ability to have the program choose an open space in your cellar
 
-	app.render(w, r, "addwine.page.tmpl", nil)
+	years := app.generateDateValues()
+
+	app.render(w, r, "addwine.page.tmpl", &templateData{Years: years})
 
 }
 
