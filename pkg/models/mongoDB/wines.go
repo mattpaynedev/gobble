@@ -2,7 +2,6 @@ package mongoDB
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/mattpaynedev/gobble/pkg/models"
 	"go.mongodb.org/mongo-driver/bson"
@@ -42,8 +41,6 @@ func (m *WineModel) Insert(producer, grape, region, location string, vintage int
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Println("Inserted a wine with information:", insertResult.InsertedID)
 
 	return insertResult.InsertedID.(primitive.ObjectID).Hex(), nil
 }

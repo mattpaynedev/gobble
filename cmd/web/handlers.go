@@ -62,16 +62,23 @@ func (app *application) insertWineHandler(w http.ResponseWriter, r *http.Request
 		app.clientError(w, http.StatusBadRequest)
 	}
 
+	vintage := 0
 	producer := r.PostForm.Get("producer")
 	grape := r.PostForm.Get("grape")
 	region := r.PostForm.Get("region")
 	location := r.PostForm.Get("location")
-	vintage, err := strconv.Atoi(r.PostForm.Get("vintage"))
-	if err != nil {
-		fmt.Println("vintage")
-		app.clientError(w, http.StatusBadRequest)
-		return
+
+	if r.PostForm.Get("nonvintage") == "true" {
+		vintage = 0
+	} else {
+		vintage, err = strconv.Atoi(r.PostForm.Get("vintage"))
+		if err != nil {
+			fmt.Println("vintage")
+			app.clientError(w, http.StatusBadRequest)
+			return
+		}
 	}
+
 	bottlePrice, err := strconv.ParseFloat(r.PostForm.Get("bottleprice"), 64)
 	if err != nil {
 		fmt.Println("bottleprice")
@@ -85,6 +92,8 @@ func (app *application) insertWineHandler(w http.ResponseWriter, r *http.Request
 	if err != nil {
 		app.serverError(w, err)
 	}
+
+	app.infoLog.Println("Inserted a wine with ID:", wine)
 
 	http.Redirect(w, r, fmt.Sprintf("/collection/%s", wine), http.StatusSeeOther)
 
