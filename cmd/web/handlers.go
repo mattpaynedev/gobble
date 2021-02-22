@@ -13,13 +13,25 @@ import (
 
 func (app *application) homeHandler(w http.ResponseWriter, r *http.Request) {
 
-	c, err := app.wines.GetCollection()
+	c, err := app.coll.GetAllCollections()
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
 
-	app.render(w, r, "home.page.tmpl", &templateData{Wines: c})
+	app.render(w, r, "home.page.tmpl", &templateData{Colls: c})
+
+}
+
+func (app *application) myCollectionsHandler(w http.ResponseWriter, r *http.Request) {
+
+	c, err := app.coll.GetAllCollections()
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	app.render(w, r, "mycollections.page.tmpl", &templateData{Colls: c})
 
 }
 
@@ -34,13 +46,48 @@ func (app *application) addWineHandler(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) collectionsHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	id, err := primitive.ObjectIDFromHex(vars["id"])
+	id, err := primitive.ObjectIDFromHex(vars["collect"])
 	if err != nil {
 		app.notFound(w)
 		return
 	}
 
-	c, err := app.wines.GetWineByID(id)
+	coll, err := app.coll.GetCollectionByID(id)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	wines, err := app.wines.GetCollection(id)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	app.render(w, r, "collection.page.tmpl", &templateData{Coll: coll, Wines: wines})
+
+}
+
+func (app *application) viewWineHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	wine, err := primitive.ObjectIDFromHex(vars["wine"])
+	if err != nil {
+		app.notFound(w)
+		return
+	}
+	collect, err := primitive.ObjectIDFromHex(vars["collect"])
+	if err != nil {
+		app.notFound(w)
+		return
+	}
+
+	coll, err := app.coll.GetCollectionByID(collect)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	result, err := app.wines.GetWineByID(wine, collect)
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecords) {
 			app.notFound(w)
@@ -51,7 +98,7 @@ func (app *application) collectionsHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	app.render(w, r, "show.page.tmpl", &templateData{Wine: c})
+	app.render(w, r, "show.page.tmpl", &templateData{Wine: result, Coll: coll})
 
 }
 
@@ -88,7 +135,7 @@ func (app *application) insertWineHandler(w http.ResponseWriter, r *http.Request
 	//UserID: should be equal to the current user ID
 	//CollectionID: should be equal to the current collection ID
 
-	wine, err := app.wines.Insert(producer, grape, region, location, vintage, bottlePrice, primitive.NilObjectID)
+	wine, err := app.wines.InsertWine(producer, grape, region, location, vintage, bottlePrice, primitive.NilObjectID, primitive.NilObjectID)
 	if err != nil {
 		app.serverError(w, err)
 	}
@@ -107,7 +154,7 @@ func (app *application) deleteWineHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	c, err := app.wines.GetWineByID(id)
+	c, err := app.wines.GetWineByID(id, primitive.NilObjectID)
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecords) {
 			app.notFound(w)
@@ -142,6 +189,48 @@ func (app *application) confirmDeleteHandler(w http.ResponseWriter, r *http.Requ
 	}
 
 	app.infoLog.Println("Delete Result:", deleteResult.DeletedCount, "documents deleted.")
+
+	http.Redirect(w, r, fmt.Sprint("/"), http.StatusSeeOther)
+
+}
+
+func (app *application) addCollectionHandler(w http.ResponseWriter, r *http.Request) {
+	//TO DO: add the ability to have the program choose an open space in your cellar
+
+	app.render(w, r, "addcoll.page.tmpl", nil)
+
+}
+
+func (app *application) insertCollectionHandler(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		fmt.Println("parseform")
+		app.clientError(w, http.StatusBadRequest)
+	}
+
+	name := r.PostForm.Get("name")
+	rows, err := strconv.Atoi(r.PostForm.Get("rows"))
+	if err != nil {
+		fmt.Println("rows")
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+	columns, err := strconv.Atoi(r.PostForm.Get("columns"))
+	if err != nil {
+		fmt.Println("columns")
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	//UserID: should be equal to the current user ID
+	//CollectionID: should be equal to the current collection ID
+
+	coll, err := app.coll.InsertCollection(name, rows, columns, primitive.NilObjectID)
+	if err != nil {
+		app.serverError(w, err)
+	}
+
+	app.infoLog.Println("Inserted a collection with ID:", coll)
 
 	http.Redirect(w, r, fmt.Sprint("/"), http.StatusSeeOther)
 

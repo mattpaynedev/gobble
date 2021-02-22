@@ -1,0 +1,34 @@
+{{template "base" .}}
+{{define "title"}}Home{{end}}
+
+{{define "main"}}
+<h2>Collection: {{.Coll.Name}}</h2>
+{{if .Wines}}
+<table>
+    <tr>
+        <th>Producer</th>
+        <th>Vintage</th>
+        <th>Grape</th>
+        <th>Location</th>
+        <th>Actions</th>
+    </tr>
+    {{range .Wines}}
+    <tr>
+        <td><a href='/collection/{{.CollectionID.Hex}}/{{.ID.Hex}}'>{{.Producer}}</a></td>
+        {{if (eq .Vintage 0)}}
+        <td>N/V</td>
+        {{else}}
+        <td>{{.Vintage}}</td>
+        {{end}}
+        <td>{{.Grape}}</td>
+        <td>{{.Location}}</td>
+        <td><a href='/deletewine/{{.CollectionID.Hex}}/{{.ID.Hex}}'><button>Delete</button></a></td>
+    </tr>
+    {{end}}
+</table>
+{{else}}
+
+<p> There's nothing to see here yet!</p>
+
+{{end}}
+{{end}}

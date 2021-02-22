@@ -14,27 +14,17 @@ type WineModel struct {
 	WineCollection *mongo.Collection
 }
 
-type Wines struct {
-	ID          primitive.ObjectID `bson:"_id" json:"id,omitempty"`
-	Producer    string             `json:"producer,omitempty"`
-	Vintage     int                `json:"vintage,omitempty"`
-	Grape       string             `json:"grape,omitempty"`
-	Region      string             `json:"regopm,omitempty"`
-	BottlePrice float64            `json:"bottleprice,omitempty"`
-	Location    string             `json:"location,omitempty"`
-	UserID      primitive.ObjectID `json:"userid,omitempty"`
-}
-
-func (m *WineModel) Insert(producer, grape, region, location string, vintage int, bottlePrice float64, userID primitive.ObjectID) (interface{}, error) {
+func (m *WineModel) InsertWine(producer, grape, region, location string, vintage int, bottlePrice float64, collection, userID primitive.ObjectID) (interface{}, error) {
 	wine := models.Wines{
-		ID:          primitive.NewObjectID(),
-		Producer:    producer,
-		Vintage:     vintage,
-		Grape:       grape,
-		Region:      region,
-		BottlePrice: bottlePrice,
-		Location:    location,
-		UserID:      userID,
+		ID:           primitive.NewObjectID(),
+		Producer:     producer,
+		Vintage:      vintage,
+		Grape:        grape,
+		Region:       region,
+		BottlePrice:  bottlePrice,
+		Location:     location,
+		CollectionID: collection,
+		UserID:       userID,
 	}
 
 	insertResult, err := m.WineCollection.InsertOne(context.TODO(), wine)
@@ -45,10 +35,10 @@ func (m *WineModel) Insert(producer, grape, region, location string, vintage int
 	return insertResult.InsertedID.(primitive.ObjectID).Hex(), nil
 }
 
-func (m *WineModel) GetCollection() ([]*models.Wines, error) {
+func (m *WineModel) GetCollection(collID primitive.ObjectID) ([]*models.Wines, error) {
 	var results []*models.Wines
 
-	cursor, err := m.WineCollection.Find(context.TODO(), bson.D{})
+	cursor, err := m.WineCollection.Find(context.TODO(), bson.M{"collectionid": collID})
 	if err != nil {
 		return nil, err
 	}
@@ -71,12 +61,14 @@ func (m *WineModel) GetCollection() ([]*models.Wines, error) {
 	return results, nil
 }
 
-func (m *WineModel) GetWineByID(id primitive.ObjectID) (*models.Wines, error) {
+func (m *WineModel) GetWineByID(id, collection primitive.ObjectID) (*models.Wines, error) {
 
 	// var wineResult models.Wines
 	var wine models.Wines
 
-	if err := m.WineCollection.FindOne(context.TODO(), bson.M{"_id": id}).Decode(&wine); err != nil {
+	criteria := bson.M{"_id": id, "collectionid": collection}
+
+	if err := m.WineCollection.FindOne(context.TODO(), criteria).Decode(&wine); err != nil {
 		return nil, err
 	}
 

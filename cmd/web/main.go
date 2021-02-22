@@ -17,6 +17,7 @@ type application struct {
 	errorLog      *log.Logger
 	infoLog       *log.Logger
 	wines         *mongoDB.WineModel
+	coll          *mongoDB.CollectionsModel
 	templateCache map[string]*template.Template
 }
 
@@ -47,11 +48,13 @@ func main() {
 
 	// userCollection := client.Database("gobble").Collection("users")
 	wineCollection := client.Database("gobble").Collection("wines")
+	collCollection := client.Database("gobble").Collection("collections")
 
 	app := &application{
 		errorLog:      errorLog,
 		infoLog:       infoLog,
 		wines:         &mongoDB.WineModel{WineCollection: wineCollection},
+		coll:          &mongoDB.CollectionsModel{CollCollection: collCollection},
 		templateCache: templateCache,
 	}
 

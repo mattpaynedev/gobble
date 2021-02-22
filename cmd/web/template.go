@@ -10,9 +10,11 @@ import (
 
 type templateData struct {
 	CurrentYear int
-	// Snippet     *models.Snippet
-	Wine  *models.Wines
-	Wines []*models.Wines
+	Wine        *models.Wines
+	Wines       []*models.Wines
+	Coll        *models.Collections
+	Colls       []*models.Collections
+	// UserID		*models.Users
 	Years []int
 }
 

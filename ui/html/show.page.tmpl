@@ -22,6 +22,6 @@
         <span><a href='/deletewine/{{.ID.Hex}}'><button>Delete</button></a></span>
     </div>
 </div>
-<br><a href='/'>Return to Collection</a>
 {{end}}
+<br><strong><a href='/collection/{{.Coll.ID.Hex}}'>&larr; Return to {{.Coll.Name}} Collection</a></strong>
 {{end}}

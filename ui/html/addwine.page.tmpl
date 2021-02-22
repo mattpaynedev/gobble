@@ -6,11 +6,11 @@
 <h2>Add a New Wine</h2>
 <form action='/insertwine' method='POST'>
     <div>
-        <lable>Producer:</lable>
+        <label>Producer:</label>
         <input type='text' name='producer'>
     </div>
     <div>
-        <lable>Vintage:</lable>
+        <label>Vintage:</label>
         {{if .Years}}
         <select name='vintage' id='vintage'>
             {{range .Years}}
@@ -33,19 +33,19 @@
         </script> -->
     </div>
     <div>
-        <lable>Grape/Style:</lable>
+        <label>Grape/Style:</label>
         <input type='text' name='grape'>
     </div>
     <div>
-        <lable>Region:</lable>
+        <label>Region:</label>
         <input type='text' name='region'>
     </div>
     <div>
-        <lable>Bottle Price (USD):</lable>
+        <label>Bottle Price (USD):</label>
         <input type='text' name='bottleprice'>
     </div>
     <div>
-        <lable>Location:</lable>
+        <label>Location:</label>
         <input type='text' name='location'>
     </div>
     <div>

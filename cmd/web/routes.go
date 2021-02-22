@@ -10,7 +10,11 @@ import (
 func (app *application) routes() http.Handler {
 	r := mux.NewRouter()
 	r.HandleFunc("/", app.homeHandler).Methods("GET")
-	r.HandleFunc("/collection/{id}", app.collectionsHandler).Methods("GET")
+	r.HandleFunc("/mycollections", app.myCollectionsHandler).Methods("GET")
+	r.HandleFunc("/addcollection", app.addCollectionHandler).Methods("GET")
+	r.HandleFunc("/insertcollection", app.insertCollectionHandler).Methods("POST")
+	r.HandleFunc("/collection/{collect}", app.collectionsHandler).Methods("GET")
+	r.HandleFunc("/collection/{collect}/{wine}", app.viewWineHandler).Methods("GET")
 	r.HandleFunc("/addwine", app.addWineHandler).Methods("GET")
 	r.HandleFunc("/insertwine", app.insertWineHandler).Methods("POST")
 	r.HandleFunc("/deletewine/{id}", app.deleteWineHandler).Methods("GET")
