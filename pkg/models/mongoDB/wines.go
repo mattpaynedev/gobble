@@ -25,6 +25,7 @@ func (m *WineModel) InsertWine(producer, grape, region, location string, vintage
 		Location:     location,
 		CollectionID: collection,
 		UserID:       userID,
+		HasDrunk:     false,
 	}
 
 	insertResult, err := m.WineCollection.InsertOne(context.TODO(), wine)
@@ -35,10 +36,10 @@ func (m *WineModel) InsertWine(producer, grape, region, location string, vintage
 	return insertResult.InsertedID.(primitive.ObjectID).Hex(), nil
 }
 
-func (m *WineModel) GetCollection(collID primitive.ObjectID) ([]*models.Wines, error) {
+func (m *WineModel) GetCollection(collID primitive.ObjectID, hasDrunk bool) ([]*models.Wines, error) {
 	var results []*models.Wines
 
-	cursor, err := m.WineCollection.Find(context.TODO(), bson.M{"collectionid": collID})
+	cursor, err := m.WineCollection.Find(context.TODO(), bson.M{"collectionid": collID, "hasdrunk": hasDrunk})
 	if err != nil {
 		return nil, err
 	}
@@ -83,6 +84,16 @@ func (m *WineModel) DeleteWineByID(id primitive.ObjectID) (*mongo.DeleteResult, 
 	}
 
 	return deleteResult, nil
+}
+
+func (m *WineModel) DrinkWineByID(wine, collect primitive.ObjectID) (*mongo.UpdateResult, error) {
+
+	result, err := m.WineCollection.UpdateOne(context.TODO(), bson.M{"_id": wine, "collectionid": collect}, bson.D{{"$set", bson.D{{"hasdrunk", true}}}})
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }
 
 /*

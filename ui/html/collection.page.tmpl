@@ -10,7 +10,8 @@
         <th>Vintage</th>
         <th>Grape</th>
         <th>Location</th>
-        <th>Actions</th>
+        <th>Drink</th>
+        <th>Delete</th>
     </tr>
     {{range .Wines}}
     <tr>
@@ -22,6 +23,7 @@
         {{end}}
         <td>{{.Grape}}</td>
         <td>{{.Location}}</td>
+        <td><a href='/collection/{{.CollectionID.Hex}}/drinkwine/{{.ID.Hex}}'><button>Drink It!</button></a></td>
         <td><a href='/deletewine/{{.CollectionID.Hex}}/{{.ID.Hex}}'><button>Delete</button></a></td>
     </tr>
     {{end}}

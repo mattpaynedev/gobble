@@ -58,7 +58,7 @@ func (app *application) collectionsHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	wines, err := app.wines.GetCollection(id)
+	wines, err := app.wines.GetCollection(id, false)
 	if err != nil {
 		app.serverError(w, err)
 		return
@@ -233,5 +233,31 @@ func (app *application) insertCollectionHandler(w http.ResponseWriter, r *http.R
 	app.infoLog.Println("Inserted a collection with ID:", coll)
 
 	http.Redirect(w, r, fmt.Sprint("/"), http.StatusSeeOther)
+
+}
+
+func (app *application) drinkWineHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	wine, err := primitive.ObjectIDFromHex(vars["wine"])
+	if err != nil {
+		app.notFound(w)
+		return
+	}
+	collect, err := primitive.ObjectIDFromHex(vars["collect"])
+	if err != nil {
+		app.notFound(w)
+		return
+	}
+
+	result, err := app.wines.DrinkWineByID(wine, collect)
+	if err != nil {
+		app.infoLog.Println("get wine by ID")
+		app.serverError(w, err)
+		return
+	}
+
+	app.infoLog.Println("Drink Result: ", result.UpsertedID, "was marked as consumed.")
+
+	http.Redirect(w, r, fmt.Sprintf("/collection/%s", collect.Hex()), http.StatusSeeOther)
 
 }

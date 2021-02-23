@@ -18,6 +18,7 @@ type Wines struct {
 	Location     string             `json:"location,omitempty"`
 	CollectionID primitive.ObjectID `json:"collectionid,omitempty"`
 	UserID       primitive.ObjectID `json:"userid,omitempty"`
+	HasDrunk     bool               `json:"hasdrunk,omitempty"`
 }
 
 type Collections struct {

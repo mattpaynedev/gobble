@@ -8,6 +8,10 @@ import (
 )
 
 func (app *application) routes() http.Handler {
+	//UPDATE with POST PUT DELETE Methods to clean up URLs
+	//Fix Delete handlers to work with Collections
+	//Undo Stack for marking a wine as Drunk
+
 	r := mux.NewRouter()
 	r.HandleFunc("/", app.homeHandler).Methods("GET")
 	r.HandleFunc("/mycollections", app.myCollectionsHandler).Methods("GET")
@@ -19,6 +23,7 @@ func (app *application) routes() http.Handler {
 	r.HandleFunc("/insertwine", app.insertWineHandler).Methods("POST")
 	r.HandleFunc("/deletewine/{id}", app.deleteWineHandler).Methods("GET")
 	r.HandleFunc("/confirmdelete/{id}", app.confirmDeleteHandler).Methods("GET")
+	r.HandleFunc("/collection/{collect}/drinkwine/{wine}", app.drinkWineHandler).Methods("GET")
 
 	fileServer := http.FileServer(http.Dir("./ui/static"))
 
