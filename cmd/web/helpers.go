@@ -24,6 +24,8 @@ func (app *application) clientError(w http.ResponseWriter, status int) {
 }
 
 func (app *application) notFound(w http.ResponseWriter) {
+	trace := fmt.Sprintf("%s", debug.Stack())
+	app.errorLog.Output(2, trace)
 	app.clientError(w, http.StatusNotFound)
 }
 

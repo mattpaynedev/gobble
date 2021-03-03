@@ -161,6 +161,25 @@ a.button:hover, input[type="submit"]:hover {
     text-decoration: none;
 }
 
+a.button, input[type="delete"] {
+    background-color: #c54343;
+    border-radius: 3px;
+    color: #FFFFFF;
+    padding: 10px 10px;
+    border: none;
+    display: inline-block;
+    margin-top: 18px;
+    font-weight: 700;
+    text-align: center;
+}
+
+a.button:hover, input[type="delete"]:hover {
+    background-color: #a03636;
+    color: #FFFFFF;
+    cursor: pointer;
+    text-decoration: none;
+}
+
 form div {
     margin-bottom: 18px;
 }

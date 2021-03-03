@@ -18,12 +18,12 @@ func (app *application) routes() http.Handler {
 	r.HandleFunc("/addcollection", app.addCollectionHandler).Methods("GET")
 	r.HandleFunc("/insertcollection", app.insertCollectionHandler).Methods("POST")
 	r.HandleFunc("/collection/{collect}", app.collectionsHandler).Methods("GET")
-	r.HandleFunc("/collection/{collect}/{wine}", app.viewWineHandler).Methods("GET")
-	r.HandleFunc("/addwine", app.addWineHandler).Methods("GET")
-	r.HandleFunc("/insertwine", app.insertWineHandler).Methods("POST")
-	r.HandleFunc("/deletewine/{id}", app.deleteWineHandler).Methods("GET")
-	r.HandleFunc("/confirmdelete/{id}", app.confirmDeleteHandler).Methods("GET")
+	r.HandleFunc("/collection/{collect}/addwine", app.addWineHandler).Methods("GET")
+	r.HandleFunc("/collection/{collect}/addwine", app.insertWineHandler).Methods("POST")
 	r.HandleFunc("/collection/{collect}/drinkwine/{wine}", app.drinkWineHandler).Methods("GET")
+	r.HandleFunc("/collection/{collect}/delete/{wine}", app.deleteWineHandler).Methods("GET")
+	r.HandleFunc("/collection/{collect}/delete/{wine}", app.confirmDeleteHandler).Methods("POST")
+	r.HandleFunc("/collection/{collect}/{wine}", app.viewWineHandler).Methods("GET")
 
 	fileServer := http.FileServer(http.Dir("./ui/static"))
 

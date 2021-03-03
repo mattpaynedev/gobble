@@ -4,7 +4,11 @@
 
 {{define "main"}}
 <h2>Add a New Wine</h2>
-<form action='/insertwine' method='POST'>
+<form action='/collection/{{.Coll.ID.Hex}}/addwine' method='POST'>
+    <div>
+        <label>Collection: {{.Coll.Name}}</label>
+        <input type="hidden" name="collection" value="{{.Coll.ID.Hex}}">
+    </div>
     <div>
         <label>Producer:</label>
         <input type='text' name='producer'>

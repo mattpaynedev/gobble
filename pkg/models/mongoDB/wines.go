@@ -76,9 +76,9 @@ func (m *WineModel) GetWineByID(id, collection primitive.ObjectID) (*models.Wine
 	return &wine, nil
 }
 
-func (m *WineModel) DeleteWineByID(id primitive.ObjectID) (*mongo.DeleteResult, error) {
+func (m *WineModel) DeleteWineByID(id, collect primitive.ObjectID) (*mongo.DeleteResult, error) {
 
-	deleteResult, err := m.WineCollection.DeleteOne(context.TODO(), bson.M{"_id": id})
+	deleteResult, err := m.WineCollection.DeleteOne(context.TODO(), bson.M{"_id": id, "collectionid": collect})
 	if err != nil {
 		return nil, err
 	}

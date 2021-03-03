@@ -3,28 +3,31 @@
 {{define "title"}}Confirm Delete{{end}}
 
 {{define "main"}}
-{{with .Wine}}
 
-<h3>Are you sure want to remove this wine?</h3>
+
+<h3>Are you sure want to permanently remove this wine?</h3>
 
 <div class='wine'>
     <div class='metadata'>
-        <strong>Producer: </strong>{{.Producer}}
-        <span><strong>ID: </strong>#{{.ID.Hex}}</span>
-        {{if (eq .Vintage 0)}}
-        <br><strong>Vintage: </strong>N/V
-        {{else}}
-        <br><strong>Vintage: </strong>{{.Vintage}}
-        {{end}}
-        <br><strong>Grape/Style: </strong>{{.Grape}}
-        <br><strong>Region: </strong>{{.Region}}
-        <br><strong>Bottle Price: </strong>${{.BottlePrice}}
-        <br><strong>Location: </strong>{{.Location}}
-        <br><strong>Producer: </strong>{{.Producer}}
-        <span><a href='/confirmdelete/{{.ID.Hex}}'><button>Confirm Delete</button></a></span>
+        <form action='{{.Coll.ID.Hex}}/delete/{{.Wine.ID.Hex}}' method="POST">
+            {{with .Wine}}
+            <strong>Producer: </strong>{{.Producer}}
+            <span><strong>ID: </strong>#{{.ID.Hex}}</span>
+            {{if (eq .Vintage 0)}}
+            <br><strong>Vintage: </strong>N/V
+            {{else}}
+            <br><strong>Vintage: </strong>{{.Vintage}}
+            {{end}}
+            <br><strong>Grape/Style: </strong>{{.Grape}}
+            <br><strong>Region: </strong>{{.Region}}
+            <br><strong>Bottle Price: </strong>${{.BottlePrice}}
+            <br><strong>Location: </strong>{{.Location}}
+            <br><strong>Producer: </strong>{{.Producer}}
+            {{end}}
+            <br><span style="float:right"><input type='delete' value='Delete Wine'></span>
+        </form>
     </div>
 </div>
 <br>
 <a href='/'>Return to Collection</a>
-{{end}}
 {{end}}

@@ -38,9 +38,23 @@ func (app *application) myCollectionsHandler(w http.ResponseWriter, r *http.Requ
 func (app *application) addWineHandler(w http.ResponseWriter, r *http.Request) {
 	//TO DO: add the ability to have the program choose an open space in your cellar
 
+	vars := mux.Vars(r)
+	id, err := primitive.ObjectIDFromHex(vars["collect"])
+	if err != nil {
+		app.errorLog.Println("addWineHandler")
+		app.notFound(w)
+		return
+	}
+
+	coll, err := app.coll.GetCollectionByID(id)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
 	years := app.generateDateValues()
 
-	app.render(w, r, "addwine.page.tmpl", &templateData{Years: years})
+	app.render(w, r, "addwine.page.tmpl", &templateData{Coll: coll, Years: years})
 
 }
 
@@ -110,6 +124,11 @@ func (app *application) insertWineHandler(w http.ResponseWriter, r *http.Request
 	}
 
 	vintage := 0
+	collect, err := primitive.ObjectIDFromHex(r.PostForm.Get("collection"))
+	if err != nil {
+		app.notFound(w)
+		return
+	}
 	producer := r.PostForm.Get("producer")
 	grape := r.PostForm.Get("grape")
 	region := r.PostForm.Get("region")
@@ -135,26 +154,38 @@ func (app *application) insertWineHandler(w http.ResponseWriter, r *http.Request
 	//UserID: should be equal to the current user ID
 	//CollectionID: should be equal to the current collection ID
 
-	wine, err := app.wines.InsertWine(producer, grape, region, location, vintage, bottlePrice, primitive.NilObjectID, primitive.NilObjectID)
+	wine, err := app.wines.InsertWine(producer, grape, region, location, vintage, bottlePrice, collect, primitive.NilObjectID)
 	if err != nil {
 		app.serverError(w, err)
 	}
 
 	app.infoLog.Println("Inserted a wine with ID:", wine)
 
-	http.Redirect(w, r, fmt.Sprintf("/collection/%s", wine), http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintf("/collection/%s", collect.Hex()), http.StatusSeeOther)
 
 }
 
 func (app *application) deleteWineHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	id, err := primitive.ObjectIDFromHex(vars["id"])
+	id, err := primitive.ObjectIDFromHex(vars["wine"])
 	if err != nil {
 		app.notFound(w)
 		return
 	}
 
-	c, err := app.wines.GetWineByID(id, primitive.NilObjectID)
+	collect, err := primitive.ObjectIDFromHex(vars["collect"])
+	if err != nil {
+		app.notFound(w)
+		return
+	}
+
+	coll, err := app.coll.GetCollectionByID(collect)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	c, err := app.wines.GetWineByID(id, collect)
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecords) {
 			app.notFound(w)
@@ -165,19 +196,25 @@ func (app *application) deleteWineHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	app.render(w, r, "delete.page.tmpl", &templateData{Wine: c})
+	app.render(w, r, "delete.page.tmpl", &templateData{Coll: coll, Wine: c})
 
 }
 
 func (app *application) confirmDeleteHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	id, err := primitive.ObjectIDFromHex(vars["id"])
+	id, err := primitive.ObjectIDFromHex(vars["wine"])
 	if err != nil {
 		app.notFound(w)
 		return
 	}
 
-	deleteResult, err := app.wines.DeleteWineByID(id)
+	collect, err := primitive.ObjectIDFromHex(vars["collect"])
+	if err != nil {
+		app.notFound(w)
+		return
+	}
+
+	deleteResult, err := app.wines.DeleteWineByID(id, collect)
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecords) {
 			app.notFound(w)
@@ -190,7 +227,7 @@ func (app *application) confirmDeleteHandler(w http.ResponseWriter, r *http.Requ
 
 	app.infoLog.Println("Delete Result:", deleteResult.DeletedCount, "documents deleted.")
 
-	http.Redirect(w, r, fmt.Sprint("/"), http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintf("/collection/%s", collect.Hex()), http.StatusSeeOther)
 
 }
 
@@ -256,7 +293,7 @@ func (app *application) drinkWineHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	app.infoLog.Println("Drink Result: ", result.UpsertedID, "was marked as consumed.")
+	app.infoLog.Printf("Drink Result: %v wine(s) marked as consumed.", result.ModifiedCount)
 
 	http.Redirect(w, r, fmt.Sprintf("/collection/%s", collect.Hex()), http.StatusSeeOther)
 
