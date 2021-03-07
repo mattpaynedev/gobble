@@ -1,0 +1,27 @@
+{{template "base" .}}
+
+{{define "title"}}Edit Collection{{end}}
+
+{{define "main"}}
+<h2>Edit Collection</h2>
+<form action='/collection/{{.Coll.ID.Hex}}/edit' method='POST'>
+    <div>
+        <label>Name:</label>
+        <input type='text' name='name' value='{{.Coll.Name}}'>
+    </div>
+    <div>
+        <label>Rows:</label>
+        <input type='number' name='rows' min="1" value="{{.Coll.Rows}}">
+    </div>
+    <div>
+        <label>Columns:</label>
+        <input type='number' name='columns' min="1" value="{{.Coll.Columns}}">
+    </div>
+
+    <!-- ADD: user name -->
+
+    <div>
+        <input type='submit' value='Edit Collection'>
+    </div>
+</form>
+{{end}}

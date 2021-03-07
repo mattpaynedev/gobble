@@ -298,3 +298,62 @@ func (app *application) drinkWineHandler(w http.ResponseWriter, r *http.Request)
 	http.Redirect(w, r, fmt.Sprintf("/collection/%s", collect.Hex()), http.StatusSeeOther)
 
 }
+
+func (app *application) collectionInfoHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+
+	collect, err := primitive.ObjectIDFromHex(vars["collect"])
+	if err != nil {
+		app.notFound(w)
+		return
+	}
+
+	coll, err := app.coll.GetCollectionByID(collect)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	app.render(w, r, "collinfo.page.tmpl", &templateData{Coll: coll})
+
+}
+
+func (app *application) editCollectionHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+
+	err := r.ParseForm()
+	if err != nil {
+		fmt.Println("parseform")
+		app.clientError(w, http.StatusBadRequest)
+	}
+
+	name := r.PostForm.Get("name")
+	rows, err := strconv.Atoi(r.PostForm.Get("rows"))
+	if err != nil {
+		fmt.Println("rows")
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+	columns, err := strconv.Atoi(r.PostForm.Get("columns"))
+	if err != nil {
+		fmt.Println("columns")
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	collect, err := primitive.ObjectIDFromHex(vars["collect"])
+	if err != nil {
+		app.notFound(w)
+		return
+	}
+
+	_, err = app.coll.EditCollectionByID(collect, primitive.NilObjectID, name, rows, columns)
+	if err != nil {
+		app.serverError(w, err)
+	}
+
+	app.infoLog.Println("Inserted a collection with ID:", collect)
+
+	http.Redirect(w, r, fmt.Sprint("/mycollections"), http.StatusSeeOther)
+
+}

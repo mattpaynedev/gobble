@@ -8,7 +8,6 @@ import (
 )
 
 func (app *application) routes() http.Handler {
-	//UPDATE with POST PUT DELETE Methods to clean up URLs
 	//Fix Delete handlers to work with Collections
 	//Undo Stack for marking a wine as Drunk
 
@@ -16,13 +15,15 @@ func (app *application) routes() http.Handler {
 	r.HandleFunc("/", app.homeHandler).Methods("GET")
 	r.HandleFunc("/mycollections", app.myCollectionsHandler).Methods("GET")
 	r.HandleFunc("/addcollection", app.addCollectionHandler).Methods("GET")
-	r.HandleFunc("/insertcollection", app.insertCollectionHandler).Methods("POST")
+	r.HandleFunc("/addcollection", app.insertCollectionHandler).Methods("POST")
 	r.HandleFunc("/collection/{collect}", app.collectionsHandler).Methods("GET")
 	r.HandleFunc("/collection/{collect}/addwine", app.addWineHandler).Methods("GET")
 	r.HandleFunc("/collection/{collect}/addwine", app.insertWineHandler).Methods("POST")
 	r.HandleFunc("/collection/{collect}/drinkwine/{wine}", app.drinkWineHandler).Methods("GET")
 	r.HandleFunc("/collection/{collect}/delete/{wine}", app.deleteWineHandler).Methods("GET")
 	r.HandleFunc("/collection/{collect}/delete/{wine}", app.confirmDeleteHandler).Methods("POST")
+	r.HandleFunc("/collection/{collect}/edit", app.collectionInfoHandler).Methods("GET")
+	r.HandleFunc("/collection/{collect}/edit", app.editCollectionHandler).Methods("POST")
 	r.HandleFunc("/collection/{collect}/{wine}", app.viewWineHandler).Methods("GET")
 
 	fileServer := http.FileServer(http.Dir("./ui/static"))

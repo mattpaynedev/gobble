@@ -71,6 +71,27 @@ func (m *CollectionsModel) GetCollectionByID(id primitive.ObjectID) (*models.Col
 	return &coll, nil
 }
 
+func (m *CollectionsModel) EditCollectionByID(id, userID primitive.ObjectID, name string, columns, rows int) (*mongo.UpdateResult, error) {
+
+	//add functionality for User ID verification
+
+	result, err := m.CollCollection.UpdateOne(
+		context.TODO(),
+		bson.M{"_id": id},
+		bson.D{
+			{"$set", bson.D{{"name", name}}},
+			{"$set", bson.D{{"rows", rows}}},
+			{"$set", bson.D{{"columns", columns}}},
+			{"$set", bson.D{{"capacity", rows * columns}}},
+		})
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+
+}
+
 // func (m *WineModel) DeleteWineByID(id primitive.ObjectID) (*mongo.DeleteResult, error) {
 
 // 	deleteResult, err := m.WineCollection.DeleteOne(context.TODO(), bson.M{"_id": id})
