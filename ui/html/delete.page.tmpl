@@ -9,7 +9,7 @@
 
 <div class='wine'>
     <div class='metadata'>
-        <form action='{{.Coll.ID.Hex}}/delete/{{.Wine.ID.Hex}}' method="POST">
+        <form action='/collection/{{.Coll.ID.Hex}}/delete/{{.Wine.ID.Hex}}' method='POST'>
             {{with .Wine}}
             <strong>Producer: </strong>{{.Producer}}
             <span><strong>ID: </strong>#{{.ID.Hex}}</span>
@@ -24,7 +24,8 @@
             <br><strong>Location: </strong>{{.Location}}
             <br><strong>Producer: </strong>{{.Producer}}
             {{end}}
-            <br><span style="float:right"><input type='delete' value='Delete Wine'></span>
+            <br><span style="float:right"><button class='btn-delete' type='submit' value='delete'>Delete
+                    Wine</button></span>
         </form>
     </div>
 </div>
