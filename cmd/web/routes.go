@@ -8,7 +8,7 @@ import (
 )
 
 func (app *application) routes() http.Handler {
-	//Fix Delete handlers to work with Collections
+	//Add used capacity to Collections
 	//Undo Stack for marking a wine as Drunk
 
 	r := mux.NewRouter()

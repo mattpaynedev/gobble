@@ -64,7 +64,6 @@ func (m *WineModel) GetCollection(collID primitive.ObjectID, hasDrunk bool) ([]*
 
 func (m *WineModel) GetWineByID(id, collection primitive.ObjectID) (*models.Wines, error) {
 
-	// var wineResult models.Wines
 	var wine models.Wines
 
 	criteria := bson.M{"_id": id, "collectionid": collection}
@@ -95,22 +94,3 @@ func (m *WineModel) DrinkWineByID(wine, collect primitive.ObjectID) (*mongo.Upda
 
 	return result, nil
 }
-
-/*
-DATABASE SCHEMAS
-
-Collection: users
-*/
-
-// type Users struct {
-// 	ID primitive.ObjectID `json:"id,omitempty"`
-// 	Username string `json:"username,omitempty"`
-// 	Password string `json:"password,omitempty"`
-// 	Email string `json:"email,omitempty"`
-// 	FirstName string `json:"firstname,omitempty"`
-// 	LastName string `json:"lastname,omitempty"`
-// 	SignupDate time.Date `json:"signupdate,omitempty"`
-// }
-/*
-Collection: wines
-*/
