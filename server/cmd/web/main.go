@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/mattpaynedev/gobble/pkg/models/mongoDB"
+	"github.com/mattpaynedev/gobble/server/pkg/models/mongoDB"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )

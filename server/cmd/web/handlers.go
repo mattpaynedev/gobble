@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	"github.com/mattpaynedev/gobble/pkg/models"
+	"github.com/mattpaynedev/gobble/server/pkg/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

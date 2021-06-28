@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/mattpaynedev/gobble/pkg/models"
+	"github.com/mattpaynedev/gobble/server/pkg/models"
 )
 
 type templateData struct {

@@ -1,4 +1,4 @@
-module github.com/mattpaynedev/gobble
+module github.com/mattpaynedev/gobble/server
 
 go 1.15
 
