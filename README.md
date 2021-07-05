@@ -2,7 +2,7 @@
 
 ---
 
-Gobble is a web application written in Go and React designed to help manage a wine collection or cellar.
+Gobble is a web application written in Go, React, and MongoDB designed to help manage a wine collection or cellar.
 
 
 
