@@ -273,29 +273,36 @@ func (app *application) insertCollectionHandler(w http.ResponseWriter, r *http.R
 
 }
 
-func (app *application) drinkWineHandler(w http.ResponseWriter, r *http.Request) {
+func (app *application) drinkWineHandler(w http.ResponseWriter, r *http.Request) (*models.Wines, error) {
 	vars := mux.Vars(r)
-	wine, err := primitive.ObjectIDFromHex(vars["wine"])
+	wineID, err := primitive.ObjectIDFromHex(vars["wine"])
 	if err != nil {
 		app.notFound(w)
-		return
+		return nil, err
 	}
-	collect, err := primitive.ObjectIDFromHex(vars["collect"])
+	collectionID, err := primitive.ObjectIDFromHex(vars["collect"])
 	if err != nil {
 		app.notFound(w)
-		return
+		return nil, err
 	}
 
-	result, err := app.wines.DrinkWineByID(wine, collect)
+	result, err := app.wines.DrinkWineByID(wineID, collectionID)
 	if err != nil {
-		app.infoLog.Println("get wine by ID")
 		app.serverError(w, err)
-		return
+		return nil, err
+	}
+
+	updatedWine, err := app.wines.GetWineByID(wineID, collectionID)
+	if err != nil {
+		app.serverError(w, err)
+		return nil, err
 	}
 
 	app.infoLog.Printf("Drink Result: %v wine(s) marked as consumed.", result.ModifiedCount)
 
-	http.Redirect(w, r, fmt.Sprintf("/collection/%s", collect.Hex()), http.StatusSeeOther)
+	// http.Redirect(w, r, fmt.Sprintf("/collection/%s", collect.Hex()), http.StatusSeeOther)
+
+	return updatedWine, err
 
 }
 

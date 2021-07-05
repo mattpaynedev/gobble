@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+html, body {
+    height: 100%;
+}
+
+body {
+    line-height: 1.2;
+    background-color: #e8ecf0;
+    color: #181818;
+    overflow-y: scroll;
+}
+
+  
+header,
+nav,
+main,
+footer {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    font-size: 16px;
+    padding: 2px calc((100% - 900px) / 2) 0;
+}
+
+header {
+    display: block;
+    background-size: 100% 6px;
+    background-repeat: no-repeat;
+    padding-top: 33px;
+    padding-bottom: 27px;
+    text-align: center;
+    overflow: auto;
+    background: #181818;
+}
+
+main {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    min-height: calc(100vh - 345px);
+    overflow: auto;
+    
+}
+
+.page-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background: #e8ecf0;
+    border-radius: 5px;
+}
+
+nav {
+    border-bottom: 5px solid #5d7ec0;
+    padding-bottom: 15px;
+    background: #181818;
+    height: 60px;
+    color: #e8ecf0;
+    
+}
+
+nav a {
+    margin: 1em;
+    display: inline-block;
+    color: #e8ecf0;
+}
+
+nav a:hover {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+h1 a {
+    text-decoration: none;
+    font-size: 36px;
+    font-weight: bold;
+    background-image: url("./static/img/logo.png");
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    height: 36px;
+    padding-left: 40px;
+    position: relative;
+    color: #e8ecf0;
+    font-family: 'Fredoka One', cursive;
+  }
+
+h1 a:hover a:visited {
+    text-decoration: none;
+    color: #181818;
+}
+
+h3 {
+    text-decoration: none;
+    color: #e8ecf0;;
+}
+
+a {
+    color: #5d7ec0;
+    text-decoration: none;
+  }
+
