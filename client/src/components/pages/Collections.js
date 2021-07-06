@@ -2,7 +2,9 @@ import { shallowEqual, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchCollections } from "../../features/collection/collectionSlice";
 import { useEffect } from "react";
-import Collection from "./Collection";
+import Collection from "../Collection";
+import Header from "../Header";
+import Footer from "../Footer";
 
 const getCollections = (state) => {
     return Object.values(state.collection).slice();
@@ -51,12 +53,19 @@ function Collections() {
 
     return (
         <div>
+            <Header
+                headerClass='main-header'
+                navClass='main-nav'
+            />
+            <main>
+                <h2>Your Collections</h2>
+                {renderedPage}
+                <br />
+                <Collection />
 
-            <h2>Your Collections</h2>
-            {renderedPage}
-            <br />
-            <Collection />
-        </div>
+            </main >
+            <  Footer />
+        </div >
     );
 }
 

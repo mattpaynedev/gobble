@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Montserrat&display=swap&family=Caveat:wght@700&display=swap');
 
 * {
     box-sizing: border-box;
@@ -21,10 +21,10 @@ body {
 }
 
   
-header,
-nav,
+.main-header,
+.main-nav,
 main,
-footer {
+.main-footer {
     display: flex;
     align-items: baseline;
     justify-content: center;
@@ -32,7 +32,7 @@ footer {
     padding: 2px calc((100% - 900px) / 2) 0;
 }
 
-header {
+.main-header {
     display: block;
     background-size: 100% 6px;
     background-repeat: no-repeat;
@@ -40,12 +40,12 @@ header {
     padding-bottom: 27px;
     text-align: center;
     overflow: auto;
-    background: #181818;
+    background-color: #181818;
 }
 
 main {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     min-height: calc(100vh - 345px);
     overflow: auto;
     
@@ -56,12 +56,13 @@ main {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    background: #e8ecf0;
+    background-color: #e8ecf0;
     border-radius: 5px;
+    
 }
 
-nav {
-    border-bottom: 5px solid #5d7ec0;
+.main-nav {
+    border-bottom: 5px solid #4d69a1;
     padding-bottom: 15px;
     background: #181818;
     height: 60px;
@@ -69,13 +70,13 @@ nav {
     
 }
 
-nav a {
+.main-nav a {
     margin: 1em;
     display: inline-block;
     color: #e8ecf0;
 }
 
-nav a:hover {
+.main-nav a:hover {
     text-decoration: underline;
     font-weight: bold;
 }

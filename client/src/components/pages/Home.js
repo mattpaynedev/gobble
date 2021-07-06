@@ -1,25 +1,36 @@
-function Home() {
+import './Home.css'
+import Header from '../Header'
+import Footer from '../Footer'
+
+export default function Home() {
     return (
-        <div>
-            <h2>Welcome to Gobble - Wine Cellar Management</h2>
-            <div className='wine'>
-                <div className='metadata'>
-                    <p>Gobble allows users to easily manage their wine collection(s). Users can create multiple collections and organize their wine in each. Planned features include:</p><br />
+        <div className='home-page-wrapper'>
+            <div className='home-page-background-overlay'>
+                <Header
+                    headerClass='home-header'
+                    navClass='home-nav'
+                />
+                <main className='home-body-wrapper'>
 
-                    <ul style={{ paddingLeft: "25px" }}>
-                        <li>Multi-User functionality</li>
-                        <li>"Drink It!" feature to track bottles that have been consumed (vs. simply deleted from the cellar)</li>
-                        <li>Tasting notes on bottles that have been consumed</li>
-                        <li>Dynamic storage recommendations (i.e., open storage locations are automatically selected)</li>
-                        <li>The ability to update bottles/collections, including storage locations, prices, etc.</li>
-                        <li>And much more!</li>
-                    </ul><br />
+                    <div className='home-body-grid'>
+                        <div className='home-content-wrapper-left'></div>
 
-                    <p>Take a look around and enjoy!</p>
-                </div>
+                        <div className='home-content-wrapper-right'>
+                            <h2>There's always time for a bottle of wine.</h2>
+
+                            <div className='home-content-main'>
+                                <div className='home-site-description'>
+                                    <p>Gobble is a modern wine cellar management tool.</p>
+                                    <p>Catalog and track your collection with simple, easy-to-use tools.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <Footer
+                    footerClass='home-footer'
+                />
             </div>
-        </div>
+        </div >
     );
 }
-
-export default Home

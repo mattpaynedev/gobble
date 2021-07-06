@@ -1,22 +1,18 @@
 
 import './App2.css';
-import Footer from './components/pages/Footer';
-import Header from './components/pages/Header';
-import Main from './components/pages/Main'
-
+import { Switch, Route } from 'react-router-dom'
+import Home from './components/pages/Home'
+import Collections from './components/pages/Collections'
+import Wines from './components/Wines'
 
 function App() {
   return (
-    <div>
-      <Header />
-      <main>
-        <div className='page-content'>
-          <Main />
-        </div>
-      </main>
-      <Footer />
-    </div>
-  );
+    <Switch>
+      <Route exact path='/' component={Home}></Route>
+      <Route exact path='/collections' component={Collections}></Route>
+      <Route path='/collections/:collectionID' component={Wines}></Route>
+    </Switch>
+  )
 }
 
-export default App;
+export default App
