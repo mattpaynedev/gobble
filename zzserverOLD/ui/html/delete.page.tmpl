@@ -1,0 +1,34 @@
+{{template "base" .}}
+
+{{define "title"}}Confirm Delete{{end}}
+
+{{define "main"}}
+
+
+<h3>Are you sure want to permanently remove this wine?</h3>
+
+<div class='wine'>
+    <div class='metadata'>
+        <form action='/collection/{{.Coll.ID.Hex}}/delete/{{.Wine.ID.Hex}}' method='POST'>
+            {{with .Wine}}
+            <strong>Producer: </strong>{{.Producer}}
+            <span><strong>ID: </strong>#{{.ID.Hex}}</span>
+            {{if (eq .Vintage 0)}}
+            <br><strong>Vintage: </strong>N/V
+            {{else}}
+            <br><strong>Vintage: </strong>{{.Vintage}}
+            {{end}}
+            <br><strong>Grape/Style: </strong>{{.Grape}}
+            <br><strong>Region: </strong>{{.Region}}
+            <br><strong>Bottle Price: </strong>${{.BottlePrice}}
+            <br><strong>Location: </strong>{{.Location}}
+            <br><strong>Producer: </strong>{{.Producer}}
+            {{end}}
+            <br><span style="float:right"><button class='btn-delete' type='submit' value='delete'>Delete
+                    Wine</button></span>
+        </form>
+    </div>
+</div>
+<br>
+<a href='/'>Return to Collection</a>
+{{end}}

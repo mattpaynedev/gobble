@@ -1,0 +1,137 @@
+.home-page-wrapper {
+    background-image: url(../../static/img/homepage-splash.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #181818;
+    background-attachment: fixed;
+    min-height: 100vh;
+    height: 100%;
+}
+
+.home-page-background-overlay {
+    background-color: #18181890;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+.home-header{
+    display: block;
+    padding-top: 33px;
+    padding-bottom: 27px;
+    text-align: center;
+    overflow: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-header h1 a {
+    text-decoration: none;
+    font-size: 40px;
+    font-weight: bold;
+    background-image: url("../../static/img/LOGO-Vector.svg");
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    background-size: 30px;
+    height: 50px;
+    padding-top: 5px;
+    padding-left: 40px;
+    position: relative;
+    color: #e8ecf0;
+    font-family: 'Fredoka One', cursive;
+  }
+
+.home-header h1 a:hover a:visited {
+    text-decoration: none;
+    color: #181818;
+}
+
+.home-header h3 {
+    text-decoration: none;
+    font-size: 20px;
+    color: #e8ecf0;;
+}
+
+.home-nav {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    font-size: 16px;
+    padding: 2px calc((100% - 900px) / 2) 0;
+    padding-bottom: 15px;
+    height: 60px;
+    color: #e8ecf0;
+}
+
+.home-nav a {
+    margin: 1em;
+    display: inline-block;
+    color: #e8ecf0;
+}
+
+.home-nav a:hover {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.home-body-wrapper {
+    min-height: calc(100vh - 250px);
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    padding: 0px calc((100% - 900px) / 2) 20px;
+}
+
+.home-body-grid {
+    width: 100%;
+    text-align: center;
+    display: grid;
+    justify-content: space-between;
+    align-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    color: #e8ecf0;
+}
+
+.home-content-wrapper-left {
+    display: block;
+    padding: 0px 45px 2px 45px;
+}
+
+.home-content-wrapper-right {
+    display: block;
+    padding: 0px 45px 0px 45px;
+}
+
+.home-content-wrapper-right h2 {
+    font-size: 3rem;    
+    margin: 0px 0 25px;
+    font-family: 'Caveat', cursive;
+    font-weight: bold;
+    line-height: 95%;
+}
+
+.home-content-wrapper-right p {
+    font-size: 1.15rem;
+    margin: 15px 0;
+}
+
+.home-footer {
+    display: flex;
+    color:#e8ecf0;
+    align-items: baseline;
+    justify-content: center;
+    font-size: 16px;
+    padding: 2px calc((100% - 900px) / 2) 0;
+    text-align: center;
+}
+
+.home-footer a {
+    color:#e8ecf0;
+}
+
+.home-footer a:hover {
+    text-decoration: underline;
+    font-weight: bold;
+}

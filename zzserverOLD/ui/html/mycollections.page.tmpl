@@ -1,0 +1,26 @@
+{{template "base" .}}
+{{define "title"}}Home{{end}}
+
+{{define "main"}}
+<h2>Your Collections<span style="float:right"><a href='/addcollection'>+ Add a New Collection</a></span></h2>
+{{if .Colls}}
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Capacity</th>
+        <th>Actions</th>
+    </tr>
+    {{range .Colls}}
+    <tr>
+        <td><a href='/collection/{{.ID.Hex}}'>{{.Name}}</a></td>
+        <td>{{.Capacity}}</td>
+        <td><a href='/collection/{{.ID.Hex}}/edit'><button>Edit</button></a></td>
+    </tr>
+    {{end}}
+</table>
+{{else}}
+
+<p> There's nothing to see here yet!</p>
+
+{{end}}
+{{end}}
