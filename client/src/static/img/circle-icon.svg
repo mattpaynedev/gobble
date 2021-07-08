@@ -10,15 +10,15 @@
    version="1.1"
    x="0px"
    y="0px"
-   viewBox="0 0 86.20562 44.088642"
+   viewBox="0 0 52 52.000038"
    id="svg10"
-   sodipodi:docname="Down Arrow Icon.svg"
-   width="86.20562"
-   height="44.088642"
-   inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
-   inkscape:export-filename="C:\Users\mattp\Documents\goworkspace\src\github.com\mattpaynedev\gobble\client\src\static\img\down-arrow-large.png"
-   inkscape:export-xdpi="83.519997"
-   inkscape:export-ydpi="83.519997">
+   sodipodi:docname="circle-icon.svg"
+   width="52"
+   height="52.000038"
+   inkscape:export-filename="C:\Users\mattp\Documents\goworkspace\src\github.com\mattpaynedev\gobble\client\src\static\img\circle.png"
+   inkscape:export-xdpi="55.384617"
+   inkscape:export-ydpi="55.384617"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)">
   <metadata
      id="metadata16">
     <rdf:RDF>
@@ -47,28 +47,25 @@
      id="namedview12"
      showgrid="false"
      lock-margins="true"
-     fit-margin-top="2"
-     fit-margin-left="2"
-     fit-margin-right="2"
-     fit-margin-bottom="2"
+     fit-margin-top="1"
+     fit-margin-left="1"
+     fit-margin-right="1"
+     fit-margin-bottom="1"
      inkscape:zoom="6.8"
-     inkscape:cx="39.867508"
-     inkscape:cy="34.544294"
+     inkscape:cx="26"
+     inkscape:cy="38.50002"
      inkscape:window-x="-8"
      inkscape:window-y="101"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg10"
      inkscape:document-rotation="0" />
   <g
-     transform="translate(-6.8971976,-980.31789)"
+     transform="translate(-24,-976.36216)"
      id="g4"
-     style="fill:#e8ecf0;fill-opacity:0.5;stroke:#000000;stroke-opacity:0.5;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none"
-     inkscape:export-filename="C:\Users\mattp\Documents\goworkspace\src\github.com\mattpaynedev\gobble\client\src\static\img\down-arrow-large.png"
-     inkscape:export-xdpi="83.519997"
-     inkscape:export-ydpi="83.519997">
+     style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1">
     <path
-       style="color:#000000;text-indent:0;text-transform:none;direction:ltr;baseline-shift:baseline;enable-background:accumulate;fill:#e8ecf0;fill-opacity:0.5;stroke:#000000;stroke-opacity:0.5;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m 50.343796,1022.3919 a 4.0004,4.0004 0 0 0 2.28122,-0.9688 l 37,-32.00003 a 4.0004,4.0004 0 1 0 -5.25,-6.0313 l -34.37502,29.71883 -34.375,-29.71883 a 4.0004,4.0004 0 1 0 -5.25,6.0313 l 37,32.00003 a 4.0004,4.0004 0 0 0 2.9688,0.9688 z"
+       style="color:#000000;text-indent:0;text-transform:none;direction:ltr;baseline-shift:baseline;enable-background:accumulate;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1"
+       d="m 50,977.36216 c -13.7716,0 -25,11.2286 -25,25.00004 0,13.7715 11.2284,25 25,25 13.7716,0 25,-11.2285 25,-25 0,-13.77144 -11.2284,-25.00004 -25,-25.00004 z m 0,6 c 10.5289,0 19,8.4712 19,19.00004 0,10.5289 -8.4711,19 -19,19 -10.5289,0 -19,-8.4711 -19,-19 0,-10.52884 8.4711,-19.00004 19,-19.00004 z"
        fill="#000000"
        fill-opacity="1"
        stroke="none"
