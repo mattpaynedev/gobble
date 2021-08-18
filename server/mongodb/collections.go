@@ -15,10 +15,9 @@ type CollectionModel struct {
 }
 
 func (coll CollectionModel) GetAllCollections() (map[string]models.Collection, error) {
-	// func GetAllCollections(coll *mongo.Collection) ([]models.Collection, error) {
 	mapResult := make(map[string]models.Collection)
 
-	// var results []models.Collection
+	fmt.Println("Get All Collections")
 
 	cursor, err := coll.Collectiondb.Find(context.TODO(), bson.D{})
 	if err != nil {
@@ -32,7 +31,6 @@ func (coll CollectionModel) GetAllCollections() (map[string]models.Collection, e
 			return nil, err
 		}
 
-		// results = append(results, collection)
 		mapResult[stringifyID(collection.ID)] = collection
 	}
 
@@ -40,6 +38,8 @@ func (coll CollectionModel) GetAllCollections() (map[string]models.Collection, e
 		return nil, err
 	}
 	cursor.Close(context.TODO())
+
+	fmt.Println("Collections requested:", mapResult)
 
 	return mapResult, nil
 }

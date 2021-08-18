@@ -2,44 +2,26 @@ import React, { useState } from 'react'
 import WineCard from './WineCard'
 import Filters from './Filters'
 import './Collection.css'
+import { Box, Button, Grid, Main, Text } from 'grommet'
+import { FormNext, FormPrevious } from 'grommet-icons'
 
+const gridLayouts = {
+    default: ['small', 'auto'],
+    noFilters: ['xxsmall', 'auto']
+}
 
-function Collection() {
-    const [showFilters, setShowFilters] = useState(false)
+function ShowCollection({ collection }) {
+    const [showFilters, setShowFilters] = useState(true)
+
+    console.log("collection:", collection)
 
     const toggleShowFilters = (event) => {
         event.preventDefault()
-
         setShowFilters(!showFilters)
+
     }
 
-    let toggleButton
-    let renderFilters
-    if (showFilters) {
-        toggleButton = (
-            <div className='filter-toggle-wrapper'>
-                <button
-                    className='btn-filter-close-toggle'
-                    onClick={toggleShowFilters}
-                >Hide Filters</button>
-            </div>
-        )
 
-        renderFilters = (
-            <div className='filter-wrapper'>
-                <Filters />
-            </div>
-        )
-    } else {
-        toggleButton = (
-            <div className='filter-toggle-wrapper'>
-                <button
-                    className='btn-filter-expand-toggle'
-                    onClick={toggleShowFilters}
-                >Show Filters</button>
-            </div>
-        )
-    }
 
     //get current collection and wines
 
@@ -47,12 +29,46 @@ function Collection() {
     //render wine cards based on filter criteria
 
     return (
-        <div>
-            <h2>My Collection</h2>
-            {toggleButton}
-            <div className='collection-container'>
-                {renderFilters}
-                <div className='card-wrapper'>
+        <Main
+            height={{ min: "100vh" }}
+            pad={{ vertical: "small" }}
+        >
+            <Box
+                width="small"
+            >
+
+            </Box>
+            <Grid
+                columns={showFilters ? gridLayouts.default : gridLayouts.noFilters}
+                gap="small"
+                pad={{ horizontal: "small" }}
+                justifyContent="stretch"
+            >
+                {showFilters
+                    ? <Filters toggleFunc={toggleShowFilters} showFilters={showFilters} />
+                    : <Filters toggleFunc={toggleShowFilters} />}
+                <Grid
+                    columns="medium"
+                    gap="medium"
+                    justifyContent="center"
+                >
+                    {collection
+                        ? collection.map(wine => {
+                            return (
+                                <WineCard
+                                    key={wine.id}
+                                    id={wine.id}
+                                    producer={wine.producer}
+                                    grape={wine.grape}
+                                    region={wine.region}
+                                    vintage={wine.vintage}
+                                    location={wine.location}
+                                    bottleprice={wine.bottleprice}
+                                    numberavailable={wine.numberavailable}
+                                />
+                            )
+                        })
+                        : null}
                     <WineCard
                         id='wine.id'
                         producer='wine.producer'
@@ -63,8 +79,8 @@ function Collection() {
                         bottleprice='wine.bottleprice'
                         numberavailable='wine.numberavailable'
                     />
-                </div>
-                <div className='card-wrapper'>
+
+
                     <WineCard
                         id='wine.id'
                         producer='wine.producer'
@@ -75,8 +91,8 @@ function Collection() {
                         bottleprice='wine.bottleprice'
                         numberavailable='wine.numberavailable'
                     />
-                </div>
-                <div className='card-wrapper'>
+
+
                     <WineCard
                         id='wine.id'
                         producer='wine.producer'
@@ -87,8 +103,8 @@ function Collection() {
                         bottleprice='wine.bottleprice'
                         numberavailable='wine.numberavailable'
                     />
-                </div>
-                <div className='card-wrapper'>
+
+
                     <WineCard
                         id='wine.id'
                         producer='wine.producer'
@@ -99,11 +115,12 @@ function Collection() {
                         bottleprice='wine.bottleprice'
                         numberavailable='wine.numberavailable'
                     />
-                </div>
-            </div>
-        </div>
+
+                </Grid>
+            </Grid>
+        </Main>
     )
 
 }
 
-export default Collection
+export default ShowCollection

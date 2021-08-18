@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// var requestCount int
+var requestCount int
 
 func (app *application) myCollectionsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
@@ -20,10 +20,7 @@ func (app *application) myCollectionsHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	// requestCount++
-
 	json.NewEncoder(w).Encode(c)
-	// app.infoLog.Println("Collections Requested:", requestCount)
 	// w.Write(c)
 
 }

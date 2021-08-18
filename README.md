@@ -11,9 +11,11 @@ Menu Functionality Credit:
 Ryan Toronto: https://github.com/ryanto/click-outside-to-close-video
 
 
-Image Attributions:
+##Image Attributions:
 
-Arrow Icons:
+Icons:
+
+Wine by Edward Boatman from the Noun Project
 
 Arrow, Circle, and Square by Eagle Eye from the Noun Project
 

@@ -1,19 +1,35 @@
-import Nav from "./Nav";
-import { Link } from 'react-router-dom'
+import React from 'react'
+import Nav from './Nav';
+import { Link as RouterLink } from 'react-router-dom'
 
+import { Anchor, Box, Button, Header, Image, Text } from 'grommet'
 
-function Header({ headerClass, navClass }) {
+function HeaderComponent({ headerClass, navClass }) {
     return (
-        <>
-            <header className={headerClass}>
-                <h1><Link to='/'>GOBBLE</Link></h1>
-
-            </header>
-            <Nav
-                navClass={navClass}
+        <Header
+            background='light-1'
+            pad={{
+                horizontal: "25px",
+                vertical: "15px",
+            }}
+            border="bottom"
+        >
+            <Button
+                a11yTitle='main logo'
+                plain
+                href='/'
+                icon={
+                    <Image
+                        fit='cover'
+                        alignSelf='center'
+                        src='/logo-new.svg'
+                        height='40px'
+                    />
+                }
             />
-        </>
+            <Nav />
+        </Header>
     );
 }
 
-export default Header
+export default HeaderComponent

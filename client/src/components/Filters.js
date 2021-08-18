@@ -1,10 +1,17 @@
+import { Box, Button, RadioButtonGroup, Sidebar, Stack, Text, TextInput } from 'grommet'
 import React, { useState } from 'react'
 import './Filters.css'
+import { FormPrevious, FormNext } from 'grommet-icons'
 
-function Filters() {
-    const [filter, setFilter] = useState('allWines')
+export const radioOptions = {
+    available: 'Available',
+    allWines: 'All Wines',
+    notAvailable: 'Not Available',
+}
+
+function Filters({ toggleFunc, showFilters }) {
+    const [filter, setFilter] = useState(radioOptions.allWines)
     const [search, setSearch] = useState('')
-
 
     //Insert handleFilterChange function
     const handleFilterChange = (event) => {
@@ -16,53 +23,144 @@ function Filters() {
         setSearch(event.target.value)
     }
 
+    const toggleShowFilters = (event) => {
+        return toggleFunc(event)
+    }
+
+    let toggleButton
+    if (showFilters) {
+        toggleButton = (
+            <Button
+                primary
+                size='small'
+                icon={<FormPrevious size="medium" />}
+                // label="Hide Filters"
+                onClick={toggleShowFilters}
+            ></Button>
+        )
+
+
+    } else {
+        toggleButton = (
+            <Button
+                primary
+                size='small'
+                icon={<FormNext size="medium" />}
+                // label={<Text size='small'>Show Filters</Text>}
+                onClick={toggleShowFilters}
+            ></Button>
+        )
+    }
+
     return (
-        <>
-            <div className='filter-radio-wrapper'>
-                <label className='filter-radio-header'>Filters</label>
-                <form className='filter-radio-form'>
-                    <div className='filter-radio-buttons'>
-                        <input
-                            type='radio'
-                            value='available'
-                            id='available'
-                            onChange={handleFilterChange}
-                            checked={(filter === 'available')}
-                        /> Available
-                    </div>
-                    <div className='filter-radio-buttons'>
-                        <input
-                            type='radio'
-                            value='allWines'
-                            id='allWines'
-                            onChange={handleFilterChange}
-                            checked={(filter === 'allWines')}
-                        /> All Wines
-                    </div>
-                    <div className='filter-radio-buttons'>
-                        <input
-                            type='radio'
-                            value='notAvailable'
-                            id='notAvailable'
-                            onChange={handleFilterChange}
-                            checked={(filter === 'notAvailable')}
-                        /> Not Available
-                    </div>
-                </form>
-            </div>
-            <div className='filter-search-wrapper'>
-                <legend>Search</legend>
-                <div className='filter-search-form' onChange={handleSearchChange}>
-                    <div className='filter-search-box'>
-                        <input
-                            type='textbox'
-                            placeholder='Enter search term...'
-                        />
-                        <p>Try searching for a producer, grape, region, or vintage.</p>
-                    </div>
-                </div>
-            </div>
-        </>
+        <Stack
+            anchor="top-right"
+            margin={{
+                top: "20px"
+            }}
+        >
+
+            {showFilters && <Sidebar
+                width="small"
+                background="light-1"
+                round="small"
+                pad={{
+                    top: "medium",
+                    horizontal: "small"
+                }}
+            >
+                <Stack
+                    anchor="top-left"
+                    margin={{ bottom: "medium" }}
+                >
+
+                    <Box
+                        border
+                        pad="small"
+                        round="small"
+                        margin={{ top: "10px" }}
+                    >
+                        <Text
+                            size="small"
+                            weight="bold"
+                        >
+                            <RadioButtonGroup
+                                name="filter"
+                                options={[radioOptions.available, radioOptions.allWines, radioOptions.notAvailable]}
+                                value={filter}
+                                onChange={handleFilterChange}
+                            />
+                        </Text>
+                    </Box>
+                    <Box
+                        background="brand"
+                        pad={{
+                            vertical: "none",
+                            horizontal: "small"
+                        }}
+                        round="small"
+                        margin={{
+                            vertical: "-5px",
+                            horizontal: "10px"
+                        }}
+                    >
+                        <Text
+                            size="medium"
+                            weight="bold"
+                        >Filters</Text>
+                    </Box>
+                </Stack>
+                <Stack
+                    anchor="top-left"
+                    margin={{ bottom: "medium" }}
+                >
+
+                    <Box
+                        border
+                        pad="small"
+                        round="small"
+                        margin={{ top: "10px" }}
+                    >
+                        <Text
+                            size="small"
+                            weight="bold"
+                            margin={{ vertical: "xsmall" }}
+                        >
+                            <TextInput
+                                placeholder="search here..."
+                                value={search}
+                                onChange={handleSearchChange}
+                            />
+                        </Text>
+                        <Text size="small" textAlign="center">Try searching by producer, grape, region, or vintage.</Text>
+                    </Box>
+                    <Box
+                        background="brand"
+                        pad={{
+                            vertical: "none",
+                            horizontal: "small"
+                        }}
+                        round="small"
+                        margin={{
+                            vertical: "-5px",
+                            horizontal: "10px"
+                        }}
+                    >
+                        <Text
+                            size="medium"
+                            weight="bold"
+                        >Search</Text>
+                    </Box>
+                </Stack>
+            </Sidebar>}
+            <Box
+                margin={{
+                    top: "-20px",
+                }}
+            >
+                {toggleButton}
+            </Box>
+        </Stack>
     )
 }
 

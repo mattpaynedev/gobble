@@ -30,7 +30,6 @@ func (wines *WineModel) GetSingleCollectionByID(collectionID primitive.ObjectID,
 		if err != nil {
 			return nil, err
 		}
-		fmt.Printf("%T\n", wine.HasDrunk)
 
 		wineResult[stringifyID(wine.ID)] = wine
 		// results = append(results, &wine)

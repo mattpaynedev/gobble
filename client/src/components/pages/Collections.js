@@ -2,71 +2,68 @@ import { shallowEqual, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchCollections } from "../../features/collection/collectionSlice";
 import { useEffect } from "react";
-import Collection from "../Collection";
+import ShowCollection from "../ShowCollection";
 import Header from "../Header";
 import Footer from "../Footer";
+import { Box, Button } from "grommet";
+import FooterComponent from "../Footer";
+import HeaderComponent from "../Header";
+import { fetchSingleCollection } from "../../features/wine/wineSlice";
 
 const getCollections = (state) => {
-    return Object.values(state.collection).slice();
+    return Object.values(state.wine).slice();
 }
 
 function Collections() {
-    useEffect(fetchCollections(), [])
+    useEffect(fetchSingleCollection("6032def2900ef3a9b2b1d8f4"), [])
 
 
-    const collectionsList = useSelector(getCollections, shallowEqual)
-    let renderedCollections
-    let renderedPage
+    const collection = useSelector(getCollections, shallowEqual)
+    // let renderedCollections
+    // let renderedPage
 
-    if (collectionsList) {
-        renderedCollections = collectionsList.map((collection) => {
-            return (
-                <tr key={collection.id}>
-                    <td><Link to={'/collections/' + collection.id}>{collection.name}</Link></td>
-                    <td>{collection.capacity}</td>
-                    <td><Link to={'/collections/' + collection.id + '/edit'}><button>Edit</button></Link></td>
-                </tr>
-            )
-        })
+    // console.log(collectionsList)
 
-        renderedPage = (
-            <table>
-                <thead>
-                    <tr>
-                        <th key="name">Name</th>
-                        <th key="capacity">Capacity</th>
-                        <th key="actions">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {renderedCollections}
-                </tbody>
-            </table>
-        )
-    } else {
-        renderedPage = (
-            <p> There's nothing to see here yet!</p>
-        )
-    }
+    // if (collectionsList) {
+    //     renderedCollections = collectionsList.map((collection) => {
+    //         return (
+    //             <tr key={collection.id}>
+    //                 <td><Link to={'/collections/' + collection.id}>{collection.name}</Link></td>
+    //                 <td>{collection.capacity}</td>
+    //                 <td><Link to={'/collections/' + collection.id + '/edit'}><button>Edit</button></Link></td>
+    //             </tr>
+    //         )
+    //     })
 
-
+    //     renderedPage = (
+    //         <table>
+    //             <thead>
+    //                 <tr>
+    //                     <th key="name">Name</th>
+    //                     <th key="capacity">Capacity</th>
+    //                     <th key="actions">Actions</th>
+    //                 </tr>
+    //             </thead>
+    //             <tbody>
+    //                 {renderedCollections}
+    //             </tbody>
+    //         </table>
+    //     )
+    // } else {
+    //     renderedPage = (
+    //         <p> There's nothing to see here yet!</p>
+    //     )
+    // }
 
     return (
-        <div>
-            <Header
-                headerClass='main-header'
-                navClass='main-nav'
-            />
-            <main>
-                <h2>Your Collections</h2>
-                {renderedPage}
-                <br />
-                <Collection />
-
-            </main >
-            <  Footer />
-        </div >
-    );
+        <Box
+            minHeight='100vh'
+        >
+            <HeaderComponent />
+            {collection ? <ShowCollection collection={collection} /> : null}
+            <FooterComponent />
+        </Box>
+    )
 }
 
 export default Collections
