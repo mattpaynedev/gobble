@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import WineCard from './WineCard'
 import Filters from './Filters'
-import './Collection.css'
+// import './Collection.css'
 import { Box, Button, Grid, Main, Text } from 'grommet'
 import { FormNext, FormPrevious } from 'grommet-icons'
 
@@ -69,7 +69,7 @@ function ShowCollection({ collection }) {
                             )
                         })
                         : null}
-                    <WineCard
+                    {/* <WineCard
                         id='wine.id'
                         producer='wine.producer'
                         grape='wine.grape'
@@ -78,10 +78,10 @@ function ShowCollection({ collection }) {
                         location='wine.location'
                         bottleprice='wine.bottleprice'
                         numberavailable='wine.numberavailable'
-                    />
+                    /> */}
 
 
-                    <WineCard
+                    {/* <WineCard
                         id='wine.id'
                         producer='wine.producer'
                         grape='wine.grape'
@@ -90,10 +90,10 @@ function ShowCollection({ collection }) {
                         location='wine.location'
                         bottleprice='wine.bottleprice'
                         numberavailable='wine.numberavailable'
-                    />
+                    /> */}
 
 
-                    <WineCard
+                    {/* <WineCard
                         id='wine.id'
                         producer='wine.producer'
                         grape='wine.grape'
@@ -102,10 +102,10 @@ function ShowCollection({ collection }) {
                         location='wine.location'
                         bottleprice='wine.bottleprice'
                         numberavailable='wine.numberavailable'
-                    />
+                    /> */}
 
 
-                    <WineCard
+                    {/* <WineCard
                         id='wine.id'
                         producer='wine.producer'
                         grape='wine.grape'
@@ -114,7 +114,7 @@ function ShowCollection({ collection }) {
                         location='wine.location'
                         bottleprice='wine.bottleprice'
                         numberavailable='wine.numberavailable'
-                    />
+                    /> */}
 
                 </Grid>
             </Grid>

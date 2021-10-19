@@ -1,15 +1,29 @@
 import { Card, CardBody, CardFooter, Box, Image, Grid, Text, Layer, Button, CardHeader, TextArea } from 'grommet'
 import { Close } from 'grommet-icons'
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { drinkWine } from '../features/wine/wineSlice'
 
-export default function WineCardOverlay(props) {
+const status = {
+    idle: "idle",
+    saving: "saving",
+    saved: "saved"
+}
+
+export default function DrinkWineOverlay({ wine, closeFunc }) {
     const [inputText, setInputText] = useState("")
+    const [saveStatus, setSaveStatus] = useState(status.idle)
+    const dispatch = useDispatch()
 
-    // TO BE UPDATED FOR DRINK WINE
+    const drinkWineHandler = (wineID, collectionID) => {
+        setSaveStatus(status.saving)
+        dispatch(drinkWine(wineID, "6032def2900ef3a9b2b1d8f4"))
+        setSaveStatus(status.saved)
+    }
 
     return (
         <Layer
-            onClickOutside={props.closeFunc}
+            onClickOutside={closeFunc}
         >
             <Card
                 height="medium"
@@ -27,7 +41,7 @@ export default function WineCardOverlay(props) {
                         plain
                         reverse
                         margin={{ horizontal: "small" }}
-                        onClick={props.closeFunc}
+                        onClick={closeFunc}
                         icon={<Close
                             size="small"
                             color="accent-1"
@@ -37,7 +51,7 @@ export default function WineCardOverlay(props) {
                             size="small"
                             weight="bold"
                             color="accent-1"
-                        >close</Text>}
+                        >cancel</Text>}
                     />
                 </CardHeader>
                 <CardBody
@@ -49,6 +63,7 @@ export default function WineCardOverlay(props) {
                     }}
                     justify="center"
                 >
+                    {saveStatus}
                     <Box
                         width="xsmall"
                         height="xsmall"
@@ -69,17 +84,17 @@ export default function WineCardOverlay(props) {
                         gap={{ column: "small" }}
                     >
                         <Text weight="bold">Producer: </Text>
-                        <Text>{props.wine.producer}</Text>
+                        <Text>{wine.producer}</Text>
                         <Text weight="bold">Grape: </Text>
-                        <Text>{props.wine.grape}</Text>
+                        <Text>{wine.grape}</Text>
                         <Text weight="bold">Region: </Text>
-                        <Text>{props.wine.region}</Text>
+                        <Text>{wine.region}</Text>
                         <Text weight="bold">Vintage: </Text>
-                        <Text>{props.wine.vintage}</Text>
+                        <Text>{wine.vintage}</Text>
                         <Text weight="bold">Price: </Text>
-                        <Text>{props.wine.bottleprice}</Text>
+                        <Text>{wine.bottleprice}</Text>
                         <Text weight="bold">In-Stock: </Text>
-                        <Text>{props.wine.numberavailable}</Text>
+                        <Text>{wine.numberavailable}</Text>
                     </Grid>
                 </CardBody>
                 <CardBody
@@ -92,16 +107,22 @@ export default function WineCardOverlay(props) {
                         resize={false}
                         fill
                     />
-                    <Button
-                        secondary
-                        margin="small"
-                        gap="xxsmall"
-                        label={<Text
-                            size="small"
-                            weight="bold"
-                            color="accent-1"
-                        >Save Notes</Text>}
-                    />
+                    <Box
+                        width="small"
+                        alignSelf="end"
+                        justify="center"
+                        margin={{ top: "small" }}
+                    >
+                        <Button
+                            primary
+                            hoverIndicator
+                            onClick={() => drinkWineHandler(wine.id)}
+                            label={<Text
+                                size="small"
+                                weight="bold"
+                            >Save and Drink!</Text>}
+                        />
+                    </Box>
                 </CardBody>
             </Card>
         </Layer>

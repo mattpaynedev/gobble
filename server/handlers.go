@@ -42,7 +42,7 @@ func (app *application) singleCollectionHandler(w http.ResponseWriter, r *http.R
 	// 	return
 	// }
 
-	wines, err := app.wine.GetSingleCollectionByID(id, false)
+	wines, err := app.wine.GetSingleCollectionByID(id, 0)
 	if err != nil {
 		app.serverError(w, err)
 		return

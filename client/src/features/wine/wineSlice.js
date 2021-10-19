@@ -41,7 +41,7 @@ export default function wineReducer(state = initialState, action) {
             return action.payload;
         }
 
-        case 'wine/toggleWineDrunk': {
+        case 'wine/drinkWine': {
             const wineID = action.payload.id
             return {
                 ...state,
@@ -76,10 +76,10 @@ export function fetchSingleCollection(collectionID, userID) {
     }
 }
 
-export function toggleWineDrunk(wineID, collectionID, userID) {
+export function drinkWine(wineID, collectionID, userID) {
 
 
-    return function toggleWineDrunkThunk(dispatch) {
+    return function drinkWineThunk(dispatch) {
 
         const address = apiAddress + "/collections/" + collectionID + "/" + wineID + "/drinkwine"
 
@@ -87,7 +87,7 @@ export function toggleWineDrunk(wineID, collectionID, userID) {
             .put(address)
             .then(response => {
                 store.dispatch({
-                    type: 'wine/toggleWineDrunk',
+                    type: 'wine/drinkWine',
                     payload: response.data,
                 })
             })

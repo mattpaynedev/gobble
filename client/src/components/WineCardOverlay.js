@@ -3,8 +3,6 @@ import { Close } from 'grommet-icons'
 import React, { useState } from 'react'
 
 export default function WineCardOverlay({ wine, closeFunc }) {
-    const [inputText, setInputText] = useState("")
-
     return (
         <Layer
             onClickOutside={closeFunc}
@@ -104,15 +102,6 @@ export default function WineCardOverlay({ wine, closeFunc }) {
                             </Text>
                         }
                     </Box>
-                    {/* <TextArea
-                        placeholder="Tasting notes will show up here!"
-                        value={wine.tastingnotes}
-                        onChange={(event => setInputText(event.currentTarget.value))}
-                        resize={false}
-                        fill
-                        disabled
-                    /> */}
-
                 </CardBody>
             </Card>
         </Layer>

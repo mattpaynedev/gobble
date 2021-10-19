@@ -1,6 +1,7 @@
 import { Box, Button, Card, CardBody, CardFooter, CardHeader, Grid, Image, Text } from 'grommet';
 import { Add, More } from 'grommet-icons';
 import React, { useState } from 'react'
+import DrinkWineOverlay from './DrinkWineOverlay';
 import WineCardOverlay from './WineCardOverlay';
 
 function WineCard(props) {
@@ -113,6 +114,7 @@ function WineCard(props) {
                     />
                 </CardFooter>
                 {displayMoreInfo ? <WineCardOverlay closeFunc={handleMoreInfoClick} wine={props} /> : null}
+                {displayDrinkWine ? <DrinkWineOverlay closeFunc={handleDrinkWineClick} wine={props} /> : null}
             </Card>
         </>
     )
