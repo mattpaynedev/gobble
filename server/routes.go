@@ -12,6 +12,7 @@ func (app *application) routes() http.Handler {
 	r.HandleFunc("/collections", app.myCollectionsHandler).Methods("GET")
 	r.HandleFunc("/collections/{collect}", app.singleCollectionHandler).Methods("GET")
 	r.HandleFunc("/collections/{collect}/{wineID}/drinkwine", app.drinkWineHandler).Methods("PUT")
+	r.HandleFunc("/collections/{collect}/{wineID}/changequantity?quantity={quantity}", app.changeQuantityHandler).Methods("PUT")
 
 	return r
 }

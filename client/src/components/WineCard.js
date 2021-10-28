@@ -12,13 +12,17 @@ function WineCard(props) {
     //handleClick
     const handleMoreInfoClick = (event) => {
         event.preventDefault();
-        setDisplayMoreInfo(!displayMoreInfo)
+        toggleMoreInfo()
     }
 
     const handleDrinkWineClick = (event) => {
         event.preventDefault();
-        setDisplayDrinkWine(!displayDrinkWine)
+        toggleDrinkWine()
     }
+
+    const toggleDrinkWine = () => setDisplayDrinkWine(!displayDrinkWine)
+
+    const toggleMoreInfo = () => setDisplayMoreInfo(!displayMoreInfo)
     //handle note input and submit
 
     //handle "Drink This!" button
@@ -113,72 +117,11 @@ function WineCard(props) {
                         >more</Text>}
                     />
                 </CardFooter>
-                {displayMoreInfo ? <WineCardOverlay closeFunc={handleMoreInfoClick} wine={props} /> : null}
-                {displayDrinkWine ? <DrinkWineOverlay closeFunc={handleDrinkWineClick} wine={props} /> : null}
+                {displayMoreInfo ? <WineCardOverlay closeFunc={toggleMoreInfo} wine={props} /> : null}
+                {displayDrinkWine ? <DrinkWineOverlay closeFunc={toggleDrinkWine} wine={props} /> : null}
             </Card>
         </>
     )
 }
-// need to add pop up on click
 
 export default WineCard
-
-
-{/* <div className='card-item'>
-                <div className='card-item-top-section'>
-                    <div className='card-item-img-wrapper'>
-                        <img
-                            className='card-item-img'
-                            alt={props.producer}
-                            src='/wine-placeholder.png'
-                        />
-                    </div>
-                    <table className='card-item-table'>
-                        <tbody>
-                            <tr>
-                                <td className='card-item-category-text'>Producer: </td>
-                                <td className='card-item-data-text'>{props.producer}</td>
-                            </tr>
-                            <tr>
-                                <td className='card-item-category-text'>Grape: </td>
-                                <td className='card-item-data-text'>{props.grape}</td>
-                            </tr>
-                            <tr>
-                                <td className='card-item-category-text'>Region: </td>
-                                <td className='card-item-data-text'>{props.region}</td>
-                            </tr>
-                            <tr>
-                                <td className='card-item-category-text'>Vintage: </td>
-                                <td className='card-item-data-text'>{props.vintage}</td>
-                            </tr>
-                            <tr>
-                                <td className='card-item-category-text'>Location: </td>
-                                <td className='card-item-data-text'>{props.location}</td>
-                            </tr>
-                            <tr>
-                                <td className='card-item-category-text'>Price Paid: </td>
-                                <td className='card-item-data-text'>{props.bottleprice} per bottle</td>
-                            </tr>
-                            <tr>
-                                <td className='card-item-category-text'># Available: </td>
-                                <td className='card-item-data-text'>{props.numberavailable}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    {displayAll &&
-                        <div className='card-item-textarea-wrapper'>
-                            <textarea className='card-item-wine-notes' placeholder="What do you think? Insert tasting notes here..."></textarea>
-                            <button
-                                className='btn-card-submit-notes'
-                            >Save Notes</button>
-                        </div>
-                    }
-                </div>
-                <div className='card-item-bottom-section'>
-                    <button className='btn-card-drink-wine'>Drink This!</button>
-                    <button
-                        className={!displayAll ? 'btn-card-expand-toggle' : 'btn-card-close-toggle'}
-                        onClick={handleExpandClick}
-                    >{!displayAll ? "Expand" : "Close"}</button>
-                </div>
-            </div> */}

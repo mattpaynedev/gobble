@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -75,6 +76,38 @@ func (app *application) drinkWineHandler(w http.ResponseWriter, r *http.Request)
 	}
 
 	updatedWine, err := app.wine.DrinkWineByID(wineID, collectionID)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	app.infoLog.Printf("Wine %v marked as consumed.", updatedWine.ID.String())
+
+	json.NewEncoder(w).Encode(updatedWine)
+}
+
+func (app *application) changeQuantityHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "application/json")
+	// w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	vars := mux.Vars(r)
+	wineID, err := primitive.ObjectIDFromHex(vars["wineID"])
+	if err != nil {
+		app.notFound(w)
+		return
+	}
+	collectionID, err := primitive.ObjectIDFromHex(vars["collect"])
+	if err != nil {
+		app.notFound(w)
+		return
+	}
+	quantity, err := strconv.Atoi(vars["quantity"])
+	if err != nil {
+		app.notFound(w)
+		return
+	}
+
+	updatedWine, err := app.wine.ChangeQuantityByID(quantity, wineID, collectionID)
 	if err != nil {
 		app.serverError(w, err)
 		return

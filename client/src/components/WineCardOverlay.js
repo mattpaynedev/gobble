@@ -3,6 +3,11 @@ import { Close } from 'grommet-icons'
 import React, { useState } from 'react'
 
 export default function WineCardOverlay({ wine, closeFunc }) {
+    const handleClick = (event) => {
+        event.preventDefault()
+        closeFunc()
+    }
+
     return (
         <Layer
             onClickOutside={closeFunc}
@@ -23,7 +28,7 @@ export default function WineCardOverlay({ wine, closeFunc }) {
                         plain
                         reverse
                         margin={{ horizontal: "small" }}
-                        onClick={closeFunc}
+                        onClick={handleClick}
                         icon={<Close
                             size="small"
                             color="accent-1"
