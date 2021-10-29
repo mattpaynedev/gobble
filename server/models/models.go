@@ -21,7 +21,7 @@ type Wines struct {
 	Grape           string             `json:"grape,omitempty"`
 	Region          string             `json:"region,omitempty"`
 	BottlePrice     float64            `json:"bottleprice,omitempty"`
-	Locations       []string           `json:"locations,omitempty"`
+	Locations       string             `json:"locations,omitempty"`
 	NumberAvailable int                `json:"numberavailable,omitempty"`
 	TastingNotes    []tastingNote      `json:"tastingnotes,omitempty"`
 	CollectionID    primitive.ObjectID `json:"collectionid,omitempty"`

@@ -3,13 +3,13 @@ package main
 import (
 	"encoding/json"
 	"net/http"
-	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/mattpaynedev/gobble/server/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-var requestCount int
+// var requestCount int
 
 func (app *application) myCollectionsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
@@ -86,9 +86,8 @@ func (app *application) drinkWineHandler(w http.ResponseWriter, r *http.Request)
 	json.NewEncoder(w).Encode(updatedWine)
 }
 
-func (app *application) changeQuantityHandler(w http.ResponseWriter, r *http.Request) {
+func (app *application) editWineHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
-	// w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	vars := mux.Vars(r)
 	wineID, err := primitive.ObjectIDFromHex(vars["wineID"])
@@ -101,19 +100,23 @@ func (app *application) changeQuantityHandler(w http.ResponseWriter, r *http.Req
 		app.notFound(w)
 		return
 	}
-	quantity, err := strconv.Atoi(vars["quantity"])
+
+	var updates *models.Wines
+
+	err = json.NewDecoder(r.Body).Decode(&updates)
 	if err != nil {
-		app.notFound(w)
+		app.serverError(w, err)
 		return
 	}
+	// app.infoLog.Println("Updates", updates)
 
-	updatedWine, err := app.wine.ChangeQuantityByID(quantity, wineID, collectionID)
+	updatedWine, err := app.wine.EditWineByID(updates, wineID, collectionID)
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
 
-	app.infoLog.Printf("Wine %v marked as consumed.", updatedWine.ID.String())
+	app.infoLog.Printf("Wine updated:", updatedWine.ID.String())
 
 	json.NewEncoder(w).Encode(updatedWine)
 }

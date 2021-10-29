@@ -188,7 +188,10 @@ const Theme = {
             }
         },
         "input": {
-            "padding": "12px",
+            "padding": {
+                "horizontal": "small",
+                "vertical": "xsmall"
+            },
             "weight": 600
         },
         "opacity": {

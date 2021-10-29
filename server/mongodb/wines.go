@@ -40,8 +40,6 @@ func (wines *WineModel) GetSingleCollectionByID(collectionID primitive.ObjectID,
 	}
 	cursor.Close(context.TODO())
 
-	fmt.Println(wineResult)
-
 	return wineResult, nil
 }
 
@@ -105,6 +103,26 @@ func (wines *WineModel) ChangeQuantityByID(amountToAdd int, wineID, collectionID
 	if *currentQuantity > 0 {
 		updateResult, err = wines.WineDB.UpdateOne(context.TODO(), bson.M{"_id": wineID, "collectionid": collectionID}, bson.D{{"$set", bson.D{{"numberavailable", *currentQuantity + amountToAdd}}}})
 	}
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Println(updateResult)
+
+	updatedWine, err := wines.GetWineByID(wineID, collectionID)
+	if err != nil {
+		return nil, err
+	}
+
+	return updatedWine, nil
+}
+
+func (wines *WineModel) EditWineByID(updates *models.Wines, wineID, collectionID primitive.ObjectID) (*models.Wines, error) {
+
+	var updateResult *mongo.UpdateResult
+
+	updateResult, err := wines.WineDB.UpdateOne(context.TODO(), bson.M{"_id": wineID, "collectionid": collectionID}, bson.D{{"$set", updates}})
+
 	if err != nil {
 		return nil, err
 	}
