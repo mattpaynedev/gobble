@@ -62,7 +62,7 @@ function ShowCollection({ collection }) {
                                     grape={wine.grape}
                                     region={wine.region}
                                     vintage={wine.vintage}
-                                    location={wine.location}
+                                    locations={wine.locations}
                                     bottleprice={wine.bottleprice}
                                     numberavailable={wine.numberavailable}
                                 />

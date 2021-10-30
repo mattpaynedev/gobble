@@ -1,4 +1,4 @@
-import { Card, CardBody, CardFooter, Box, Image, Grid, Text, Layer, Button, CardHeader, TextArea } from 'grommet'
+import { Card, CardBody, CardFooter, Box, Image, Grid, Text, Layer, Button, CardHeader, TextArea, Select } from 'grommet'
 import { Close } from 'grommet-icons'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -13,6 +13,7 @@ const status = {
 export default function DrinkWineOverlay({ wine, closeFunc }) {
     const [inputText, setInputText] = useState("")
     const [saveStatus, setSaveStatus] = useState(status.idle)
+    const [bottleIndex, setBottleIndex] = useState(0)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -34,6 +35,21 @@ export default function DrinkWineOverlay({ wine, closeFunc }) {
     const handleClick = (event) => {
         event.preventDefault()
         closeFunc()
+    }
+
+    const renderLocations = () => {
+        const locations = Object.keys(wine.locations).map(loc => {
+            return <Text size="small">{loc}</Text>
+        })
+
+        return (
+            < Select
+                options={locations}
+                value={locations[bottleIndex]}
+                onChange={(event) => setBottleIndex(event.currentTarget.value)}
+                size="small"
+            />
+        )
     }
 
     return (
@@ -111,6 +127,8 @@ export default function DrinkWineOverlay({ wine, closeFunc }) {
                                 <Text>{wine.bottleprice}</Text>
                                 <Text weight="bold">In-Stock: </Text>
                                 <Text>{wine.numberavailable}</Text>
+                                <Text weight="bold">Select A Bottle: </Text>
+                                {renderLocations()}
                             </Grid>
                         </CardBody>
                         <CardBody

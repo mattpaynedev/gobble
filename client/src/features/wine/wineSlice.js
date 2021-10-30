@@ -12,7 +12,7 @@ Wine example:
         grape:        grape,
         region:       region,
         bottleprice:  bottlePrice,
-        location:     location,
+        locations:    locations,
         collectionid: collection,
         userid:       userID,
         hasdrunk:     false,

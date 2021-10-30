@@ -1,14 +1,58 @@
-import { Card, CardBody, CardFooter, Box, Image, Grid, Text, Layer, Button, CardHeader, TextArea, List } from 'grommet'
-import { Close, Edit, Medium } from 'grommet-icons'
+import { Card, CardBody, CardFooter, Box, Image, Grid, Text, Layer, Button, CardHeader, TextArea, List, Select } from 'grommet'
+import { Close, Edit, FormPreviousLink, Medium } from 'grommet-icons'
 import React, { useState } from 'react'
 import EditWineCard from './EditWineCard'
 
 export default function WineCardOverlay({ wine, closeFunc }) {
     const [editMode, setEditMode] = useState(false)
+    const [showLocations, setShowLocations] = useState(false)
 
     const handleClick = (event) => {
         event.preventDefault()
-        closeFunc()
+        if (showLocations) {
+            setShowLocations(false)
+        } else {
+            closeFunc()
+        }
+    }
+    console.log(wine.producer, wine.locations)
+    const renderLocations = () => {
+        console.log(wine.locations)
+        const locations = wine && wine.locations
+            ? Object.keys(wine.locations)
+            : []
+
+        return (
+            <CardBody
+                pad={{
+                    horizontal: "medium",
+                    top: "medium",
+                    bottom: "xsmall"
+                }}
+                justify="start"
+                align="center"
+            >
+                <Box
+                    justify="center"
+                >
+                    <Text weight="bold">Storage Locations for {wine.producer} - {wine.vintage}</Text>
+                    < List
+                        // Add ACTION in order to go to DRINK NOW
+                        data={locations}
+                        border={false}
+                        alignSelf="center"
+                        pad="xsmall"
+                        paginate={{
+                            size: "small",
+                            width: "xsmall",
+                            alignSelf: "center"
+                        }}
+                        step={6}
+                    />
+                </Box>
+            </CardBody>
+
+        )
     }
 
     return (
@@ -33,85 +77,112 @@ export default function WineCardOverlay({ wine, closeFunc }) {
                             reverse
                             margin={{ horizontal: "small" }}
                             onClick={handleClick}
-                            icon={<Close
-                                size="small"
-                                color="accent-1"
-                            />}
+                            icon={!showLocations
+                                ? <Close
+                                    size="small"
+                                    color="accent-1"
+                                />
+                                : <FormPreviousLink
+                                    size="medium"
+                                    color="accent-1"
+                                />}
                             gap="xxsmall"
                             label={<Text
                                 size="small"
                                 weight="bold"
                                 color="accent-1"
-                            >close</Text>}
+                            >{!showLocations ? "close" : "go back"}</Text>}
                         />
                     </CardHeader>
-                    <CardBody
-                        direction="row-responsive"
-                        pad={{
-                            horizontal: "medium",
-                            top: "medium",
-                            bottom: "xsmall"
-                        }}
-                        justify="center"
-                    >
-                        <Box
-                            width="xsmall"
-                            height="xsmall"
-                            margin={{ vertical: "auto" }}
-                        >
-                            <Image
-                                fit="contain"
-                                src="/wine-placeholder.png"
-                            />
-                        </Box>
-                        <Grid
-                            columns={["auto", "auto"]}
-                            alignContent="center"
-                            pad={{
-                                horizontal: "xsmall",
+                    {!showLocations
+                        ? <>
+                            <CardBody
+                                direction="row-responsive"
+                                pad={{
+                                    horizontal: "medium",
+                                    top: "medium",
+                                    bottom: "xsmall"
+                                }}
+                                justify="center"
+                            >
+                                <Box
+                                    width="xsmall"
+                                    height="xsmall"
+                                    margin={{ vertical: "auto" }}
+                                >
+                                    <Image
+                                        fit="contain"
+                                        src="/wine-placeholder.png"
+                                    />
+                                </Box>
+                                <Grid
+                                    columns={["auto", "auto"]}
+                                    alignContent="center"
+                                    pad={{
+                                        horizontal: "xsmall",
 
-                            }}
-                            gap={{ column: "small" }}
-                        >
-                            <Text weight="bold">Producer: </Text>
-                            <Text>{wine.producer}</Text>
-                            <Text weight="bold">Grape: </Text>
-                            <Text>{wine.grape}</Text>
-                            <Text weight="bold">Region: </Text>
-                            <Text>{wine.region}</Text>
-                            <Text weight="bold">Vintage: </Text>
-                            <Text>{wine.vintage}</Text>
-                            <Text weight="bold">Price: </Text>
-                            <Text>{wine.bottleprice}</Text>
-                            <Text weight="bold">In-Stock: </Text>
-                            <Text>{wine.numberavailable}</Text>
-                        </Grid>
-                    </CardBody>
+                                    }}
+                                    gap={{ column: "small" }}
+                                >
+                                    <Text weight="bold">Producer: </Text>
+                                    <Text>{wine.producer}</Text>
+                                    <Text weight="bold">Grape: </Text>
+                                    <Text>{wine.grape}</Text>
+                                    <Text weight="bold">Region: </Text>
+                                    <Text>{wine.region}</Text>
+                                    <Text weight="bold">Vintage: </Text>
+                                    <Text>{wine.vintage}</Text>
+                                    <Text weight="bold">Price: </Text>
+                                    <Text>{wine.bottleprice}</Text>
+                                    <Text weight="bold">In-Stock: </Text>
+                                    <Text>{wine.numberavailable}</Text>
+                                    {wine.locations
+                                        ? <>
+                                            <Text weight="bold" >Locations: </Text>
+                                            <Button
+                                                plain
+                                                color="brand"
+                                                onClick={() => setShowLocations(true)}
+                                                label={<Text
+                                                    size="small"
+                                                    weight="bold"
+                                                    as="u"
+                                                >Show Locations</Text>}
+                                            />
+                                        </>
+                                        : null
+                                    }
+                                </Grid>
+                            </CardBody>
 
-                    <CardBody
-                        justify="end"
-                    >
-                        <Box
-                            alignSelf="end"
-                            justify="center"
-                            margin="medium"
-                        >
-                            <Button
-                                // margin={{ horizontal: "medium" }}
-                                onClick={() => setEditMode(true)}
-                                icon={<Edit
-                                    size="medium"
-                                    color="brand"
-                                />}
-                                gap="xsmall"
-                                label={<Text
-                                    size="medium"
-                                    weight="bold"
-                                    color="brand"
-                                >Edit Wine</Text>}
-                            />
-                        </Box>
-                    </CardBody>
+                            <CardBody
+                                justify="end"
+                            >
+                                <Box
+                                    alignSelf="end"
+                                    justify="center"
+                                    margin="medium"
+                                >
+                                    <Button
+                                        color="dark-3"
+                                        onClick={() => setEditMode(true)}
+                                        size="small"
+                                        icon={<Edit
+                                            size="small"
+                                            color="dark-3"
+                                        />}
+                                        gap="xsmall"
+                                        label={<Text
+                                            size="small"
+                                            weight="bold"
+                                            color="dark-3"
+                                        >Edit Wine</Text>}
+                                    />
+                                </Box>
+                            </CardBody>
+                        </>
+                        : <>{renderLocations()}</>
+                    }
                     {/* <CardBody
                         pad="medium"
                     >

@@ -108,7 +108,6 @@ func (app *application) editWineHandler(w http.ResponseWriter, r *http.Request) 
 		app.serverError(w, err)
 		return
 	}
-	// app.infoLog.Println("Updates", updates)
 
 	updatedWine, err := app.wine.EditWineByID(updates, wineID, collectionID)
 	if err != nil {

@@ -12,7 +12,7 @@ const generateVintages = () => {
         vintages.push(year)
         year--
     }
-    console.log(vintages)
+    // console.log(vintages)
     return vintages
 }
 
@@ -40,6 +40,17 @@ export default function EditWineCard({ wine, closeFunc, cancelEdit }) {
             grape: grape,
             region: region,
             bottleprice: bottleprice,
+            locations: {
+                A3: true,
+                A4: true,
+                A5: true,
+                B3: true,
+                B4: true,
+                B5: true,
+                C3: true,
+                C4: true,
+                C5: true
+            },
             numberavailable: wine.numberavailable,
             // tastingnotes: wine.tastingnotes,
             collectionid: "6032def2900ef3a9b2b1d8f4",
