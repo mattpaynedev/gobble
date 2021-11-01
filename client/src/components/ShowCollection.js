@@ -19,8 +19,7 @@ export const radioOptions = {
 function ShowCollection({ collection }) {
     const [showFilters, setShowFilters] = useState(true)
     const [filter, setFilter] = useState(radioOptions.allWines)
-
-    console.log({ filter })
+    const [search, setSearch] = useState('')
 
     const toggleShowFilters = (event) => {
         event.preventDefault()
@@ -30,12 +29,7 @@ function ShowCollection({ collection }) {
 
     //get current collection and wines
 
-
-    //render wine cards based on filter criteria
-
     const renderCollection = () => {
-
-
         return (
             <>
                 {collection.filter(wine => {
@@ -47,19 +41,22 @@ function ShowCollection({ collection }) {
                         default:
                             return true // Show All Wines
                     }
+                }).filter(wine => {
+                    const lcSearch = search.toLowerCase()
+                    const producer = wine.producer.toLowerCase()
+                    const grape = wine.grape.toLowerCase()
+                    const region = wine.region.toLowerCase()
+                    const vintage = String(wine.vintage)
+
+                    if (producer.includes(lcSearch) || grape.includes(lcSearch) || region.includes(lcSearch) || vintage.includes(lcSearch)) {
+                        return true
+                    }
+                    return false
                 }).map(wine => {
                     return (
                         <WineCard
                             key={wine.id}
                             wine={wine}
-                            id={wine.id}
-                            producer={wine.producer}
-                            grape={wine.grape}
-                            region={wine.region}
-                            vintage={wine.vintage}
-                            locations={wine.locations}
-                            bottleprice={wine.bottleprice}
-                            numberavailable={wine.numberavailable}
                         />
                     )
                 })}
@@ -86,6 +83,8 @@ function ShowCollection({ collection }) {
                 <Filters
                     toggleFunc={toggleShowFilters}
                     showFilters={showFilters}
+                    search={search}
+                    setSearch={setSearch}
                     filter={filter}
                     setFilter={setFilter}
                     radioOptions={Object.values(radioOptions)}
@@ -98,53 +97,6 @@ function ShowCollection({ collection }) {
                     {collection
                         ? <>{renderCollection()}</>
                         : null}
-                    {/* <WineCard
-                        id='wine.id'
-                        producer='wine.producer'
-                        grape='wine.grape'
-                        region='wine.region'
-                        vintage='wine.vintage'
-                        location='wine.location'
-                        bottleprice='wine.bottleprice'
-                        numberavailable='wine.numberavailable'
-                    /> */}
-
-
-                    {/* <WineCard
-                        id='wine.id'
-                        producer='wine.producer'
-                        grape='wine.grape'
-                        region='wine.region'
-                        vintage='wine.vintage'
-                        location='wine.location'
-                        bottleprice='wine.bottleprice'
-                        numberavailable='wine.numberavailable'
-                    /> */}
-
-
-                    {/* <WineCard
-                        id='wine.id'
-                        producer='wine.producer'
-                        grape='wine.grape'
-                        region='wine.region'
-                        vintage='wine.vintage'
-                        location='wine.location'
-                        bottleprice='wine.bottleprice'
-                        numberavailable='wine.numberavailable'
-                    /> */}
-
-
-                    {/* <WineCard
-                        id='wine.id'
-                        producer='wine.producer'
-                        grape='wine.grape'
-                        region='wine.region'
-                        vintage='wine.vintage'
-                        location='wine.location'
-                        bottleprice='wine.bottleprice'
-                        numberavailable='wine.numberavailable'
-                    /> */}
-
                 </Grid>
             </Grid>
         </Main>

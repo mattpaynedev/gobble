@@ -5,9 +5,9 @@ import { FormPrevious, FormNext } from 'grommet-icons'
 
 
 
-function Filters({ toggleFunc, showFilters, filter, setFilter, radioOptions }) {
+function Filters({ toggleFunc, showFilters, search, setSearch, filter, setFilter, radioOptions }) {
 
-    const [search, setSearch] = useState('')
+
 
     //Insert handleFilterChange function
     const handleFilterChange = (event) => {
