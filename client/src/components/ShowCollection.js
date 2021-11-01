@@ -57,6 +57,7 @@ function ShowCollection({ collection }) {
                             return (
                                 <WineCard
                                     key={wine.id}
+                                    wine={wine}
                                     id={wine.id}
                                     producer={wine.producer}
                                     grape={wine.grape}

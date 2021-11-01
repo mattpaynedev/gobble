@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import DrinkWineOverlay from './DrinkWineOverlay';
 import WineCardOverlay from './WineCardOverlay';
 
-function WineCard(props) {
+function WineCard({ wine }) {
     //useState for expanded status
     const [displayMoreInfo, setDisplayMoreInfo] = useState(false)
     const [displayDrinkWine, setDisplayDrinkWine] = useState(false)
@@ -45,6 +45,7 @@ function WineCard(props) {
                 >
                     <Button
                         primary
+                        disabled={!wine.numberavailable || null}
                         size="small"
                         label={<Text
                             size="small"
@@ -81,17 +82,17 @@ function WineCard(props) {
                         gap={{ column: "small" }}
                     >
                         <Text weight="bold">Producer: </Text>
-                        <Text>{props.producer}</Text>
+                        <Text>{wine.producer}</Text>
                         <Text weight="bold">Grape: </Text>
-                        <Text>{props.grape}</Text>
+                        <Text>{wine.grape}</Text>
                         <Text weight="bold">Region: </Text>
-                        <Text>{props.region}</Text>
+                        <Text>{wine.region}</Text>
                         <Text weight="bold">Vintage: </Text>
-                        <Text>{props.vintage}</Text>
+                        <Text>{wine.vintage}</Text>
                         <Text weight="bold">Price: </Text>
-                        <Text>{props.bottleprice}</Text>
+                        <Text>{wine.bottleprice}</Text>
                         <Text weight="bold">In-Stock: </Text>
-                        <Text>{props.numberavailable}</Text>
+                        <Text>{wine.numberavailable || 0}</Text>
                     </Grid>
                 </CardBody>
                 <CardFooter
@@ -117,8 +118,8 @@ function WineCard(props) {
                         >more</Text>}
                     />
                 </CardFooter>
-                {displayMoreInfo ? <WineCardOverlay closeFunc={toggleMoreInfo} wine={props} /> : null}
-                {displayDrinkWine ? <DrinkWineOverlay closeFunc={toggleDrinkWine} wine={props} /> : null}
+                {displayMoreInfo ? <WineCardOverlay closeFunc={toggleMoreInfo} wine={wine} /> : null}
+                {displayDrinkWine ? <DrinkWineOverlay closeFunc={toggleDrinkWine} wine={wine} /> : null}
             </Card>
         </>
     )

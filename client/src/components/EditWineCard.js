@@ -34,26 +34,27 @@ export default function EditWineCard({ wine, closeFunc, cancelEdit }) {
         event.preventDefault()
 
         const changes = {
-            id: wine.id,
+            ...wine,
+            // id: wine.id,
             producer: producer,
             vintage: vintage,
             grape: grape,
             region: region,
             bottleprice: bottleprice,
-            locations: {
-                A3: true,
-                A4: true,
-                A5: true,
-                B3: true,
-                B4: true,
-                B5: true,
-                C3: true,
-                C4: true,
-                C5: true
-            },
-            numberavailable: wine.numberavailable,
+            // locations: {
+            //     A3: true,
+            //     A4: true,
+            //     A5: true,
+            //     B3: true,
+            //     B4: true,
+            //     B5: true,
+            //     C3: true,
+            //     C4: true,
+            //     C5: true
+            // },
+            // numberavailable: wine.numberavailable,
             // tastingnotes: wine.tastingnotes,
-            collectionid: "6032def2900ef3a9b2b1d8f4",
+            // collectionid: "6032def2900ef3a9b2b1d8f4",
         }
 
         dispatch(editWine(changes, wine.id, "6032def2900ef3a9b2b1d8f4"))
@@ -160,7 +161,7 @@ export default function EditWineCard({ wine, closeFunc, cancelEdit }) {
                         onChange={(event) => setBottleprice(event.currentTarget.value)}
                     />
                     <Text weight="bold">In-Stock: </Text>
-                    <Text>{wine.numberavailable}</Text>
+                    <Text>{wine.numberavailable || 0}</Text>
                 </Grid>
             </CardBody>
             <CardBody

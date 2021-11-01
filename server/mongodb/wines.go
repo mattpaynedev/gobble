@@ -118,16 +118,16 @@ func (wines *WineModel) ChangeQuantityByID(amountToAdd int, wineID, collectionID
 }
 
 func (wines *WineModel) EditWineByID(updates *models.Wines, wineID, collectionID primitive.ObjectID) (*models.Wines, error) {
+	// fmt.Println(updates)
+	// var updateResult *mongo.UpdateResult
 
-	var updateResult *mongo.UpdateResult
-
-	updateResult, err := wines.WineDB.UpdateOne(context.TODO(), bson.M{"_id": wineID, "collectionid": collectionID}, bson.D{{"$set", updates}})
+	_, err := wines.WineDB.UpdateOne(context.TODO(), bson.M{"_id": wineID, "collectionid": collectionID}, bson.D{{"$set", updates}})
 
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Println(updateResult)
+	// fmt.Println(updateResult)
 
 	updatedWine, err := wines.GetWineByID(wineID, collectionID)
 	if err != nil {

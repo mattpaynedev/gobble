@@ -2,7 +2,7 @@ import { Card, CardBody, CardFooter, Box, Image, Grid, Text, Layer, Button, Card
 import { Close } from 'grommet-icons'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { drinkWine } from '../features/wine/wineSlice'
+import { drinkWine, editWine } from '../features/wine/wineSlice'
 
 const status = {
     idle: "idle",
@@ -11,9 +11,11 @@ const status = {
 }
 
 export default function DrinkWineOverlay({ wine, closeFunc }) {
+    const locations = Object.keys(wine.locations)
     const [inputText, setInputText] = useState("")
     const [saveStatus, setSaveStatus] = useState(status.idle)
-    const [bottleIndex, setBottleIndex] = useState(0)
+    const [bottleLocation, setBottleLocation] = useState(locations[0])
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -21,14 +23,26 @@ export default function DrinkWineOverlay({ wine, closeFunc }) {
             const timer = setTimeout(() => {
                 closeFunc()
                 setSaveStatus(status.idle)
-            }, 2000)
+            }, 1000)
             return () => clearTimeout(timer)
         }
     }, [saveStatus, closeFunc])
 
-    const drinkWineHandler = (wineID, collectionID) => {
+    const drinkWineHandler = () => {
+        const updatedLocations = {
+            ...wine.locations
+        }
+
+        delete updatedLocations[bottleLocation]
+        console.log(updatedLocations)
+
+        const changes = {
+            ...wine,
+            numberavailable: wine.numberavailable - 1,
+            locations: updatedLocations
+        }
         setSaveStatus(status.saving)
-        dispatch(drinkWine(wineID, "6032def2900ef3a9b2b1d8f4"))
+        dispatch(editWine(changes, wine.id, "6032def2900ef3a9b2b1d8f4"))
         setSaveStatus(status.saved)
     }
 
@@ -38,16 +52,16 @@ export default function DrinkWineOverlay({ wine, closeFunc }) {
     }
 
     const renderLocations = () => {
-        const locations = Object.keys(wine.locations).map(loc => {
-            return <Text size="small">{loc}</Text>
-        })
-
         return (
             < Select
                 options={locations}
-                value={locations[bottleIndex]}
-                onChange={(event) => setBottleIndex(event.currentTarget.value)}
-                size="small"
+                value={bottleLocation}
+                onChange={(event) => setBottleLocation(event.target.value)}
+                size="medium"
+                valueLabel={<Text
+                    margin={{ horizontal: "xsmall" }}
+                    size="medium"
+                    weight="bold">{bottleLocation}</Text>}
             />
         )
     }
@@ -57,7 +71,7 @@ export default function DrinkWineOverlay({ wine, closeFunc }) {
             onClickOutside={closeFunc}
         >
             <Card
-                height="medium"
+                height={{ min: "medium" }}
                 width="large"
                 background="light-1"
             >
@@ -134,13 +148,13 @@ export default function DrinkWineOverlay({ wine, closeFunc }) {
                         <CardBody
                             pad="medium"
                         >
-                            <TextArea
+                            {/* <TextArea
                                 placeholder="Tasting notes..."
                                 value={inputText}
                                 onChange={(event => setInputText(event.currentTarget.value))}
                                 resize={false}
                                 fill
-                            />
+                            /> */}
                             <Box
                                 width="small"
                                 alignSelf="end"
@@ -150,11 +164,11 @@ export default function DrinkWineOverlay({ wine, closeFunc }) {
                                 <Button
                                     primary
                                     hoverIndicator
-                                    onClick={() => drinkWineHandler(wine.id)}
+                                    onClick={drinkWineHandler}
                                     label={<Text
                                         size="small"
                                         weight="bold"
-                                    >Save and Drink!</Text>}
+                                    >Drink this!</Text>}
                                 />
                             </Box>
                         </CardBody>
@@ -164,7 +178,7 @@ export default function DrinkWineOverlay({ wine, closeFunc }) {
                         pad="large"
                         justify="center"
                     >
-                        <Text weight="bold">Updates saved!</Text>
+                        <Text weight="bold">Updates saved</Text>
                     </CardBody>
                 }
             </Card>
