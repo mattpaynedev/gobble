@@ -1,15 +1,10 @@
 import { Box, Button, RadioButtonGroup, Sidebar, Stack, Text, TextInput } from 'grommet'
-import React, { useState } from 'react'
+import React from 'react'
 import './Filters.css'
 import { FormPrevious, FormNext } from 'grommet-icons'
 
-
-
 function Filters({ toggleFunc, showFilters, search, setSearch, filter, setFilter, radioOptions }) {
 
-
-
-    //Insert handleFilterChange function
     const handleFilterChange = (event) => {
         setFilter(event.target.value)
         console.log(filter)

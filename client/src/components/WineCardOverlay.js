@@ -1,5 +1,5 @@
-import { Card, CardBody, CardFooter, Box, Image, Grid, Text, Layer, Button, CardHeader, TextArea, List, Select } from 'grommet'
-import { Close, Edit, FormPreviousLink, Medium } from 'grommet-icons'
+import { Card, CardBody, Box, Image, Grid, Text, Layer, Button, CardHeader, List } from 'grommet'
+import { Close, Edit, FormPreviousLink } from 'grommet-icons'
 import React, { useState } from 'react'
 import EditWineCard from './EditWineCard'
 

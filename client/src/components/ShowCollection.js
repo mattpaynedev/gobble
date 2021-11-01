@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import WineCard from './WineCard'
 import Filters from './Filters'
-// import './Collection.css'
-import { Box, Button, Grid, Main, Text } from 'grommet'
-import { FormNext, FormPrevious } from 'grommet-icons'
+import { Box, Grid, Heading, Main } from 'grommet'
 
 const gridLayouts = {
     default: ['small', 'auto'],
@@ -42,16 +40,20 @@ function ShowCollection({ collection }) {
                             return true // Show All Wines
                     }
                 }).filter(wine => {
-                    const lcSearch = search.toLowerCase()
-                    const producer = wine.producer.toLowerCase()
-                    const grape = wine.grape.toLowerCase()
-                    const region = wine.region.toLowerCase()
-                    const vintage = String(wine.vintage)
+                    if (search.length > 2) {
+                        const lcSearch = search.toLowerCase()
+                        const producer = wine.producer.toLowerCase()
+                        const grape = wine.grape.toLowerCase()
+                        const region = wine.region.toLowerCase()
+                        const vintage = String(wine.vintage)
 
-                    if (producer.includes(lcSearch) || grape.includes(lcSearch) || region.includes(lcSearch) || vintage.includes(lcSearch)) {
+                        if (producer.includes(lcSearch) || grape.includes(lcSearch) || region.includes(lcSearch) || vintage.includes(lcSearch)) {
+                            return true
+                        }
+                        return false
+                    } else {
                         return true
                     }
-                    return false
                 }).map(wine => {
                     return (
                         <WineCard
@@ -89,15 +91,22 @@ function ShowCollection({ collection }) {
                     setFilter={setFilter}
                     radioOptions={Object.values(radioOptions)}
                 />
-                <Grid
-                    columns="medium"
-                    gap="medium"
-                    justifyContent="center"
-                >
-                    {collection
-                        ? <>{renderCollection()}</>
-                        : null}
-                </Grid>
+                {collection.length
+                    ? <Grid
+                        columns="medium"
+                        gap="medium"
+                        justifyContent="center"
+                    >
+                        {collection
+                            ? <>{renderCollection()}</>
+                            : null}
+                    </Grid>
+                    : <Box
+                        align="center"
+                    >
+                        <Heading level={3} >Add a wine to start your collection!</Heading>
+                    </Box>
+                }
             </Grid>
         </Main>
     )
