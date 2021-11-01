@@ -10,10 +10,17 @@ const gridLayouts = {
     noFilters: ['xxsmall', 'auto']
 }
 
+export const radioOptions = {
+    available: 'Available',
+    allWines: 'All Wines',
+    notAvailable: 'Not Available',
+}
+
 function ShowCollection({ collection }) {
     const [showFilters, setShowFilters] = useState(true)
+    const [filter, setFilter] = useState(radioOptions.allWines)
 
-    console.log("collection:", collection)
+    console.log({ filter })
 
     const toggleShowFilters = (event) => {
         event.preventDefault()
@@ -21,12 +28,44 @@ function ShowCollection({ collection }) {
 
     }
 
-
-
     //get current collection and wines
 
 
     //render wine cards based on filter criteria
+
+    const renderCollection = () => {
+
+
+        return (
+            <>
+                {collection.filter(wine => {
+                    switch (filter) {
+                        case radioOptions.available:
+                            return wine.numberavailable > 0
+                        case radioOptions.notAvailable:
+                            return !wine.numberavailable
+                        default:
+                            return true // Show All Wines
+                    }
+                }).map(wine => {
+                    return (
+                        <WineCard
+                            key={wine.id}
+                            wine={wine}
+                            id={wine.id}
+                            producer={wine.producer}
+                            grape={wine.grape}
+                            region={wine.region}
+                            vintage={wine.vintage}
+                            locations={wine.locations}
+                            bottleprice={wine.bottleprice}
+                            numberavailable={wine.numberavailable}
+                        />
+                    )
+                })}
+            </>
+        )
+    }
 
     return (
         <Main
@@ -44,31 +83,20 @@ function ShowCollection({ collection }) {
                 pad={{ horizontal: "small" }}
                 justifyContent="stretch"
             >
-                {showFilters
-                    ? <Filters toggleFunc={toggleShowFilters} showFilters={showFilters} />
-                    : <Filters toggleFunc={toggleShowFilters} />}
+                <Filters
+                    toggleFunc={toggleShowFilters}
+                    showFilters={showFilters}
+                    filter={filter}
+                    setFilter={setFilter}
+                    radioOptions={Object.values(radioOptions)}
+                />
                 <Grid
                     columns="medium"
                     gap="medium"
                     justifyContent="center"
                 >
                     {collection
-                        ? collection.map(wine => {
-                            return (
-                                <WineCard
-                                    key={wine.id}
-                                    wine={wine}
-                                    id={wine.id}
-                                    producer={wine.producer}
-                                    grape={wine.grape}
-                                    region={wine.region}
-                                    vintage={wine.vintage}
-                                    locations={wine.locations}
-                                    bottleprice={wine.bottleprice}
-                                    numberavailable={wine.numberavailable}
-                                />
-                            )
-                        })
+                        ? <>{renderCollection()}</>
                         : null}
                     {/* <WineCard
                         id='wine.id'
