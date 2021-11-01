@@ -5,10 +5,11 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/mattpaynedev/gobble/server/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-var requestCount int
+// var requestCount int
 
 func (app *application) myCollectionsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
@@ -42,7 +43,7 @@ func (app *application) singleCollectionHandler(w http.ResponseWriter, r *http.R
 	// 	return
 	// }
 
-	wines, err := app.wine.GetSingleCollectionByID(id, false)
+	wines, err := app.wine.GetSingleCollectionByID(id, -1)
 	if err != nil {
 		app.serverError(w, err)
 		return
@@ -81,6 +82,40 @@ func (app *application) drinkWineHandler(w http.ResponseWriter, r *http.Request)
 	}
 
 	app.infoLog.Printf("Wine %v marked as consumed.", updatedWine.ID.String())
+
+	json.NewEncoder(w).Encode(updatedWine)
+}
+
+func (app *application) editWineHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "application/json")
+
+	vars := mux.Vars(r)
+	wineID, err := primitive.ObjectIDFromHex(vars["wineID"])
+	if err != nil {
+		app.notFound(w)
+		return
+	}
+	collectionID, err := primitive.ObjectIDFromHex(vars["collect"])
+	if err != nil {
+		app.notFound(w)
+		return
+	}
+
+	var updates *models.Wines
+
+	err = json.NewDecoder(r.Body).Decode(&updates)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	updatedWine, err := app.wine.EditWineByID(updates, wineID, collectionID)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	app.infoLog.Printf("Wine updated:", updatedWine.ID.String())
 
 	json.NewEncoder(w).Encode(updatedWine)
 }

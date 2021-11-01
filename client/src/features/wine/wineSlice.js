@@ -12,7 +12,7 @@ Wine example:
         grape:        grape,
         region:       region,
         bottleprice:  bottlePrice,
-        location:     location,
+        locations:    locations,
         collectionid: collection,
         userid:       userID,
         hasdrunk:     false,
@@ -41,7 +41,23 @@ export default function wineReducer(state = initialState, action) {
             return action.payload;
         }
 
-        case 'wine/toggleWineDrunk': {
+        case 'wine/drinkWine': {
+            const wineID = action.payload.id
+            return {
+                ...state,
+                [wineID]: action.payload
+            }
+        }
+
+        case 'wine/changeQuantity': {
+            const wineID = action.payload.id
+            return {
+                ...state,
+                [wineID]: action.payload
+            }
+        }
+
+        case 'wine/editWine': {
             const wineID = action.payload.id
             return {
                 ...state,
@@ -76,10 +92,10 @@ export function fetchSingleCollection(collectionID, userID) {
     }
 }
 
-export function toggleWineDrunk(wineID, collectionID, userID) {
+export function drinkWine(wineID, collectionID, userID) {
 
 
-    return function toggleWineDrunkThunk(dispatch) {
+    return function drinkWineThunk(dispatch) {
 
         const address = apiAddress + "/collections/" + collectionID + "/" + wineID + "/drinkwine"
 
@@ -87,7 +103,57 @@ export function toggleWineDrunk(wineID, collectionID, userID) {
             .put(address)
             .then(response => {
                 store.dispatch({
-                    type: 'wine/toggleWineDrunk',
+                    type: 'wine/drinkWine',
+                    payload: response.data,
+                })
+            })
+            .catch(err => {
+                console.log("ERROR FETCHING DATA: ", err)
+            })
+
+
+    }
+}
+
+export function changeWineQuantity(amountToAdd, wineID, collectionID, userID) {
+
+
+    return function changeWineQuantityThunk(dispatch) {
+
+        const address = apiAddress + "/collections/" + collectionID + "/" + wineID + "/changequantity?quantity=" + String(amountToAdd)
+
+        axios
+            .put(address)
+            .then(response => {
+                store.dispatch({
+                    type: 'wine/changeQuantity',
+                    payload: response.data,
+                })
+            })
+            .catch(err => {
+                console.log("ERROR FETCHING DATA: ", err)
+            })
+
+
+    }
+}
+
+export function editWine(changes, wineID, collectionID, userID) {
+
+
+    return function changeWineQuantityThunk(dispatch) {
+
+        const address = apiAddress + "/collections/" + collectionID + "/" + wineID + "/editwine"
+
+        const data = JSON.stringify(changes)
+
+        console.log(data)
+
+        axios
+            .put(address, data)
+            .then(response => {
+                store.dispatch({
+                    type: 'wine/editWine',
                     payload: response.data,
                 })
             })

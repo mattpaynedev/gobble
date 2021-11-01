@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
-import { fetchSingleCollection, toggleWineDrunk } from "../features/wine/wineSlice";
+import { fetchSingleCollection, drinkWine } from "../features/wine/wineSlice";
 import WineCard from "./WineCard";
 import Filters from "./Filters";
 import store from "../store";
@@ -33,7 +33,7 @@ function Wines() {
     const handleDrinkWineClick = (wineID, collectionID) => {
 
         const handleClickFunc = () => {
-            dispatch(toggleWineDrunk(wineID, collectionID))
+            dispatch(drinkWine(wineID, collectionID))
         }
 
         return handleClickFunc
