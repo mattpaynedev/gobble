@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import WineCard from './WineCard'
+import AddWineCard from './AddWineCard'
 import Filters from './Filters'
-import { Box, Grid, Heading, Main } from 'grommet'
+import { Box, Button, Grid, Heading, Main, Text } from 'grommet'
+import { Add } from 'grommet-icons'
 
 const gridLayouts = {
     default: ['small', 'auto'],
@@ -16,6 +18,7 @@ export const radioOptions = {
 
 function ShowCollection({ collection }) {
     const [showFilters, setShowFilters] = useState(true)
+    const [showAddWineOverlay, setShowAddWineOverlay] = useState(false)
     const [filter, setFilter] = useState(radioOptions.allWines)
     const [search, setSearch] = useState('')
 
@@ -69,12 +72,24 @@ function ShowCollection({ collection }) {
     return (
         <Main
             height={{ min: "100vh" }}
-            pad={{ vertical: "small" }}
         >
             <Box
-                width="small"
+                align="end"
+                pad={{ vertical: "xsmall" }}
             >
-
+                <Button
+                    primary
+                    color="accent-1"
+                    size="small"
+                    icon={<Add size="small" color="black" />}
+                    gap="xsmall"
+                    hoverIndicator
+                    onClick={(event) => {
+                        event.preventDefault()
+                        setShowAddWineOverlay(true)
+                    }}
+                    label={<Text weight="bold" size="small" color="black">Add Wine</Text>}
+                />
             </Box>
             <Grid
                 columns={showFilters ? gridLayouts.default : gridLayouts.noFilters}
@@ -108,6 +123,7 @@ function ShowCollection({ collection }) {
                     </Box>
                 }
             </Grid>
+            {showAddWineOverlay ? <AddWineCard closeFunc={() => setShowAddWineOverlay(false)} /> : null}
         </Main>
     )
 

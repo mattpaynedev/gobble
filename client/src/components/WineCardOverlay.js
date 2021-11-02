@@ -2,6 +2,7 @@ import { Card, CardBody, Box, Image, Grid, Text, Layer, Button, CardHeader, List
 import { Close, Edit, FormPreviousLink } from 'grommet-icons'
 import React, { useState } from 'react'
 import EditWineCard from './EditWineCard'
+import { NON_VINTAGE } from '../utils'
 
 export default function WineCardOverlay({ wine, closeFunc }) {
     const [editMode, setEditMode] = useState(false)
@@ -131,7 +132,7 @@ export default function WineCardOverlay({ wine, closeFunc }) {
                                     <Text weight="bold">Region: </Text>
                                     <Text>{wine.region}</Text>
                                     <Text weight="bold">Vintage: </Text>
-                                    <Text>{wine.vintage}</Text>
+                                    <Text>{wine.vintage !== -1 ? wine.vintage : NON_VINTAGE}</Text>
                                     <Text weight="bold">Price: </Text>
                                     <Text>{wine.bottleprice}</Text>
                                     <Text weight="bold">In-Stock: </Text>
