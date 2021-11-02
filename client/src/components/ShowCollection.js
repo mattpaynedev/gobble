@@ -78,17 +78,17 @@ function ShowCollection({ collection }) {
                 pad={{ vertical: "xsmall" }}
             >
                 <Button
-                    primary
+                    secondary
                     color="accent-1"
                     size="small"
-                    icon={<Add size="small" color="black" />}
+                    icon={<Add size="small" color="brand" />}
                     gap="xsmall"
                     hoverIndicator
                     onClick={(event) => {
                         event.preventDefault()
                         setShowAddWineOverlay(true)
                     }}
-                    label={<Text weight="bold" size="small" color="black">Add Wine</Text>}
+                    label={<Text weight="bold" size="small" color="brand">Add Wine</Text>}
                 />
             </Box>
             <Grid

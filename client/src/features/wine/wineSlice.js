@@ -57,6 +57,14 @@ export default function wineReducer(state = initialState, action) {
             }
         }
 
+        case 'wine/addWine': {
+            const wineID = action.payload.id
+            return {
+                ...state,
+                [wineID]: action.payload
+            }
+        }
+
         case 'wine/editWine': {
             const wineID = action.payload.id
             return {
@@ -154,6 +162,32 @@ export function editWine(changes, wineID, collectionID, userID) {
             .then(response => {
                 store.dispatch({
                     type: 'wine/editWine',
+                    payload: response.data,
+                })
+            })
+            .catch(err => {
+                console.log("ERROR FETCHING DATA: ", err)
+            })
+
+
+    }
+}
+
+export function addWine(wineInfo, collectionID, userID) {
+
+
+    return function addWineThunk(dispatch) {
+
+        const address = apiAddress + "/collections/" + collectionID + "/addwine"
+
+        const data = JSON.stringify(wineInfo)
+        console.log(data)
+
+        axios
+            .post(address, data)
+            .then(response => {
+                store.dispatch({
+                    type: 'wine/addWine',
                     payload: response.data,
                 })
             })

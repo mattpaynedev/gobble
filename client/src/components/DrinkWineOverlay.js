@@ -12,10 +12,10 @@ const status = {
 }
 
 export default function DrinkWineOverlay({ wine, closeFunc }) {
-    const locations = Object.keys(wine.locations)
+    const locations = wine.locations ? Object.keys(wine.locations) : null
     // const [inputText, setInputText] = useState("")
     const [saveStatus, setSaveStatus] = useState(status.idle)
-    const [bottleLocation, setBottleLocation] = useState(locations[0])
+    const [bottleLocation, setBottleLocation] = useState(locations ? locations[0] : null)
 
     const dispatch = useDispatch()
 

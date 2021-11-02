@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Card, CardBody, Box, Image, Grid, Layer, Text, Button, CardHeader, TextInput, Select } from 'grommet'
 import { Close } from 'grommet-icons'
 import { useDispatch } from 'react-redux'
-import { editWine } from '../features/wine/wineSlice'
+import { addWine, editWine } from '../features/wine/wineSlice'
 import { generateVintages, NON_VINTAGE } from '../utils'
 
 export default function AddWineCard({ closeFunc, cancelEdit }) {
@@ -11,6 +11,8 @@ export default function AddWineCard({ closeFunc, cancelEdit }) {
     const [region, setRegion] = useState("")
     const [vintage, setVintage] = useState(-1)
     const [bottleprice, setBottleprice] = useState(0)
+    const [locations, setLocations] = useState({})
+    const [numberavailable, setNumberavailable] = useState()
     const dispatch = useDispatch()
 
     const handleClick = (event) => {
@@ -21,32 +23,23 @@ export default function AddWineCard({ closeFunc, cancelEdit }) {
     const saveChanges = (event) => {
         event.preventDefault()
 
-        const changes = {
+        const newWine = {
             // ...wine,
             // id: wine.id,
             producer: producer,
             vintage: vintage,
             grape: grape,
             region: region,
-            bottleprice: bottleprice,
-            // locations: {
-            //     A3: true,
-            //     A4: true,
-            //     A5: true,
-            //     B3: true,
-            //     B4: true,
-            //     B5: true,
-            //     C3: true,
-            //     C4: true,
-            //     C5: true
-            // },
-            // numberavailable: wine.numberavailable,
+            bottleprice: parseFloat(bottleprice),
+            locations: {
+                A1: true,
+            },
+            numberavailable: 1,
             // tastingnotes: wine.tastingnotes,
             collectionid: "6032def2900ef3a9b2b1d8f4",
         }
 
-        dispatch(editWine(changes, "6032def2900ef3a9b2b1d8f4"))
-        cancelEdit()
+        dispatch(addWine(newWine, "6032def2900ef3a9b2b1d8f4"))
     }
 
     return (

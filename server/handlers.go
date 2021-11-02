@@ -59,32 +59,32 @@ func (app *application) singleCollectionHandler(w http.ResponseWriter, r *http.R
 
 }
 
-func (app *application) drinkWineHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("content-type", "application/json")
-	// w.Header().Set("Access-Control-Allow-Origin", "*")
+// func (app *application) drinkWineHandler(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("content-type", "application/json")
+// 	// w.Header().Set("Access-Control-Allow-Origin", "*")
 
-	vars := mux.Vars(r)
-	wineID, err := primitive.ObjectIDFromHex(vars["wineID"])
-	if err != nil {
-		app.notFound(w)
-		return
-	}
-	collectionID, err := primitive.ObjectIDFromHex(vars["collect"])
-	if err != nil {
-		app.notFound(w)
-		return
-	}
+// 	vars := mux.Vars(r)
+// 	wineID, err := primitive.ObjectIDFromHex(vars["wineID"])
+// 	if err != nil {
+// 		app.notFound(w)
+// 		return
+// 	}
+// 	collectionID, err := primitive.ObjectIDFromHex(vars["collect"])
+// 	if err != nil {
+// 		app.notFound(w)
+// 		return
+// 	}
 
-	updatedWine, err := app.wine.DrinkWineByID(wineID, collectionID)
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
+// 	updatedWine, err := app.wine.DrinkWineByID(wineID, collectionID)
+// 	if err != nil {
+// 		app.serverError(w, err)
+// 		return
+// 	}
 
-	app.infoLog.Printf("Wine %v marked as consumed.", updatedWine.ID.String())
+// 	app.infoLog.Printf("Wine %v marked as consumed.", updatedWine.ID.String())
 
-	json.NewEncoder(w).Encode(updatedWine)
-}
+// 	json.NewEncoder(w).Encode(updatedWine)
+// }
 
 func (app *application) editWineHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
@@ -118,4 +118,33 @@ func (app *application) editWineHandler(w http.ResponseWriter, r *http.Request) 
 	app.infoLog.Printf("Wine updated:", updatedWine.ID.String())
 
 	json.NewEncoder(w).Encode(updatedWine)
+}
+
+func (app *application) addWineHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "application/json")
+
+	vars := mux.Vars(r)
+	collectionID, err := primitive.ObjectIDFromHex(vars["collect"])
+	if err != nil {
+		app.notFound(w)
+		return
+	}
+
+	var newWine *models.Wines
+
+	err = json.NewDecoder(r.Body).Decode(&newWine)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	insertedWine, err := app.wine.AddNewWine(newWine, collectionID)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	app.infoLog.Printf("Wine inserted:", insertedWine.ID.String())
+
+	json.NewEncoder(w).Encode(insertedWine)
 }
