@@ -1,10 +1,12 @@
 import React from 'react'
 import Nav from './Nav';
-import { Link as RouterLink } from 'react-router-dom'
+// import { useLocation } from 'react-router-dom'
 
-import { Anchor, Box, Button, Header, Image, Text } from 'grommet'
+import { Button, Header, Image } from 'grommet'
 
 function HeaderComponent({ headerClass, navClass }) {
+    // const location = useLocation()
+    // console.log(location)
     return (
         <Header
             background='light-1'
