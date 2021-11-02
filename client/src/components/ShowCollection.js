@@ -1,19 +1,23 @@
 import React, { useState } from 'react'
 import WineCard from './WineCard'
 import Filters from './Filters'
-// import './Collection.css'
-import { Box, Button, Grid, Main, Text } from 'grommet'
-import { FormNext, FormPrevious } from 'grommet-icons'
+import { Box, Grid, Heading, Main } from 'grommet'
 
 const gridLayouts = {
     default: ['small', 'auto'],
     noFilters: ['xxsmall', 'auto']
 }
 
+export const radioOptions = {
+    available: 'Available',
+    allWines: 'All Wines',
+    notAvailable: 'Not Available',
+}
+
 function ShowCollection({ collection }) {
     const [showFilters, setShowFilters] = useState(true)
-
-    console.log("collection:", collection)
+    const [filter, setFilter] = useState(radioOptions.allWines)
+    const [search, setSearch] = useState('')
 
     const toggleShowFilters = (event) => {
         event.preventDefault()
@@ -21,12 +25,46 @@ function ShowCollection({ collection }) {
 
     }
 
-
-
     //get current collection and wines
 
+    const renderCollection = () => {
+        return (
+            <>
+                {collection.filter(wine => {
+                    switch (filter) {
+                        case radioOptions.available:
+                            return wine.numberavailable > 0
+                        case radioOptions.notAvailable:
+                            return !wine.numberavailable
+                        default:
+                            return true // Show All Wines
+                    }
+                }).filter(wine => {
+                    if (search.length > 2) {
+                        const lcSearch = search.toLowerCase()
+                        const producer = wine.producer.toLowerCase()
+                        const grape = wine.grape.toLowerCase()
+                        const region = wine.region.toLowerCase()
+                        const vintage = String(wine.vintage)
 
-    //render wine cards based on filter criteria
+                        if (producer.includes(lcSearch) || grape.includes(lcSearch) || region.includes(lcSearch) || vintage.includes(lcSearch)) {
+                            return true
+                        }
+                        return false
+                    } else {
+                        return true
+                    }
+                }).map(wine => {
+                    return (
+                        <WineCard
+                            key={wine.id}
+                            wine={wine}
+                        />
+                    )
+                })}
+            </>
+        )
+    }
 
     return (
         <Main
@@ -44,80 +82,31 @@ function ShowCollection({ collection }) {
                 pad={{ horizontal: "small" }}
                 justifyContent="stretch"
             >
-                {showFilters
-                    ? <Filters toggleFunc={toggleShowFilters} showFilters={showFilters} />
-                    : <Filters toggleFunc={toggleShowFilters} />}
-                <Grid
-                    columns="medium"
-                    gap="medium"
-                    justifyContent="center"
-                >
-                    {collection
-                        ? collection.map(wine => {
-                            return (
-                                <WineCard
-                                    key={wine.id}
-                                    wine={wine}
-                                    id={wine.id}
-                                    producer={wine.producer}
-                                    grape={wine.grape}
-                                    region={wine.region}
-                                    vintage={wine.vintage}
-                                    locations={wine.locations}
-                                    bottleprice={wine.bottleprice}
-                                    numberavailable={wine.numberavailable}
-                                />
-                            )
-                        })
-                        : null}
-                    {/* <WineCard
-                        id='wine.id'
-                        producer='wine.producer'
-                        grape='wine.grape'
-                        region='wine.region'
-                        vintage='wine.vintage'
-                        location='wine.location'
-                        bottleprice='wine.bottleprice'
-                        numberavailable='wine.numberavailable'
-                    /> */}
-
-
-                    {/* <WineCard
-                        id='wine.id'
-                        producer='wine.producer'
-                        grape='wine.grape'
-                        region='wine.region'
-                        vintage='wine.vintage'
-                        location='wine.location'
-                        bottleprice='wine.bottleprice'
-                        numberavailable='wine.numberavailable'
-                    /> */}
-
-
-                    {/* <WineCard
-                        id='wine.id'
-                        producer='wine.producer'
-                        grape='wine.grape'
-                        region='wine.region'
-                        vintage='wine.vintage'
-                        location='wine.location'
-                        bottleprice='wine.bottleprice'
-                        numberavailable='wine.numberavailable'
-                    /> */}
-
-
-                    {/* <WineCard
-                        id='wine.id'
-                        producer='wine.producer'
-                        grape='wine.grape'
-                        region='wine.region'
-                        vintage='wine.vintage'
-                        location='wine.location'
-                        bottleprice='wine.bottleprice'
-                        numberavailable='wine.numberavailable'
-                    /> */}
-
-                </Grid>
+                <Filters
+                    toggleFunc={toggleShowFilters}
+                    showFilters={showFilters}
+                    search={search}
+                    setSearch={setSearch}
+                    filter={filter}
+                    setFilter={setFilter}
+                    radioOptions={Object.values(radioOptions)}
+                />
+                {collection.length
+                    ? <Grid
+                        columns="medium"
+                        gap="medium"
+                        justifyContent="center"
+                    >
+                        {collection
+                            ? <>{renderCollection()}</>
+                            : null}
+                    </Grid>
+                    : <Box
+                        align="center"
+                    >
+                        <Heading level={3} >Add a wine to start your collection!</Heading>
+                    </Box>
+                }
             </Grid>
         </Main>
     )

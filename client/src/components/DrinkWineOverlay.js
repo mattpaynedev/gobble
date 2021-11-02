@@ -1,8 +1,8 @@
-import { Card, CardBody, CardFooter, Box, Image, Grid, Text, Layer, Button, CardHeader, TextArea, Select } from 'grommet'
+import { Card, CardBody, Box, Image, Grid, Text, Layer, Button, CardHeader, Select } from 'grommet'
 import { Close } from 'grommet-icons'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { drinkWine, editWine } from '../features/wine/wineSlice'
+import { editWine } from '../features/wine/wineSlice'
 
 const status = {
     idle: "idle",
@@ -12,7 +12,7 @@ const status = {
 
 export default function DrinkWineOverlay({ wine, closeFunc }) {
     const locations = Object.keys(wine.locations)
-    const [inputText, setInputText] = useState("")
+    // const [inputText, setInputText] = useState("")
     const [saveStatus, setSaveStatus] = useState(status.idle)
     const [bottleLocation, setBottleLocation] = useState(locations[0])
 

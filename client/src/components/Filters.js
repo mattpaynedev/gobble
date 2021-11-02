@@ -1,21 +1,13 @@
 import { Box, Button, RadioButtonGroup, Sidebar, Stack, Text, TextInput } from 'grommet'
-import React, { useState } from 'react'
+import React from 'react'
 import './Filters.css'
 import { FormPrevious, FormNext } from 'grommet-icons'
 
-export const radioOptions = {
-    available: 'Available',
-    allWines: 'All Wines',
-    notAvailable: 'Not Available',
-}
+function Filters({ toggleFunc, showFilters, search, setSearch, filter, setFilter, radioOptions }) {
 
-function Filters({ toggleFunc, showFilters }) {
-    const [filter, setFilter] = useState(radioOptions.allWines)
-    const [search, setSearch] = useState('')
-
-    //Insert handleFilterChange function
     const handleFilterChange = (event) => {
         setFilter(event.target.value)
+        console.log(filter)
     }
 
     const handleSearchChange = (event) => {
@@ -86,7 +78,7 @@ function Filters({ toggleFunc, showFilters }) {
                         >
                             <RadioButtonGroup
                                 name="filter"
-                                options={[radioOptions.available, radioOptions.allWines, radioOptions.notAvailable]}
+                                options={radioOptions}
                                 value={filter}
                                 onChange={handleFilterChange}
                             />

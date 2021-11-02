@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Card, CardBody, CardFooter, Box, Image, Grid, Text, Layer, Button, CardHeader, TextArea, List, TextInput, Select } from 'grommet'
-import { Close, Yoga } from 'grommet-icons'
+import { Card, CardBody, Box, Image, Grid, Text, Button, CardHeader, TextInput, Select } from 'grommet'
+import { Close } from 'grommet-icons'
 import { useDispatch } from 'react-redux'
 import { editWine } from '../features/wine/wineSlice'
 
@@ -12,7 +12,6 @@ const generateVintages = () => {
         vintages.push(year)
         year--
     }
-    // console.log(vintages)
     return vintages
 }
 
