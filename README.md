@@ -5,19 +5,7 @@
 Gobble is a web application written in Go, React, and MongoDB designed to help manage a wine collection or cellar.
 
 
-Menu Functionality Credit:
 
-"Click outside to Close": 
-Ryan Toronto: https://github.com/ryanto/click-outside-to-close-video
-
-
-##Image Attributions:
-
-Icons:
-
-Wine by Edward Boatman from the Noun Project
-
-Arrow, Circle, and Square by Eagle Eye from the Noun Project
 
 Front Page Photo:
 
