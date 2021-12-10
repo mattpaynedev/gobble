@@ -147,8 +147,6 @@ export function changeWineQuantity(amountToAdd, wineID, collectionID, userID) {
 }
 
 export function editWine(changes, wineID, collectionID, userID) {
-
-
     return function changeWineQuantityThunk(dispatch) {
 
         const address = apiAddress + "/collections/" + collectionID + "/" + wineID + "/editwine"
@@ -174,8 +172,6 @@ export function editWine(changes, wineID, collectionID, userID) {
 }
 
 export function addWine(wineInfo, collectionID, userID) {
-
-
     return function addWineThunk(dispatch) {
 
         const address = apiAddress + "/collections/" + collectionID + "/addwine"

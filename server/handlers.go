@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -137,6 +138,10 @@ func (app *application) addWineHandler(w http.ResponseWriter, r *http.Request) {
 		app.serverError(w, err)
 		return
 	}
+
+	newWine.ID = primitive.NewObjectID()
+
+	fmt.Println("Handler", newWine)
 
 	insertedWine, err := app.wine.AddNewWine(newWine, collectionID)
 	if err != nil {

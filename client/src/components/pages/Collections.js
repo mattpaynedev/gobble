@@ -19,41 +19,6 @@ function Collections() {
 
 
     const collection = useSelector(getCollections, shallowEqual)
-    // let renderedCollections
-    // let renderedPage
-
-    // console.log(collectionsList)
-
-    // if (collectionsList) {
-    //     renderedCollections = collectionsList.map((collection) => {
-    //         return (
-    //             <tr key={collection.id}>
-    //                 <td><Link to={'/collections/' + collection.id}>{collection.name}</Link></td>
-    //                 <td>{collection.capacity}</td>
-    //                 <td><Link to={'/collections/' + collection.id + '/edit'}><button>Edit</button></Link></td>
-    //             </tr>
-    //         )
-    //     })
-
-    //     renderedPage = (
-    //         <table>
-    //             <thead>
-    //                 <tr>
-    //                     <th key="name">Name</th>
-    //                     <th key="capacity">Capacity</th>
-    //                     <th key="actions">Actions</th>
-    //                 </tr>
-    //             </thead>
-    //             <tbody>
-    //                 {renderedCollections}
-    //             </tbody>
-    //         </table>
-    //     )
-    // } else {
-    //     renderedPage = (
-    //         <p> There's nothing to see here yet!</p>
-    //     )
-    // }
 
     return (
         <Box

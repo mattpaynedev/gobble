@@ -52,7 +52,6 @@ export default function WineCardOverlay({ wine, closeFunc }) {
                     />
                 </Box>
             </CardBody>
-
         )
     }
 

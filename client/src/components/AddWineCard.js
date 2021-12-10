@@ -38,7 +38,6 @@ export default function AddWineCard({ closeFunc, cancelEdit }) {
             // tastingnotes: wine.tastingnotes,
             collectionid: "6032def2900ef3a9b2b1d8f4",
         }
-
         dispatch(addWine(newWine, "6032def2900ef3a9b2b1d8f4"))
     }
 
@@ -146,7 +145,7 @@ export default function AddWineCard({ closeFunc, cancelEdit }) {
                             value={bottleprice}
                             onChange={(event) => setBottleprice(event.currentTarget.value)}
                         />
-                        <Text weight="bold">In-Stock: </Text>
+                        <Text weight="bold">Location: </Text>
                         {/* <Text>{wine.numberavailable || 0}</Text> */}
                     </Grid>
                 </CardBody>

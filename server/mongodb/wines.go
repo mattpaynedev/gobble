@@ -2,6 +2,7 @@ package mongodb
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/mattpaynedev/gobble/server/models"
 	"go.mongodb.org/mongo-driver/bson"
@@ -137,7 +138,7 @@ func (wines *WineModel) EditWineByID(updates *models.Wines, wineID, collectionID
 }
 
 func (wines *WineModel) AddNewWine(newWine *models.Wines, collectionID primitive.ObjectID) (*models.Wines, error) {
-	// fmt.Println(updates)
+	fmt.Println(newWine)
 	// var updateResult *mongo.UpdateResult
 
 	insertResult, err := wines.WineDB.InsertOne(context.TODO(), newWine)

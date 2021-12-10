@@ -78,8 +78,8 @@ function ShowCollection({ collection }) {
                 pad={{ vertical: "xsmall" }}
             >
                 <Button
-                    secondary
-                    color="accent-1"
+                    primary
+                    color="light-1"
                     size="small"
                     icon={<Add size="small" color="brand" />}
                     gap="xsmall"

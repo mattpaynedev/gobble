@@ -6,9 +6,11 @@ function FooterComponent({ footerClass }) {
             alignContent="center"
             justify="center"
             border="top"
+            margin={{ top: "small" }}
             direction="row-responsive"
             gap="small"
             pad="xsmall"
+            background="white"
         >
             <Paragraph
                 textAlign="center"
@@ -20,8 +22,6 @@ function FooterComponent({ footerClass }) {
                 margin="auto"
                 size="small"
             >Copyright {new Date().getFullYear()}</Paragraph>
-
-
         </Footer>
     )
 }
