@@ -1,4 +1,4 @@
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchCollections } from "../../features/collection/collectionSlice";
 import { useEffect } from "react";
@@ -15,8 +15,11 @@ const getCollections = (state) => {
 }
 
 function Collections() {
-    useEffect(fetchSingleCollection("6032def2900ef3a9b2b1d8f4"), [])
+    const dispatch = useDispatch()
 
+    useEffect(() => {
+        dispatch(fetchSingleCollection("6032def2900ef3a9b2b1d8f4"))
+    }, [])
 
     const collection = useSelector(getCollections, shallowEqual)
 

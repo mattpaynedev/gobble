@@ -60,7 +60,21 @@ export function fetchCollections(userID) {
     }
 }
 
-
+export function getCollectionInfo(userID, collectionID) {
+    return function getCollectionInfoThunk(dispatch) {
+        axios
+            .get(apiAddress + "/collection-info/" + collectionID)
+            .then(response => {
+                dispatch({
+                    type: 'collection/collectionInfo',
+                    payload: response.data
+                })
+            })
+            .catch(err => {
+                console.log("ERROR GETTING COLLECTION INFO: ", err)
+            })
+    }
+}
 
 
     // const params = JSON.stringify(

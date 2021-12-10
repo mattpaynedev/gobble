@@ -33,7 +33,7 @@ type Collection struct {
 	ID        primitive.ObjectID `bson:"_id" json:"id,omitempty"`
 	Name      string             `json:"name,omitempty"`
 	Available map[int]int        `json:"available,omitempty"`
-	Occupied  map[int]int        `json:"occupied,omitempty"`
-	Capacity  int                `json:"capacity,omitempty"`
-	UserID    primitive.ObjectID `json:"userid,omitempty"`
+	// Occupied  map[int]int        `json:"occupied,omitempty"`
+	Capacity int                `json:"capacity,omitempty"`
+	UserID   primitive.ObjectID `json:"userid,omitempty"`
 }

@@ -33,9 +33,6 @@ const initialState = {};
 
 export default function wineReducer(state = initialState, action) {
     switch (action.type) {
-        case 'wine/wineLoaded': {
-            return action.payload;
-        }
 
         case 'wine/singleCollectionLoaded': {
             return action.payload;

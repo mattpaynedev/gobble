@@ -39,7 +39,7 @@ export default function WineCardOverlay({ wine, closeFunc }) {
                     <Text weight="bold">Storage Locations for {wine.producer} - {wine.vintage}</Text>
                     < List
                         // Add ACTION in order to go to DRINK NOW
-                        data={locations}
+                        data={locations.map(x => `Bin: ${x}`)}
                         border={false}
                         alignSelf="center"
                         pad="xsmall"
@@ -136,21 +136,19 @@ export default function WineCardOverlay({ wine, closeFunc }) {
                                     <Text>{wine.bottleprice}</Text>
                                     <Text weight="bold">In-Stock: </Text>
                                     <Text>{wine.numberavailable}</Text>
-                                    {wine.locations
-                                        ? <>
-                                            <Text weight="bold" >Locations: </Text>
-                                            <Button
-                                                plain
-                                                color="brand"
-                                                onClick={() => setShowLocations(true)}
-                                                label={<Text
-                                                    size="small"
-                                                    weight="bold"
-                                                    as="u"
-                                                >Show Locations</Text>}
-                                            />
-                                        </>
-                                        : null
+                                    {wine.locations && <>
+                                        <Text weight="bold" >Locations: </Text>
+                                        <Button
+                                            plain
+                                            color="brand"
+                                            onClick={() => setShowLocations(true)}
+                                            label={<Text
+                                                size="small"
+                                                weight="bold"
+                                                as="u"
+                                            >Show Locations</Text>}
+                                        />
+                                    </>
                                     }
                                 </Grid>
                             </CardBody>

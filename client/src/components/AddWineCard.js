@@ -2,16 +2,16 @@ import React, { useState } from 'react'
 import { Card, CardBody, Box, Image, Grid, Layer, Text, Button, CardHeader, TextInput, Select } from 'grommet'
 import { Close } from 'grommet-icons'
 import { useDispatch } from 'react-redux'
-import { addWine, editWine } from '../features/wine/wineSlice'
+import { addWine } from '../features/wine/wineSlice'
 import { generateVintages, NON_VINTAGE } from '../utils'
 
-export default function AddWineCard({ closeFunc, cancelEdit }) {
+export default function AddWineCard({ closeFunc, availableLocations }) {
     const [producer, setProducer] = useState("")
     const [grape, setGrape] = useState("")
     const [region, setRegion] = useState("")
     const [vintage, setVintage] = useState(-1)
     const [bottleprice, setBottleprice] = useState(0)
-    const [locations, setLocations] = useState({})
+    const [location, setLocation] = useState(availableLocations[0])
     const [numberavailable, setNumberavailable] = useState()
     const dispatch = useDispatch()
 
@@ -146,7 +146,15 @@ export default function AddWineCard({ closeFunc, cancelEdit }) {
                             onChange={(event) => setBottleprice(event.currentTarget.value)}
                         />
                         <Text weight="bold">Location: </Text>
-                        {/* <Text>{wine.numberavailable || 0}</Text> */}
+                        <Select
+                            options={availableLocations}
+                            size="medium"
+                            name="location"
+                            value={location}
+                            onChange={({ option }) => {
+                                setLocation(option)
+                            }}
+                        />
                     </Grid>
                 </CardBody>
                 <CardBody

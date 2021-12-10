@@ -17,8 +17,6 @@ type CollectionModel struct {
 func (coll CollectionModel) GetAllCollections() (map[string]models.Collection, error) {
 	mapResult := make(map[string]models.Collection)
 
-	fmt.Println("Get All Collections")
-
 	cursor, err := coll.Collectiondb.Find(context.TODO(), bson.D{})
 	if err != nil {
 		return nil, err
@@ -39,7 +37,7 @@ func (coll CollectionModel) GetAllCollections() (map[string]models.Collection, e
 	}
 	cursor.Close(context.TODO())
 
-	fmt.Println("Collections requested:", mapResult)
+	fmt.Println("All collections requested")
 
 	return mapResult, nil
 }
