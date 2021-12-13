@@ -26,12 +26,13 @@ export default function Home() {
                 width="100%"
             >
                 <HeaderComponent />
-                <Main
-                    width="xxlarge"
-                    height={{ min: "100vh" }}
-                    pad="medium"
-                >
-                    <Box>
+                <Main>
+                    <Box
+                        width="xxlarge"
+                        height={{ min: "100vh" }}
+                        pad="medium"
+                        alignSelf="center"
+                    >
                         <Box>
                             <Box
                                 align="end"
@@ -51,8 +52,9 @@ export default function Home() {
                         <Box
                             direction="row-responsive"
                             align="center"
-                            justify="evenly"
+                            justify="between"
                             margin={{ vertical: "medium" }}
+                            pad="large"
                         >
                             <Box>
                                 <Paragraph margin="xsmall" weight="bold" size="xlarge">Gobble is a modern wine cellar management app.</Paragraph>

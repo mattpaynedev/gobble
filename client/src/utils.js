@@ -19,3 +19,16 @@ export const useInterval = (callback, delay) => {
 }
 
 export const apiAddress = "http://localhost:4000";
+
+export const generateVintages = () => {
+    const currYear = new Date().getFullYear()
+    let year = currYear + 1
+    const vintages = [NON_VINTAGE]
+    while (year >= currYear - 75) {
+        vintages.push(year)
+        year--
+    }
+    return vintages
+}
+
+export const NON_VINTAGE = "Non-Vintage"

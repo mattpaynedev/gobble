@@ -3,17 +3,18 @@ import { Card, CardBody, Box, Image, Grid, Text, Button, CardHeader, TextInput, 
 import { Close } from 'grommet-icons'
 import { useDispatch } from 'react-redux'
 import { editWine } from '../features/wine/wineSlice'
+import { generateVintages, NON_VINTAGE } from '../utils'
 
-const generateVintages = () => {
-    const currYear = new Date().getFullYear()
-    let year = currYear + 1
-    const vintages = []
-    while (year >= currYear - 75) {
-        vintages.push(year)
-        year--
-    }
-    return vintages
-}
+// const generateVintages = () => {
+//     const currYear = new Date().getFullYear()
+//     let year = currYear + 1
+//     const vintages = []
+//     while (year >= currYear - 75) {
+//         vintages.push(year)
+//         year--
+//     }
+//     return vintages
+// }
 
 
 export default function EditWineCard({ wine, closeFunc, cancelEdit }) {
@@ -55,6 +56,8 @@ export default function EditWineCard({ wine, closeFunc, cancelEdit }) {
             // tastingnotes: wine.tastingnotes,
             // collectionid: "6032def2900ef3a9b2b1d8f4",
         }
+
+        console.log(changes)
 
         dispatch(editWine(changes, wine.id, "6032def2900ef3a9b2b1d8f4"))
         cancelEdit()
@@ -145,8 +148,10 @@ export default function EditWineCard({ wine, closeFunc, cancelEdit }) {
                         options={generateVintages()}
                         size="medium"
                         name="vintage"
-                        value={vintage}
-                        onChange={({ option }) => setVintage(option)}
+                        value={vintage !== -1 ? vintage : NON_VINTAGE}
+                        onChange={({ option }) => {
+                            setVintage(option !== NON_VINTAGE ? option : -1)
+                        }}
                     />
                     <Text weight="bold">Price: </Text>
                     <TextInput

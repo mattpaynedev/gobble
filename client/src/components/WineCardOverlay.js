@@ -2,6 +2,7 @@ import { Card, CardBody, Box, Image, Grid, Text, Layer, Button, CardHeader, List
 import { Close, Edit, FormPreviousLink } from 'grommet-icons'
 import React, { useState } from 'react'
 import EditWineCard from './EditWineCard'
+import { NON_VINTAGE } from '../utils'
 
 export default function WineCardOverlay({ wine, closeFunc }) {
     const [editMode, setEditMode] = useState(false)
@@ -17,7 +18,6 @@ export default function WineCardOverlay({ wine, closeFunc }) {
     }
     console.log(wine.producer, wine.locations)
     const renderLocations = () => {
-        console.log(wine.locations)
         const locations = wine && wine.locations
             ? Object.keys(wine.locations)
             : []
@@ -38,7 +38,7 @@ export default function WineCardOverlay({ wine, closeFunc }) {
                     <Text weight="bold">Storage Locations for {wine.producer} - {wine.vintage}</Text>
                     < List
                         // Add ACTION in order to go to DRINK NOW
-                        data={locations}
+                        data={locations.map(x => `Bin: ${x}`)}
                         border={false}
                         alignSelf="center"
                         pad="xsmall"
@@ -51,7 +51,6 @@ export default function WineCardOverlay({ wine, closeFunc }) {
                     />
                 </Box>
             </CardBody>
-
         )
     }
 
@@ -131,26 +130,24 @@ export default function WineCardOverlay({ wine, closeFunc }) {
                                     <Text weight="bold">Region: </Text>
                                     <Text>{wine.region}</Text>
                                     <Text weight="bold">Vintage: </Text>
-                                    <Text>{wine.vintage}</Text>
+                                    <Text>{wine.vintage !== -1 ? wine.vintage : NON_VINTAGE}</Text>
                                     <Text weight="bold">Price: </Text>
                                     <Text>{wine.bottleprice}</Text>
                                     <Text weight="bold">In-Stock: </Text>
                                     <Text>{wine.numberavailable}</Text>
-                                    {wine.locations
-                                        ? <>
-                                            <Text weight="bold" >Locations: </Text>
-                                            <Button
-                                                plain
-                                                color="brand"
-                                                onClick={() => setShowLocations(true)}
-                                                label={<Text
-                                                    size="small"
-                                                    weight="bold"
-                                                    as="u"
-                                                >Show Locations</Text>}
-                                            />
-                                        </>
-                                        : null
+                                    {wine.locations && <>
+                                        <Text weight="bold" >Locations: </Text>
+                                        <Button
+                                            plain
+                                            color="brand"
+                                            onClick={() => setShowLocations(true)}
+                                            label={<Text
+                                                size="small"
+                                                weight="bold"
+                                                as="u"
+                                            >Show Locations</Text>}
+                                        />
+                                    </>
                                     }
                                 </Grid>
                             </CardBody>

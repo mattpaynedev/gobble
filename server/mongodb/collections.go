@@ -17,8 +17,6 @@ type CollectionModel struct {
 func (coll CollectionModel) GetAllCollections() (map[string]models.Collection, error) {
 	mapResult := make(map[string]models.Collection)
 
-	fmt.Println("Get All Collections")
-
 	cursor, err := coll.Collectiondb.Find(context.TODO(), bson.D{})
 	if err != nil {
 		return nil, err
@@ -39,9 +37,27 @@ func (coll CollectionModel) GetAllCollections() (map[string]models.Collection, e
 	}
 	cursor.Close(context.TODO())
 
-	fmt.Println("Collections requested:", mapResult)
+	fmt.Println("All collections requested")
 
 	return mapResult, nil
+}
+
+func (coll CollectionModel) EditCollection(updates *models.Collection, collectionID primitive.ObjectID) (*models.Collection, error) {
+	_, err := coll.Collectiondb.UpdateOne(context.TODO(), bson.M{"_id": collectionID}, bson.D{{"$set", updates}})
+
+	if err != nil {
+		return nil, err
+	}
+
+	var updatedCollection models.Collection
+
+	err = coll.Collectiondb.FindOne(context.TODO(), bson.M{"_id": collectionID}).Decode(&updatedCollection)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &updatedCollection, nil
 }
 
 func stringifyID(id primitive.ObjectID) string {

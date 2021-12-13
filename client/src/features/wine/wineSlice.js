@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import store from '../../store';
 import { apiAddress } from '../../utils';
 
@@ -33,9 +32,6 @@ const initialState = {};
 
 export default function wineReducer(state = initialState, action) {
     switch (action.type) {
-        case 'wine/wineLoaded': {
-            return action.payload;
-        }
 
         case 'wine/singleCollectionLoaded': {
             return action.payload;
@@ -50,6 +46,14 @@ export default function wineReducer(state = initialState, action) {
         }
 
         case 'wine/changeQuantity': {
+            const wineID = action.payload.id
+            return {
+                ...state,
+                [wineID]: action.payload
+            }
+        }
+
+        case 'wine/addWine': {
             const wineID = action.payload.id
             return {
                 ...state,
@@ -77,7 +81,6 @@ export default function wineReducer(state = initialState, action) {
 
 export function fetchSingleCollection(collectionID, userID) {
     return function fetchSigngleCollectionThunk(dispatch) {
-        console.log(apiAddress + "/collections/" + collectionID)
         axios
             .get(apiAddress + "/collections/" + collectionID)
             .then(response => {
@@ -139,15 +142,11 @@ export function changeWineQuantity(amountToAdd, wineID, collectionID, userID) {
 }
 
 export function editWine(changes, wineID, collectionID, userID) {
-
-
     return function changeWineQuantityThunk(dispatch) {
 
         const address = apiAddress + "/collections/" + collectionID + "/" + wineID + "/editwine"
 
         const data = JSON.stringify(changes)
-
-        console.log(data)
 
         axios
             .put(address, data)
@@ -162,5 +161,36 @@ export function editWine(changes, wineID, collectionID, userID) {
             })
 
 
+    }
+}
+
+export function addWine(wineInfo, collectionInfo, collectionID, userID) {
+    return function addWineThunk(dispatch) {
+
+        const wineAddress = apiAddress + "/collections/" + collectionID + "/addwine"
+        const collAddress = apiAddress + "/collections/" + collectionID + "/update"
+
+        const wineData = JSON.stringify(wineInfo)
+        const collData = JSON.stringify(collectionInfo)
+
+        const addWineRequest = () => axios.post(wineAddress, wineData)
+        const updateCollRequest = () => axios.put(collAddress, collData)
+
+        axios
+            .all([addWineRequest(), updateCollRequest()])
+            .then(axios.spread((wineResponse, collResponse) => {
+                store.dispatch({
+                    type: 'wine/addWine',
+                    payload: wineResponse.data,
+                })
+
+                store.dispatch({
+                    type: 'collection/updateCollections',
+                    payload: collResponse.data,
+                })
+            }))
+            .catch(err => {
+                console.log("ERROR FETCHING DATA: ", err)
+            })
     }
 }

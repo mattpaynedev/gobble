@@ -3,6 +3,7 @@ import { Close } from 'grommet-icons'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { editWine } from '../features/wine/wineSlice'
+import { NON_VINTAGE } from '../utils'
 
 const status = {
     idle: "idle",
@@ -11,10 +12,10 @@ const status = {
 }
 
 export default function DrinkWineOverlay({ wine, closeFunc }) {
-    const locations = Object.keys(wine.locations)
+    const locations = wine.locations ? Object.keys(wine.locations) : null
     // const [inputText, setInputText] = useState("")
     const [saveStatus, setSaveStatus] = useState(status.idle)
-    const [bottleLocation, setBottleLocation] = useState(locations[0])
+    const [bottleLocation, setBottleLocation] = useState(locations ? locations[0] : null)
 
     const dispatch = useDispatch()
 
@@ -136,7 +137,7 @@ export default function DrinkWineOverlay({ wine, closeFunc }) {
                                 <Text weight="bold">Region: </Text>
                                 <Text>{wine.region}</Text>
                                 <Text weight="bold">Vintage: </Text>
-                                <Text>{wine.vintage}</Text>
+                                <Text>{wine.vintage !== -1 ? wine.vintage : NON_VINTAGE}</Text>
                                 <Text weight="bold">Price: </Text>
                                 <Text>{wine.bottleprice}</Text>
                                 <Text weight="bold">In-Stock: </Text>

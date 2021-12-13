@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import WineCard from './WineCard'
+import AddWineCard from './AddWineCard'
 import Filters from './Filters'
-import { Box, Grid, Heading, Main } from 'grommet'
+import { Box, Button, Grid, Heading, Main, Text } from 'grommet'
+import { Add } from 'grommet-icons'
+import { useSelector, shallowEqual } from 'react-redux'
 
 const gridLayouts = {
     default: ['small', 'auto'],
@@ -14,10 +17,21 @@ export const radioOptions = {
     notAvailable: 'Not Available',
 }
 
+const getCollectionInfo = (collectionID) => {
+    return (state) => {
+        return state.collections[collectionID]
+    }
+}
+
 function ShowCollection({ collection }) {
     const [showFilters, setShowFilters] = useState(true)
+    const [showAddWineOverlay, setShowAddWineOverlay] = useState(false)
     const [filter, setFilter] = useState(radioOptions.allWines)
     const [search, setSearch] = useState('')
+
+    const collectionInfo = useSelector(getCollectionInfo("6032def2900ef3a9b2b1d8f4"), shallowEqual)
+
+    const availableLocations = collectionInfo ? Object.keys(collectionInfo.available) : []
 
     const toggleShowFilters = (event) => {
         event.preventDefault()
@@ -69,12 +83,25 @@ function ShowCollection({ collection }) {
     return (
         <Main
             height={{ min: "100vh" }}
-            pad={{ vertical: "small" }}
         >
             <Box
-                width="small"
+                align="end"
+                pad={{ vertical: "xsmall" }}
             >
-
+                <Button
+                    primary
+                    disabled={!availableLocations.length}
+                    color="light-1"
+                    size="small"
+                    icon={<Add size="small" color="brand" />}
+                    gap="xsmall"
+                    hoverIndicator
+                    onClick={(event) => {
+                        event.preventDefault()
+                        setShowAddWineOverlay(true)
+                    }}
+                    label={<Text weight="bold" size="small" color="brand">Add Wine</Text>}
+                />
             </Box>
             <Grid
                 columns={showFilters ? gridLayouts.default : gridLayouts.noFilters}
@@ -108,6 +135,7 @@ function ShowCollection({ collection }) {
                     </Box>
                 }
             </Grid>
+            {showAddWineOverlay && availableLocations.length && <AddWineCard closeFunc={() => setShowAddWineOverlay(false)} availableLocations={availableLocations} collectionInfo={collectionInfo} />}
         </Main>
     )
 

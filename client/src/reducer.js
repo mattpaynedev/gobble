@@ -5,7 +5,7 @@ import wineReducer from "./features/wine/wineSlice"
 
 
 const rootReducer = combineReducers({
-    collection: collectionReducer,
+    collections: collectionReducer,
     wine: wineReducer,
     // user: userReducer,
 })
