@@ -5,15 +5,17 @@ import { useDispatch } from 'react-redux'
 import { addWine } from '../features/wine/wineSlice'
 import { generateVintages, NON_VINTAGE } from '../utils'
 
-export default function AddWineCard({ closeFunc, availableLocations }) {
+export default function AddWineCard({ closeFunc, availableLocations, collectionInfo }) {
     const [producer, setProducer] = useState("")
     const [grape, setGrape] = useState("")
     const [region, setRegion] = useState("")
     const [vintage, setVintage] = useState(-1)
     const [bottleprice, setBottleprice] = useState(0)
     const [location, setLocation] = useState(availableLocations[0])
-    const [numberavailable, setNumberavailable] = useState()
+    const [numberavailable, setNumberavailable] = useState(1)
     const dispatch = useDispatch()
+
+    console.log({ collectionInfo })
 
     const handleClick = (event) => {
         event.preventDefault()
@@ -32,13 +34,28 @@ export default function AddWineCard({ closeFunc, availableLocations }) {
             region: region,
             bottleprice: parseFloat(bottleprice),
             locations: {
-                A1: true,
+                [location]: true
             },
-            numberavailable: 1,
+            numberavailable: numberavailable,
             // tastingnotes: wine.tastingnotes,
             collectionid: "6032def2900ef3a9b2b1d8f4",
         }
-        dispatch(addWine(newWine, "6032def2900ef3a9b2b1d8f4"))
+
+        const updatedAvailableLocations = {
+            ...collectionInfo.available
+        }
+
+        delete updatedAvailableLocations[location]
+
+        const updatedColl = {
+            ...collectionInfo,
+            available: updatedAvailableLocations
+        }
+
+        console.log({ updatedColl })
+
+        dispatch(addWine(newWine, updatedColl, "6032def2900ef3a9b2b1d8f4"))
+        closeFunc()
     }
 
     return (

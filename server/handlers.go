@@ -153,3 +153,32 @@ func (app *application) addWineHandler(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(insertedWine)
 }
+
+func (app *application) updateCollectionHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "application/json")
+
+	vars := mux.Vars(r)
+	collectionID, err := primitive.ObjectIDFromHex(vars["collect"])
+	if err != nil {
+		app.notFound(w)
+		return
+	}
+
+	var updates *models.Collection
+
+	err = json.NewDecoder(r.Body).Decode(&updates)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	updatedCollection, err := app.collection.EditCollection(updates, collectionID)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	app.infoLog.Printf("Wine updated:", updatedCollection.ID.String())
+
+	json.NewEncoder(w).Encode(updatedCollection)
+}

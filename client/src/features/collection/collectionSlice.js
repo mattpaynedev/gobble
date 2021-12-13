@@ -38,6 +38,14 @@ export default function collectionReducer(state = {}, action) {
             return action.payload
         }
 
+        case 'collection/updateCollections': {
+            const collID = action.payload.id
+            return {
+                ...state,
+                [collID]: action.payload
+            }
+        }
+
         default: {
             return state;
         }

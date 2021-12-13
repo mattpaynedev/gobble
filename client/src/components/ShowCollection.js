@@ -19,7 +19,6 @@ export const radioOptions = {
 
 const getCollectionInfo = (collectionID) => {
     return (state) => {
-        console.log({ state })
         return state.collections[collectionID]
     }
 }
@@ -91,6 +90,7 @@ function ShowCollection({ collection }) {
             >
                 <Button
                     primary
+                    disabled={!availableLocations.length}
                     color="light-1"
                     size="small"
                     icon={<Add size="small" color="brand" />}
@@ -135,7 +135,7 @@ function ShowCollection({ collection }) {
                     </Box>
                 }
             </Grid>
-            {showAddWineOverlay && availableLocations.length && <AddWineCard closeFunc={() => setShowAddWineOverlay(false)} availableLocations={availableLocations} />}
+            {showAddWineOverlay && availableLocations.length && <AddWineCard closeFunc={() => setShowAddWineOverlay(false)} availableLocations={availableLocations} collectionInfo={collectionInfo} />}
         </Main>
     )
 

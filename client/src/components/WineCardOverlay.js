@@ -18,7 +18,6 @@ export default function WineCardOverlay({ wine, closeFunc }) {
     }
     console.log(wine.producer, wine.locations)
     const renderLocations = () => {
-        console.log(wine.locations)
         const locations = wine && wine.locations
             ? Object.keys(wine.locations)
             : []

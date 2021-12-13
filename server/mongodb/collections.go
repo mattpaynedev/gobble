@@ -42,6 +42,24 @@ func (coll CollectionModel) GetAllCollections() (map[string]models.Collection, e
 	return mapResult, nil
 }
 
+func (coll CollectionModel) EditCollection(updates *models.Collection, collectionID primitive.ObjectID) (*models.Collection, error) {
+	_, err := coll.Collectiondb.UpdateOne(context.TODO(), bson.M{"_id": collectionID}, bson.D{{"$set", updates}})
+
+	if err != nil {
+		return nil, err
+	}
+
+	var updatedCollection models.Collection
+
+	err = coll.Collectiondb.FindOne(context.TODO(), bson.M{"_id": collectionID}).Decode(&updatedCollection)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &updatedCollection, nil
+}
+
 func stringifyID(id primitive.ObjectID) string {
 	return fmt.Sprint(id.Hex())
 }

@@ -57,6 +57,8 @@ export default function EditWineCard({ wine, closeFunc, cancelEdit }) {
             // collectionid: "6032def2900ef3a9b2b1d8f4",
         }
 
+        console.log(changes)
+
         dispatch(editWine(changes, wine.id, "6032def2900ef3a9b2b1d8f4"))
         cancelEdit()
     }

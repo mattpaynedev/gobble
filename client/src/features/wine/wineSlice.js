@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import store from '../../store';
 import { apiAddress } from '../../utils';
 
@@ -82,7 +81,6 @@ export default function wineReducer(state = initialState, action) {
 
 export function fetchSingleCollection(collectionID, userID) {
     return function fetchSigngleCollectionThunk(dispatch) {
-        console.log(apiAddress + "/collections/" + collectionID)
         axios
             .get(apiAddress + "/collections/" + collectionID)
             .then(response => {
@@ -150,8 +148,6 @@ export function editWine(changes, wineID, collectionID, userID) {
 
         const data = JSON.stringify(changes)
 
-        console.log(data)
-
         axios
             .put(address, data)
             .then(response => {
@@ -168,26 +164,33 @@ export function editWine(changes, wineID, collectionID, userID) {
     }
 }
 
-export function addWine(wineInfo, collectionID, userID) {
+export function addWine(wineInfo, collectionInfo, collectionID, userID) {
     return function addWineThunk(dispatch) {
 
-        const address = apiAddress + "/collections/" + collectionID + "/addwine"
+        const wineAddress = apiAddress + "/collections/" + collectionID + "/addwine"
+        const collAddress = apiAddress + "/collections/" + collectionID + "/update"
 
-        const data = JSON.stringify(wineInfo)
-        console.log(data)
+        const wineData = JSON.stringify(wineInfo)
+        const collData = JSON.stringify(collectionInfo)
+
+        const addWineRequest = () => axios.post(wineAddress, wineData)
+        const updateCollRequest = () => axios.put(collAddress, collData)
 
         axios
-            .post(address, data)
-            .then(response => {
+            .all([addWineRequest(), updateCollRequest()])
+            .then(axios.spread((wineResponse, collResponse) => {
                 store.dispatch({
                     type: 'wine/addWine',
-                    payload: response.data,
+                    payload: wineResponse.data,
                 })
-            })
+
+                store.dispatch({
+                    type: 'collection/updateCollections',
+                    payload: collResponse.data,
+                })
+            }))
             .catch(err => {
                 console.log("ERROR FETCHING DATA: ", err)
             })
-
-
     }
 }
