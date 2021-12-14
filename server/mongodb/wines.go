@@ -2,7 +2,6 @@ package mongodb
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/mattpaynedev/gobble/server/models"
 	"go.mongodb.org/mongo-driver/bson"
@@ -16,7 +15,6 @@ type WineModel struct {
 }
 
 func (wines *WineModel) GetSingleCollectionByID(collectionID primitive.ObjectID, numAvailable int) (map[string]models.Wines, error) {
-	// var results []*models.Wines
 	wineResult := make(map[string]models.Wines)
 
 	cursor, err := wines.WineDB.Find(context.TODO(), bson.M{"collectionid": collectionID, "numberavailable": bson.M{"$gt": numAvailable}})
@@ -32,7 +30,6 @@ func (wines *WineModel) GetSingleCollectionByID(collectionID primitive.ObjectID,
 		}
 
 		wineResult[stringifyID(wine.ID)] = wine
-		// results = append(results, &wine)
 	}
 
 	if err = cursor.Err(); err != nil {
@@ -42,35 +39,6 @@ func (wines *WineModel) GetSingleCollectionByID(collectionID primitive.ObjectID,
 
 	return wineResult, nil
 }
-
-// func (wines *WineModel) DrinkWineByID(wineID, collectionID primitive.ObjectID) (*models.Wines, error) {
-
-// 	//add in userID validation
-
-// 	originalWine, err := wines.GetWineByID(wineID, collectionID)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	currentQuantity := &originalWine.NumberAvailable
-
-// 	var updateResult *mongo.UpdateResult
-// 	if *currentQuantity > 0 {
-// 		updateResult, err = wines.WineDB.UpdateOne(context.TODO(), bson.M{"_id": wineID, "collectionid": collectionID}, bson.D{{"$set", bson.D{{"numberavailable", *currentQuantity - 1}}}})
-// 	}
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	fmt.Println(updateResult)
-
-// 	updatedWine, err := wines.GetWineByID(wineID, collectionID)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	return updatedWine, nil
-// }
 
 func (wines *WineModel) GetWineByID(wineID, collectionID primitive.ObjectID) (*models.Wines, error) {
 
@@ -118,16 +86,12 @@ func (wines *WineModel) GetWineByID(wineID, collectionID primitive.ObjectID) (*m
 // }
 
 func (wines *WineModel) EditWineByID(updates *models.Wines, wineID, collectionID primitive.ObjectID) (*models.Wines, error) {
-	// fmt.Println(updates)
-	// var updateResult *mongo.UpdateResult
 
 	_, err := wines.WineDB.UpdateOne(context.TODO(), bson.M{"_id": wineID, "collectionid": collectionID}, bson.D{{"$set", updates}})
 
 	if err != nil {
 		return nil, err
 	}
-
-	// fmt.Println(updateResult)
 
 	updatedWine, err := wines.GetWineByID(wineID, collectionID)
 	if err != nil {
@@ -138,8 +102,6 @@ func (wines *WineModel) EditWineByID(updates *models.Wines, wineID, collectionID
 }
 
 func (wines *WineModel) AddNewWine(newWine *models.Wines, collectionID primitive.ObjectID) (*models.Wines, error) {
-	fmt.Println(newWine)
-	// var updateResult *mongo.UpdateResult
 
 	insertResult, err := wines.WineDB.InsertOne(context.TODO(), newWine)
 
@@ -147,7 +109,6 @@ func (wines *WineModel) AddNewWine(newWine *models.Wines, collectionID primitive
 		return nil, err
 	}
 
-	// fmt.Println(updateResult)
 	newID := insertResult.InsertedID.(primitive.ObjectID)
 
 	updatedWine, err := wines.GetWineByID(newID, collectionID)

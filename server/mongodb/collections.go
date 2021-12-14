@@ -37,8 +37,6 @@ func (coll CollectionModel) GetAllCollections() (map[string]models.Collection, e
 	}
 	cursor.Close(context.TODO())
 
-	fmt.Println("All collections requested")
-
 	return mapResult, nil
 }
 
