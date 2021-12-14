@@ -4,6 +4,7 @@ import { Close } from 'grommet-icons'
 import { useDispatch } from 'react-redux'
 import { addWine } from '../features/wine/wineSlice'
 import { generateVintages, NON_VINTAGE } from '../utils'
+import { editCollection } from '../features/collection/collectionSlice'
 
 export default function AddWineCard({ closeFunc, availableLocations, collectionInfo }) {
     const [producer, setProducer] = useState("")
@@ -55,6 +56,7 @@ export default function AddWineCard({ closeFunc, availableLocations, collectionI
         console.log({ updatedColl })
 
         dispatch(addWine(newWine, updatedColl, "6032def2900ef3a9b2b1d8f4"))
+        dispatch(editCollection(updatedColl, null, updatedColl.id))
         closeFunc()
     }
 

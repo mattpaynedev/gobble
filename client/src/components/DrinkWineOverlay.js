@@ -2,6 +2,7 @@ import { Card, CardBody, Box, Image, Grid, Text, Layer, Button, CardHeader, Sele
 import { Close } from 'grommet-icons'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { editCollection } from '../features/collection/collectionSlice'
 import { editWine } from '../features/wine/wineSlice'
 import { NON_VINTAGE } from '../utils'
 
@@ -11,7 +12,7 @@ const status = {
     saved: "saved"
 }
 
-export default function DrinkWineOverlay({ wine, closeFunc }) {
+export default function DrinkWineOverlay({ wine, closeFunc, collectionInfo }) {
     const locations = wine.locations ? Object.keys(wine.locations) : null
     // const [inputText, setInputText] = useState("")
     const [saveStatus, setSaveStatus] = useState(status.idle)
@@ -42,8 +43,18 @@ export default function DrinkWineOverlay({ wine, closeFunc }) {
             numberavailable: wine.numberavailable - 1,
             locations: updatedLocations
         }
+
+        const updatedCollectionInfo = {
+            ...collectionInfo,
+            available: {
+                ...collectionInfo.available,
+                [bottleLocation]: parseInt(bottleLocation),
+            }
+        }
+
         setSaveStatus(status.saving)
         dispatch(editWine(changes, wine.id, "6032def2900ef3a9b2b1d8f4"))
+        dispatch(editCollection(updatedCollectionInfo, null, updatedCollectionInfo.id))
         setSaveStatus(status.saved)
     }
 

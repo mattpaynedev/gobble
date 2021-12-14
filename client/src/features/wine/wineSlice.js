@@ -168,27 +168,24 @@ export function addWine(wineInfo, collectionInfo, collectionID, userID) {
     return function addWineThunk(dispatch) {
 
         const wineAddress = apiAddress + "/collections/" + collectionID + "/addwine"
-        const collAddress = apiAddress + "/collections/" + collectionID + "/update"
+        // const collAddress = apiAddress + "/collections/" + collectionID + "/update"
 
         const wineData = JSON.stringify(wineInfo)
-        const collData = JSON.stringify(collectionInfo)
+        // const collData = JSON.stringify(collectionInfo)
 
-        const addWineRequest = () => axios.post(wineAddress, wineData)
-        const updateCollRequest = () => axios.put(collAddress, collData)
+        // const addWineRequest = () => axios.post(wineAddress, wineData)
+        // const updateCollRequest = () => axios.put(collAddress, collData)
 
         axios
-            .all([addWineRequest(), updateCollRequest()])
-            .then(axios.spread((wineResponse, collResponse) => {
+            .post(wineAddress, wineData)
+            .then(wineResponse => {
                 store.dispatch({
                     type: 'wine/addWine',
                     payload: wineResponse.data,
                 })
 
-                store.dispatch({
-                    type: 'collection/updateCollections',
-                    payload: collResponse.data,
-                })
-            }))
+
+            })
             .catch(err => {
                 console.log("ERROR FETCHING DATA: ", err)
             })

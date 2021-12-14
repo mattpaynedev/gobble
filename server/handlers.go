@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -10,11 +9,8 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// var requestCount int
-
 func (app *application) myCollectionsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
-	// w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	c, err := app.collection.GetAllCollections()
 	if err != nil {
@@ -23,13 +19,10 @@ func (app *application) myCollectionsHandler(w http.ResponseWriter, r *http.Requ
 	}
 
 	json.NewEncoder(w).Encode(c)
-	// w.Write(c)
-
 }
 
 func (app *application) singleCollectionHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
-	// w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	vars := mux.Vars(r)
 	id, err := primitive.ObjectIDFromHex(vars["collect"])
@@ -38,54 +31,15 @@ func (app *application) singleCollectionHandler(w http.ResponseWriter, r *http.R
 		return
 	}
 
-	// coll, err := app.collection.GetCollectionByID(id)
-	// if err != nil {
-	// 	app.serverError(w, err)
-	// 	return
-	// }
-
 	wines, err := app.wine.GetSingleCollectionByID(id, -1)
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
 
-	// app.render(w, r, "collection.page.tmpl", &templateData{Coll: coll, Wines: wines})
-
-	// requestCount++
-
 	json.NewEncoder(w).Encode(wines)
 	app.infoLog.Println("Collections Requested:", id)
-	// w.Write(c)
-
 }
-
-// func (app *application) drinkWineHandler(w http.ResponseWriter, r *http.Request) {
-// 	w.Header().Set("content-type", "application/json")
-// 	// w.Header().Set("Access-Control-Allow-Origin", "*")
-
-// 	vars := mux.Vars(r)
-// 	wineID, err := primitive.ObjectIDFromHex(vars["wineID"])
-// 	if err != nil {
-// 		app.notFound(w)
-// 		return
-// 	}
-// 	collectionID, err := primitive.ObjectIDFromHex(vars["collect"])
-// 	if err != nil {
-// 		app.notFound(w)
-// 		return
-// 	}
-
-// 	updatedWine, err := app.wine.DrinkWineByID(wineID, collectionID)
-// 	if err != nil {
-// 		app.serverError(w, err)
-// 		return
-// 	}
-
-// 	app.infoLog.Printf("Wine %v marked as consumed.", updatedWine.ID.String())
-
-// 	json.NewEncoder(w).Encode(updatedWine)
-// }
 
 func (app *application) editWineHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
@@ -116,7 +70,7 @@ func (app *application) editWineHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	app.infoLog.Printf("Wine updated:", updatedWine.ID.String())
+	app.infoLog.Println("Wine updated:", updatedWine.ID.String())
 
 	json.NewEncoder(w).Encode(updatedWine)
 }
@@ -141,15 +95,13 @@ func (app *application) addWineHandler(w http.ResponseWriter, r *http.Request) {
 
 	newWine.ID = primitive.NewObjectID()
 
-	fmt.Println("Handler", newWine)
-
 	insertedWine, err := app.wine.AddNewWine(newWine, collectionID)
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
 
-	app.infoLog.Printf("Wine inserted:", insertedWine.ID.String())
+	app.infoLog.Println("Wine inserted:", insertedWine.ID.String())
 
 	json.NewEncoder(w).Encode(insertedWine)
 }

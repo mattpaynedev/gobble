@@ -73,6 +73,7 @@ function ShowCollection({ collection }) {
                         <WineCard
                             key={wine.id}
                             wine={wine}
+                            collectionInfo={collectionInfo}
                         />
                     )
                 })}

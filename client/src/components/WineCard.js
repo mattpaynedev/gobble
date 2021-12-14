@@ -5,7 +5,7 @@ import DrinkWineOverlay from './DrinkWineOverlay';
 import WineCardOverlay from './WineCardOverlay';
 import { NON_VINTAGE } from '../utils'
 
-function WineCard({ wine }) {
+function WineCard({ wine, collectionInfo }) {
     //useState for expanded status
     const [displayMoreInfo, setDisplayMoreInfo] = useState(false)
     const [displayDrinkWine, setDisplayDrinkWine] = useState(false)
@@ -120,7 +120,7 @@ function WineCard({ wine }) {
                     />
                 </CardFooter>
                 {displayMoreInfo ? <WineCardOverlay closeFunc={toggleMoreInfo} wine={wine} /> : null}
-                {displayDrinkWine ? <DrinkWineOverlay closeFunc={toggleDrinkWine} wine={wine} /> : null}
+                {displayDrinkWine ? <DrinkWineOverlay closeFunc={toggleDrinkWine} wine={wine} collectionInfo={collectionInfo} /> : null}
             </Card>
         </>
     )
