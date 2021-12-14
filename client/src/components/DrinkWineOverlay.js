@@ -148,6 +148,7 @@ export default function DrinkWineOverlay({ wine, closeFunc }) {
                         </CardBody>
                         <CardBody
                             pad="medium"
+                            justify="end"
                         >
                             {/* <TextArea
                                 placeholder="Tasting notes..."

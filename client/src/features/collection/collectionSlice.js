@@ -85,6 +85,24 @@ export function getCollectionInfo(userID, collectionID) {
 }
 
 
+export function editCollection(collectionInfo, userID, collectionID) {
+    return function editCollectionThunk(dispatch) {
+
+        const collAddress = apiAddress + "/collections/" + collectionID + "/update"
+        const collData = JSON.stringify(collectionInfo)
+
+        axios
+            .put(collAddress, collData)
+            .then(collResponse => store.dispatch({
+                type: 'collection/updateCollections',
+                payload: collResponse.data
+            }))
+            .catch(err => {
+                console.log("ERROR UPDATING COLLECTION: ", err)
+            })
+    }
+}
+
     // const params = JSON.stringify(
     //     {
     //         collID: collectionID,
