@@ -32,6 +32,7 @@ export default function Home() {
                         height={{ min: "100vh" }}
                         pad="medium"
                         alignSelf="center"
+                        justify='evenly'
                     >
                         <Box>
                             <Box
@@ -39,7 +40,8 @@ export default function Home() {
                                 pad="medium"
                                 style={{
                                     fontFamily: "'Josefin Slab', serif",
-                                    textShadow: "5px 5px 10px #181818"
+                                    textShadow: "5px 5px 10px #181818",
+                                    fontStyle: "italic"
                                 }}
                             >
                                 <Heading level={1} margin="xsmall">I like on the table,</Heading>
@@ -52,9 +54,14 @@ export default function Home() {
                         <Box
                             direction="row-responsive"
                             align="center"
-                            justify="between"
-                            margin={{ vertical: "medium" }}
-                            pad="large"
+                            justify="evenly"
+                            margin={{ bottom: "medium" }}
+                            border={{
+                                color: "light-1",
+                                size: "medium",
+                                style: "solid",
+                                side: "all"
+                            }}
                         >
                             <Box>
                                 <Paragraph margin="xsmall" weight="bold" size="xlarge">Gobble is a modern wine cellar management app.</Paragraph>

@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { Anchor, Box, DropButton, Text } from 'grommet'
 import { Checkbox, Close } from 'grommet-icons'
@@ -6,46 +6,19 @@ import Menu from './Menu';
 
 function Nav() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const location = useLocation()
 
     const handleClick = () => setMenuOpen(!menuOpen)
-
     const closeMenu = () => setMenuOpen(false)
-
-    // let domNode = useClickOutside(() => {
-    //     setMenuOpen(false);
-    // });
-
-    let showLinks = (<></>)
-
-    if (menuOpen) {
-        showLinks = (
-            <>
-                <NavLink
-                    to="/"
-                    exact
-                    onClick={closeMenu}
-                >Home</NavLink>
-                <NavLink
-                    to="/collections"
-                    exact
-                    onClick={closeMenu}
-                >My Collection</NavLink>
-                <NavLink
-                    to="/logout"
-                    exact
-                    onClick={closeMenu}
-                >Log Out</NavLink>
-            </>
-        )
-    }
+    const home = location.pathname === "/"
 
     return (
         <DropButton
             a11yTitle='open or close main menu'
             icon={
                 menuOpen
-                    ? <Close size='medium' color='brand' />
-                    : <Checkbox size='medium' color='brand' />
+                    ? <Close size='medium' color={home ? 'white' : 'brand'} />
+                    : <Checkbox size='medium' color={home ? 'white' : 'brand'} />
             }
             onClick={handleClick}
             onClose={handleClick}

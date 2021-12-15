@@ -1,5 +1,10 @@
 import { Footer, Paragraph } from 'grommet'
+import { useLocation } from 'react-router-dom'
 function FooterComponent({ footerClass }) {
+
+    const location = useLocation()
+    const home = location.pathname === "/"
+
     return (
         <Footer
             as="footer"
@@ -10,7 +15,8 @@ function FooterComponent({ footerClass }) {
             direction="row-responsive"
             gap="small"
             pad="xsmall"
-            background="white"
+            background={home ? null : "light-1"}
+            color={home ? "black" : "white"}
         >
             <Paragraph
                 textAlign="center"
