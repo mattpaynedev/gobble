@@ -1,39 +1,28 @@
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { fetchCollections } from "../../features/collection/collectionSlice";
+import { shallowEqual, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import ShowCollection from "../ShowCollection";
-import Header from "../Header";
-import Footer from "../Footer";
-import { Box, Button } from "grommet";
+import { Box } from "grommet";
 import FooterComponent from "../Footer";
 import HeaderComponent from "../Header";
-import { fetchSingleCollection } from "../../features/wine/wineSlice";
 
-const getCollections = (state) => {
-    return Object.values(state.wine);
-}
-
-const getAllCollections = (state) => state.collections
+const getAllCollections = (state) => Object.values(state.collections)
 
 function Collections() {
-    const [collID, setCollID] = useState("6032def2900ef3a9b2b1d8f4")
-    const dispatch = useDispatch()
-
+    const [collID, setCollID] = useState("")
+    const allCollections = useSelector(getAllCollections, shallowEqual)
 
     useEffect(() => {
-        dispatch(fetchSingleCollection(collID))
-    }, [dispatch, collID])
-
-    const collection = useSelector(getCollections, shallowEqual)
-    const allCollections = useSelector(getAllCollections, shallowEqual)
+        if (allCollections.length) {
+            setCollID(allCollections[0].id)
+        }
+    }, [allCollections])
 
     return (
         <Box
             minHeight='100vh'
         >
             <HeaderComponent />
-            {collection ? <ShowCollection collection={collection} allCollections={Object.values(allCollections)} /> : null}
+            {allCollections.length ? <ShowCollection collID={collID} changeCollFunc={setCollID} allCollections={Object.values(allCollections)} /> : null}
             <FooterComponent />
         </Box>
     )
