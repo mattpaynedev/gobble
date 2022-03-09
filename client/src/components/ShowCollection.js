@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import WineCard from './WineCard'
 import AddWineCard from './AddWineCard'
 import Filters from './Filters'
-import { Box, Button, Grid, Heading, Main, Select, Text } from 'grommet'
-import { Add } from 'grommet-icons'
+import { Box, Grid, Heading, Main } from 'grommet'
 import { useSelector, shallowEqual, useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { fetchSingleCollection } from '../features/wine/wineSlice'
+import Taskbar from './Taskbar'
 
 const gridLayouts = {
     default: ['small', 'auto'],
@@ -26,7 +26,7 @@ const getColl = (state) => {
 function ShowCollection({ collID, changeCollFunc, allCollections }) {
     const [showFilters, setShowFilters] = useState(true)
     const [showAddWineOverlay, setShowAddWineOverlay] = useState(false)
-    const [filter, setFilter] = useState(radioOptions.allWines)
+    const [filter, setFilter] = useState(radioOptions.available)
     const [search, setSearch] = useState('')
     const [currentColl, setCurrentColl] = useState(null)
     const [availableLocations, setAvailableLocations] = useState([])
@@ -100,64 +100,27 @@ function ShowCollection({ collID, changeCollFunc, allCollections }) {
         )
     }
 
+    const selectCollectionFunc = ({ option }) => {
+        setCurrentColl(option)
+        changeCollFunc(option.id)
+    }
+
+    const addWineFunc = (event) => {
+        event.preventDefault()
+        setShowAddWineOverlay(true)
+    }
+
     return (
         <Main
             height={{ min: "100vh" }}
         >
-            <Box
-                justify="between"
-                pad={{
-                    vertical: "xsmall",
-                    horizontal: "medium"
-                }}
-                margin={{ bottom: "small" }}
-                direction='row'
-                background="brand"
-            >
-                <Box
-                    direction="row"
-                    align="center"
-                    color="light-1"
-                    round="small"
-                    pad={{
-                        horizontal: "small",
-                        vertical: "xxsmall"
-
-                    }}
-                >
-                    <Text
-                        weight="bold"
-                        size="small"
-                        margin={{ right: "xsmall" }}
-                    >Collection: </Text>
-                    <Select
-                        disabled={!currentColl}
-                        options={allCollections}
-                        labelKey={"name"}
-                        value={currentColl}
-                        placeholder="No collections..."
-                        size="small"
-                        onChange={({ option }) => {
-                            setCurrentColl(option)
-                            changeCollFunc(option.id)
-                        }}
-                    />
-                </Box>
-                <Button
-                    primary
-                    disabled={!availableLocations.length}
-                    color="light-1"
-                    size="small"
-                    icon={<Add size="small" color="brand" />}
-                    gap="xsmall"
-                    hoverIndicator
-                    onClick={(event) => {
-                        event.preventDefault()
-                        setShowAddWineOverlay(true)
-                    }}
-                    label={<Text weight="bold" size="small" color="brand">Add Wine</Text>}
-                />
-            </Box>
+            <Taskbar
+                allCollections={allCollections}
+                currentColl={currentColl}
+                availableLocations={availableLocations}
+                selectCollectionFunc={selectCollectionFunc}
+                addWineFunc={addWineFunc}
+            />
             <Grid
                 columns={showFilters ? gridLayouts.default : gridLayouts.noFilters}
                 gap="small"
