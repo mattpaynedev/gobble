@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import WineCard from './WineCard'
 import AddWineCard from './AddWineCard'
 import Filters from './Filters'
-import { Box, Button, Grid, Heading, Main, Text } from 'grommet'
+import { Box, Button, Grid, Heading, Main, Select, Text } from 'grommet'
 import { Add } from 'grommet-icons'
-import { useSelector, shallowEqual } from 'react-redux'
+import { useSelector, shallowEqual, useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { fetchSingleCollection } from '../features/wine/wineSlice'
 
 const gridLayouts = {
     default: ['small', 'auto'],
@@ -17,29 +19,46 @@ export const radioOptions = {
     notAvailable: 'Not Available',
 }
 
-const getCollectionInfo = (collectionID) => {
-    return (state) => {
-        return state.collections[collectionID]
-    }
+const getColl = (state) => {
+    return Object.values(state.wine);
 }
 
-function ShowCollection({ collection }) {
+function ShowCollection({ collID, changeCollFunc, allCollections }) {
     const [showFilters, setShowFilters] = useState(true)
     const [showAddWineOverlay, setShowAddWineOverlay] = useState(false)
     const [filter, setFilter] = useState(radioOptions.allWines)
     const [search, setSearch] = useState('')
+    const [currentColl, setCurrentColl] = useState(null)
+    const [availableLocations, setAvailableLocations] = useState([])
+    const dispatch = useDispatch()
 
-    const collectionInfo = useSelector(getCollectionInfo("6032def2900ef3a9b2b1d8f4"), shallowEqual)
+    useEffect(() => {
+        if (collID.length) {
+            setCurrentColl(...allCollections.filter(c => c.id === collID))
+        }
+    }, [allCollections, collID])
 
-    const availableLocations = collectionInfo ? Object.keys(collectionInfo.available) : []
+    useEffect(() => {
+        if (collID.length) {
+            dispatch(fetchSingleCollection(collID))
+        }
+    }, [dispatch, collID])
+
+    useEffect(() => {
+        if (currentColl) {
+            setAvailableLocations(Object.keys(currentColl.available))
+        }
+    }, [currentColl])
+
+    // const availableLocations = currentColl ? Object.keys(currentColl.available) : []
+
+    const collection = useSelector(getColl, shallowEqual)
 
     const toggleShowFilters = (event) => {
         event.preventDefault()
         setShowFilters(!showFilters)
 
     }
-
-    //get current collection and wines
 
     const renderCollection = () => {
         return (
@@ -73,7 +92,7 @@ function ShowCollection({ collection }) {
                         <WineCard
                             key={wine.id}
                             wine={wine}
-                            collectionInfo={collectionInfo}
+                            collectionInfo={currentColl}
                         />
                     )
                 })}
@@ -86,9 +105,44 @@ function ShowCollection({ collection }) {
             height={{ min: "100vh" }}
         >
             <Box
-                align="end"
-                pad={{ vertical: "xsmall" }}
+                justify="between"
+                pad={{
+                    vertical: "xsmall",
+                    horizontal: "medium"
+                }}
+                margin={{ bottom: "small" }}
+                direction='row'
+                background="brand"
             >
+                <Box
+                    direction="row"
+                    align="center"
+                    color="light-1"
+                    round="small"
+                    pad={{
+                        horizontal: "small",
+                        vertical: "xxsmall"
+
+                    }}
+                >
+                    <Text
+                        weight="bold"
+                        size="small"
+                        margin={{ right: "xsmall" }}
+                    >Collection: </Text>
+                    <Select
+                        disabled={!currentColl}
+                        options={allCollections}
+                        labelKey={"name"}
+                        value={currentColl}
+                        placeholder="No collections..."
+                        size="small"
+                        onChange={({ option }) => {
+                            setCurrentColl(option)
+                            changeCollFunc(option.id)
+                        }}
+                    />
+                </Box>
                 <Button
                     primary
                     disabled={!availableLocations.length}
@@ -136,8 +190,8 @@ function ShowCollection({ collection }) {
                     </Box>
                 }
             </Grid>
-            {showAddWineOverlay && availableLocations.length && <AddWineCard closeFunc={() => setShowAddWineOverlay(false)} availableLocations={availableLocations} collectionInfo={collectionInfo} />}
-        </Main>
+            {showAddWineOverlay && availableLocations.length && <AddWineCard closeFunc={() => setShowAddWineOverlay(false)} availableLocations={availableLocations} collectionInfo={currentColl} />}
+        </Main >
     )
 
 }
