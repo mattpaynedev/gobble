@@ -39,18 +39,38 @@ export default function Taskbar({ allCollections, currentColl, availableLocation
                     size="small"
                     onChange={selectCollectionFunc}
                 />
+                <Button
+                    plain
+                    margin={{ left: "small" }}
+                    size="small"
+                >{({ hover }) =>
+                    <Box
+                        direction='row'
+                        align="center"
+                        gap='xsmall'
+                    >
+                        <Add size="small" color={hover ? "accent-1" : "light-1"} />
+                        <Text weight="bold" size="small" color={hover ? "accent-1" : "light-1"}>Add Collection</Text>
+                    </Box>}
+                </Button>
             </Box>
             <Button
                 primary
                 disabled={!availableLocations.length}
                 color="light-1"
                 size="small"
-                icon={<Add size="small" color="brand" />}
-                gap="xsmall"
-                hoverIndicator
                 onClick={addWineFunc}
-                label={<Text weight="bold" size="small" color="brand">Add Wine</Text>}
-            />
-        </Box>
+            >
+                {({ hover }) =>
+                    <Box
+                        direction='row'
+                        align="center"
+                        gap='xsmall'
+                    >
+                        <Add size="small" color={hover ? "accent-1" : "brand"} />
+                        <Text weight="bold" size="small" color={hover ? "accent-1" : "brand"}>Add Wine</Text>
+                    </Box>}
+            </Button>
+        </Box >
     )
 }
