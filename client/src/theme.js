@@ -700,13 +700,18 @@ const Theme = {
     },
     "rangeInput": {
         "track": {
-            "height": "4px",
-            "color": [
-                null,
-                ";"
-            ]
+            "height": "5px",
+            "color": "brand",
+            "lower": {
+                "color": "brand",
+            },
+            "upper": {
+                "color": "light-6"
+            }
         },
-        "thumb": {}
+        "thumb": {
+            "color": "brand"
+        }
     },
     "rangeSelector": {
         "background": {

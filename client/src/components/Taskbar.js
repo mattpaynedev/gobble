@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, Text, Select, Button } from 'grommet'
 import { Add } from 'grommet-icons'
+import AddNewCollectionOverlay from './AddNewCollectionOverlay'
 
 export default function Taskbar({ allCollections, currentColl, availableLocations, selectCollectionFunc, addWineFunc }) {
+
+    const [addNewCollection, setAddNewCollection] = useState(false)
+
+    const toggleOverlay = () => {
+        setAddNewCollection(prev => !prev)
+    }
+
     return (
         <Box
             justify="between"
@@ -43,6 +51,7 @@ export default function Taskbar({ allCollections, currentColl, availableLocation
                     plain
                     margin={{ left: "small" }}
                     size="small"
+                    onClick={toggleOverlay}
                 >{({ hover }) =>
                     <Box
                         direction='row'
@@ -71,6 +80,10 @@ export default function Taskbar({ allCollections, currentColl, availableLocation
                         <Text weight="bold" size="small" color={hover ? "accent-1" : "brand"}>Add Wine</Text>
                     </Box>}
             </Button>
+            {addNewCollection &&
+                <AddNewCollectionOverlay
+                    closeFunc={toggleOverlay}
+                />}
         </Box >
     )
 }

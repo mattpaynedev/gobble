@@ -103,6 +103,23 @@ export function editCollection(collectionInfo, userID, collectionID) {
     }
 }
 
+export function createNewCollection(collectionInfo, userID) {
+    return function createNewCollectionThunk(dispatch) {
+        const address = apiAddress + "/collections/addnewcollection/"
+        const collData = JSON.stringify(collectionInfo)
+
+        axios
+            .post(address, collData)
+            .then(response => store.dispatch({
+                type: 'collection/updateCollections',
+                payload: response.data
+            }))
+            .catch(err => {
+                console.log("ERROR ADDING COLLECTION: ", err)
+            })
+    }
+}
+
     // const params = JSON.stringify(
     //     {
     //         collID: collectionID,

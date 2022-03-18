@@ -32,3 +32,53 @@ export const generateVintages = () => {
 }
 
 export const NON_VINTAGE = "Non-Vintage"
+
+export const createNewCollectionLocations = (rowCount, colCount) => {
+    let R = 1
+    let availableLocations = {}
+
+    while (R <= rowCount) {
+        let currCol = 1
+        let C = "A"
+        while (currCol <= colCount) {
+            let curr = String(R) + C
+            availableLocations[curr] = true
+            C = incrementString(C)
+            currCol++
+        }
+        R++
+    }
+
+    return availableLocations
+}
+
+function incrementString(value) {
+    let carry = 1;
+    let res = '';
+
+    for (let i = value.length - 1; i >= 0; i--) {
+        let char = value.toUpperCase().charCodeAt(i);
+
+        char += carry;
+
+        if (char > 90) {
+            char = 65;
+            carry = 1;
+        } else {
+            carry = 0;
+        }
+
+        res = String.fromCharCode(char) + res;
+
+        if (!carry) {
+            res = value.substring(0, i) + res;
+            break;
+        }
+    }
+
+    if (carry) {
+        res = 'A' + res;
+    }
+
+    return res;
+}
