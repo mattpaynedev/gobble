@@ -14,11 +14,14 @@ export default function AddNewCollectionOverlay({ closeFunc }) {
     const dispatch = useDispatch()
 
     const createCollection = () => {
+        const rows = parseInt(rowCount)
+        const cols = parseInt(colCount)
+
         if (collName.length) {
             let collInfo = {
                 name: collName,
-                capacity: rowCount * colCount,
-                available: createNewCollectionLocations(rowCount, colCount)
+                capacity: rows * cols,
+                available: createNewCollectionLocations(rows, cols)
             }
 
             console.log(collInfo)
@@ -70,19 +73,29 @@ export default function AddNewCollectionOverlay({ closeFunc }) {
                                 setCollName(e.target.value)
                             }}
                         />
-                        <Text weight="bold" size="medium"># of Rows</Text>
+                        <Text weight="bold" size="medium"># of Rows:</Text>
                         <Box
                             direction="row"
                         >
                             <Box
                                 margin={{ right: "xsmall" }}
-                                width="xxsmall"
+                                width="xsmall"
                                 align='center'
                                 justify='center'
-                                border
-                                round="xxsmall"
                             >
-                                <Text weight="bold">{rowCount}</Text>
+                                <TextInput
+                                    onChange={e => setRowCount(e.target.value)}
+                                    value={rowCount}
+                                    textAlign="center"
+                                    onBlur={() => {
+                                        const rows = parseInt(rowCount)
+                                        if (isNaN(rows) || rowCount < 1) {
+                                            setRowCount(1)
+                                        } else {
+                                            setRowCount(rows)
+                                        }
+                                    }}
+                                />
                             </Box>
                             <RangeInput
                                 value={rowCount}
@@ -91,20 +104,29 @@ export default function AddNewCollectionOverlay({ closeFunc }) {
                                 max={100}
                             />
                         </Box>
-
                         <Text weight="bold" size="medium"># of Slots/Row:</Text>
                         <Box
                             direction="row"
                         >
                             <Box
                                 margin={{ right: "xsmall" }}
-                                width="xxsmall"
+                                width="xsmall"
                                 align='center'
                                 justify='center'
-                                border
-                                round="xxsmall"
                             >
-                                <Text weight="bold">{colCount}</Text>
+                                <TextInput
+                                    onChange={e => setColCount(e.target.value)}
+                                    value={colCount}
+                                    textAlign="center"
+                                    onBlur={() => {
+                                        const cols = parseInt(colCount)
+                                        if (isNaN(cols) || colCount < 1) {
+                                            setColCount(1)
+                                        } else {
+                                            setColCount(cols)
+                                        }
+                                    }}
+                                />
                             </Box>
                             <RangeInput
                                 value={colCount}
