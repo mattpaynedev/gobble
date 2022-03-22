@@ -130,39 +130,35 @@ func (app *application) updateCollectionHandler(w http.ResponseWriter, r *http.R
 		return
 	}
 
-	app.infoLog.Printf("Wine updated:", updatedCollection.ID.String())
+	app.infoLog.Println("Wine updated:", updatedCollection.ID.String())
 
 	json.NewEncoder(w).Encode(updatedCollection)
 }
 
 func (app *application) addCollectionHandler(w http.ResponseWriter, r *http.Request) {
-	// w.Header().Set("content-type", "application/json")
-
-	// vars := mux.Vars(r)
-	// collectionID, err := primitive.ObjectIDFromHex(vars["collect"])
-	// if err != nil {
-	// 	app.notFound(w)
-	// 	return
-	// }
-
-	// var newWine *models.Wines
-
-	// err = json.NewDecoder(r.Body).Decode(&newWine)
-	// if err != nil {
-	// 	app.serverError(w, err)
-	// 	return
-	// }
-
-	// newWine.ID = primitive.NewObjectID()
-
-	// insertedWine, err := app.wine.AddNewWine(newWine, collectionID)
-	// if err != nil {
-	// 	app.serverError(w, err)
-	// 	return
-	// }
-
-	// app.infoLog.Println("Wine inserted:", insertedWine.ID.String())
-
-	// json.NewEncoder(w).Encode(insertedWine)
 	app.infoLog.Println("new Collection")
+	w.Header().Set("content-type", "application/json")
+
+	var newCollection *models.Collection
+
+	err := json.NewDecoder(r.Body).Decode(&newCollection)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	newCollection.ID = primitive.NewObjectID()
+
+	app.infoLog.Println("new coll JSON:", newCollection)
+
+	completedCollection, err := app.collection.AddNewCollection(newCollection)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	app.infoLog.Println("Collection inserted:", completedCollection.ID.String())
+
+	json.NewEncoder(w).Encode(completedCollection)
+
 }

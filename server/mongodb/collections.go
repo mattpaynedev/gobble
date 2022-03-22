@@ -47,15 +47,41 @@ func (coll CollectionModel) EditCollection(updates *models.Collection, collectio
 		return nil, err
 	}
 
+	updatedCollection, err := coll.GetCollectionByID(collectionID)
+	if err != nil {
+		return nil, err
+	}
+
+	return updatedCollection, nil
+}
+
+func (coll CollectionModel) GetCollectionByID(id primitive.ObjectID) (*models.Collection, error) {
 	var updatedCollection models.Collection
 
-	err = coll.Collectiondb.FindOne(context.TODO(), bson.M{"_id": collectionID}).Decode(&updatedCollection)
+	err := coll.Collectiondb.FindOne(context.TODO(), bson.M{"_id": id}).Decode(&updatedCollection)
 
 	if err != nil {
 		return nil, err
 	}
 
 	return &updatedCollection, nil
+}
+
+func (coll CollectionModel) AddNewCollection(newCollection *models.Collection) (*models.Collection, error) {
+
+	insertResult, err := coll.Collectiondb.InsertOne(context.TODO(), newCollection)
+	if err != nil {
+		return nil, err
+	}
+
+	newID := insertResult.InsertedID.(primitive.ObjectID)
+
+	insertedCollection, err := coll.GetCollectionByID(newID)
+	if err != nil {
+		return nil, err
+	}
+
+	return insertedCollection, nil
 }
 
 func stringifyID(id primitive.ObjectID) string {

@@ -105,7 +105,7 @@ export function editCollection(collectionInfo, userID, collectionID) {
 
 export function createNewCollection(collectionInfo, userID) {
     return function createNewCollectionThunk(dispatch) {
-        const address = apiAddress + "/collections/addnewcollection/"
+        const address = apiAddress + "/collections/addnewcollection"
         const collData = JSON.stringify(collectionInfo)
 
         axios
@@ -119,11 +119,3 @@ export function createNewCollection(collectionInfo, userID) {
             })
     }
 }
-
-    // const params = JSON.stringify(
-    //     {
-    //         collID: collectionID,
-    //         userID: userID,
-    //         hasDrunk: false,
-    //     }
-    // )

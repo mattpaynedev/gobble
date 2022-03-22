@@ -1,8 +1,10 @@
 import { Box, Button, Grid, Heading, Layer, RangeInput, Text, TextInput } from 'grommet'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { createNewCollection } from '../features/collection/collectionSlice'
 import { createNewCollectionLocations } from '../utils'
+
+const getAllCollections = (state) => Object.values(state.collections)
 
 export default function AddNewCollectionOverlay({ closeFunc }) {
 
@@ -12,12 +14,15 @@ export default function AddNewCollectionOverlay({ closeFunc }) {
     const [showError, setShowError] = useState(false)
     const [success, setSuccess] = useState(false)
     const dispatch = useDispatch()
+    const allCollections = useSelector(getAllCollections, shallowEqual)
 
     const createCollection = () => {
         const rows = parseInt(rowCount)
         const cols = parseInt(colCount)
 
-        if (collName.length) {
+        if (!collName.length || allCollections.filter(c => c.name.toLowerCase() === collName.toLowerCase()).length > 0) {
+            setShowError(true)
+        } else {
             let collInfo = {
                 name: collName,
                 capacity: rows * cols,
@@ -28,9 +33,7 @@ export default function AddNewCollectionOverlay({ closeFunc }) {
 
             setSuccess(true)
 
-            // dispatch(createNewCollection(collInfo, null))
-        } else {
-            setShowError(true)
+            dispatch(createNewCollection(collInfo, null))
         }
     }
 
@@ -57,7 +60,7 @@ export default function AddNewCollectionOverlay({ closeFunc }) {
                             color="status-critical"
                             size="small"
                             weight="bold"
-                        >Collection must have a name!</Text>}
+                        >Collection must have a unique name!</Text>}
                     </Box>
                     <Grid
                         columns={['small', 'medium']}
