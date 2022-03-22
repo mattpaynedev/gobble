@@ -10,6 +10,7 @@ func (app *application) routes() http.Handler {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/collections", app.myCollectionsHandler).Methods("GET")
+	r.HandleFunc("/collections/addnewcollection", app.addCollectionHandler).Methods("POST")
 	r.HandleFunc("/collections/{collect}", app.singleCollectionHandler).Methods("GET")
 	r.HandleFunc("/collections/{collect}/addwine", app.addWineHandler).Methods("POST")
 	r.HandleFunc("/collections/{collect}/update", app.updateCollectionHandler).Methods("PUT")
