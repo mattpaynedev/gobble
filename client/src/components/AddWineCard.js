@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { addWine } from '../features/wine/wineSlice'
 import { generateVintages, NON_VINTAGE } from '../utils'
 import { editCollection } from '../features/collection/collectionSlice'
+import CurrencyInput from './CurrencyInput'
 
 export default function AddWineCard({ closeFunc, availableLocations, collectionInfo }) {
     const [producer, setProducer] = useState("")
@@ -154,15 +155,13 @@ export default function AddWineCard({ closeFunc, availableLocations, collectionI
                             }}
                         />
                         <Text weight="bold">Price: </Text>
-                        <TextInput
+                        <CurrencyInput
                             size="medium"
-                            type="number"
-                            min={0.00}
-                            max={100000}
-                            step={0.01}
-                            name="bottleprice"
                             value={bottleprice}
-                            onChange={(event) => setBottleprice(event.currentTarget.value)}
+                            setValue={setBottleprice}
+                            max={100000000}
+                            locale='en-US'
+                            currency='USD'
                         />
                         <Text weight="bold">Location: </Text>
                         <Select
