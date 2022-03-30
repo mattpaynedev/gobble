@@ -154,7 +154,7 @@ export default function AddWineCard({ closeFunc, availableLocations, collectionI
                                 setVintage(option !== NON_VINTAGE ? option : -1)
                             }}
                         />
-                        <Text weight="bold">Price: </Text>
+                        <Text weight="bold">Price/Bottle: </Text>
                         <CurrencyInput
                             size="medium"
                             value={bottleprice}

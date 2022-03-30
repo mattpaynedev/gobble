@@ -4,18 +4,7 @@ import { Close } from 'grommet-icons'
 import { useDispatch } from 'react-redux'
 import { editWine } from '../features/wine/wineSlice'
 import { generateVintages, NON_VINTAGE } from '../utils'
-
-// const generateVintages = () => {
-//     const currYear = new Date().getFullYear()
-//     let year = currYear + 1
-//     const vintages = []
-//     while (year >= currYear - 75) {
-//         vintages.push(year)
-//         year--
-//     }
-//     return vintages
-// }
-
+import CurrencyInput from './CurrencyInput'
 
 export default function EditWineCard({ wine, closeFunc, cancelEdit }) {
     const [producer, setProducer] = useState(wine.producer)
@@ -153,8 +142,16 @@ export default function EditWineCard({ wine, closeFunc, cancelEdit }) {
                             setVintage(option !== NON_VINTAGE ? option : -1)
                         }}
                     />
-                    <Text weight="bold">Price: </Text>
-                    <TextInput
+                    <Text weight="bold">Price/Bottle: </Text>
+                    <CurrencyInput
+                        size="medium"
+                        value={bottleprice}
+                        setValue={setBottleprice}
+                        max={100000000}
+                        locale='en-US'
+                        currency='USD'
+                    />
+                    {/* <TextInput
                         size="medium"
                         type="number"
                         min={0.00}
@@ -163,7 +160,7 @@ export default function EditWineCard({ wine, closeFunc, cancelEdit }) {
                         name="bottleprice"
                         value={bottleprice}
                         onChange={(event) => setBottleprice(event.currentTarget.value)}
-                    />
+                    /> */}
                     <Text weight="bold">In-Stock: </Text>
                     <Text>{wine.numberavailable || 0}</Text>
                 </Grid>

@@ -82,3 +82,11 @@ function incrementString(value) {
 
     return res;
 }
+
+
+export function currencyDisplay(value, locale = 'en-US', currency = 'USD') {
+    return (value / 100).toLocaleString(locale, {
+        style: 'currency',
+        currency: currency
+    })
+}

@@ -2,6 +2,7 @@
 
 import { TextInput } from "grommet";
 import React from "react";
+import { currencyDisplay } from "../utils";
 
 const DELETE_KEYCODE = 8
 const isValidKeycode = (keyCode) => {
@@ -29,11 +30,7 @@ export default function CurrencyInput({ value, setValue, size, max, locale, curr
         }
     }
 
-    const valueDisplay = (value / 100).toLocaleString(locale, {
-        style: 'currency',
-        currency: currency
-    })
-
+    const valueDisplay = currencyDisplay(value, locale, currency)
 
     return (
         <TextInput

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { editCollection } from '../features/collection/collectionSlice'
 import { editWine } from '../features/wine/wineSlice'
-import { NON_VINTAGE } from '../utils'
+import { currencyDisplay, NON_VINTAGE } from '../utils'
 
 const status = {
     idle: "idle",
@@ -149,8 +149,8 @@ export default function DrinkWineOverlay({ wine, closeFunc, collectionInfo }) {
                                 <Text>{wine.region}</Text>
                                 <Text weight="bold">Vintage: </Text>
                                 <Text>{wine.vintage !== -1 ? wine.vintage : NON_VINTAGE}</Text>
-                                <Text weight="bold">Price: </Text>
-                                <Text>{wine.bottleprice}</Text>
+                                <Text weight="bold">Price/Bottle: </Text>
+                                <Text>{currencyDisplay(wine.bottleprice)}</Text>
                                 <Text weight="bold">In-Stock: </Text>
                                 <Text>{wine.numberavailable}</Text>
                                 <Text weight="bold">Select A Bottle: </Text>
